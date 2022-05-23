@@ -1,0 +1,20 @@
+{
+    "name": "froq/test",
+    "homepage": "http://github.com/froq/test",
+    "description": "Froq! Test.",
+    "keywords": ["froq", "test"],
+    "license": "Apache-2.0",
+    "authors": [{"name": "Kerem Güneş"}],
+    "require": {
+        "php": "^8.1",
+        "froq/froq-acl": "^6.0"
+    },
+    "scripts": {
+        "test": "~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php -- --filter",
+        "test-all": "~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./"
+    },
+    "scripts-descriptions": {
+        "test": "Run a test (eg: composer test -- ./acl/AclTest.php).",
+        "test-all": "Run all tests (eg: composer test-all)."
+    }
+}
