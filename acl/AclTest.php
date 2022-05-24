@@ -1,7 +1,8 @@
 <?php
+namespace froq\acl\test;
 use froq\acl\Acl;
 
-class AclTest extends PHPUnit\Framework\TestCase
+class AclTest extends \PHPUnit\Framework\TestCase
 {
     function test_nullUser() {
         $this->assertNull((new Acl)->getUser());
