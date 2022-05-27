@@ -10,8 +10,8 @@ class UserTest extends \PHPUnit\Framework\TestCase
     }
 
     function test_userId() {
-        $this->assertEquals(1, (new User(1))->getId());
-        $this->assertEquals(null, (new User(null))->getId());
+        $this->assertSame(1, (new User(1))->getId());
+        $this->assertSame(null, (new User(null))->getId());
     }
 
     function test_userIsLoggedIn() {
