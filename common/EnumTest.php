@@ -54,14 +54,14 @@ class EnumTest extends PHPUnit\Framework\TestCase
         $this->assertTrue($enum::isBlack(Colors::BLACK));
         $this->assertTrue(Colors::isBlack(Colors::BLACK));
 
-        $invalidMessage = 'No valid call';
+        $noCallMessage = 'No valid call';
         $noConstMessage = 'No constant exists';
 
         try {
             $enum->foo();
         } catch (Throwable $e) {
             $this->assertInstanceOf(EnumException::class, $e);
-            $this->assertStringContainsString($invalidMessage, $e->getMessage());
+            $this->assertStringContainsString($noCallMessage, $e->getMessage());
         }
 
         try {
@@ -75,7 +75,7 @@ class EnumTest extends PHPUnit\Framework\TestCase
             Colors::foo();
         } catch (Throwable $e) {
             $this->assertInstanceOf(EnumException::class, $e);
-            $this->assertStringContainsString($invalidMessage, $e->getMessage());
+            $this->assertStringContainsString($noCallMessage, $e->getMessage());
         }
 
         try {
