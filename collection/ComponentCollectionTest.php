@@ -36,14 +36,14 @@ class ComponentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($col->has('x'));
         $this->assertFalse($col->has('y'));
 
-        $this->assertEquals($col->get('x'), 1);
-        $this->assertEquals($col->get('y'), null);
+        $this->assertEquals(1, $col->get('x'));
+        $this->assertEquals(null, $col->get('y'));
 
-        $this->assertEquals($col->x, 1);
-        $this->assertEquals($col->y, null);
+        $this->assertEquals(1, $col->x);
+        $this->assertEquals(null, $col->y);
 
-        $this->assertEquals($col['x'], 1);
-        $this->assertEquals($col['y'], null);
+        $this->assertEquals(1, $col['x']);
+        $this->assertEquals(null, $col['y']);
 
         $col->remove('x');
         $this->assertFalse($col->has('x'));

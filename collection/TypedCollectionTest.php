@@ -25,7 +25,7 @@ class TypedCollectionTest extends \PHPUnit\Framework\TestCase
 
         $col->set('x', 1);
         $this->assertTrue($col->get('x') === 1);
-        $this->assertNull($col->get('y'));
+        $this->assertTrue($col->get('y') === null);
 
         try {
             $col->set('y', '1');

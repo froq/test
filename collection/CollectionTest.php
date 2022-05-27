@@ -19,8 +19,8 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     function test_count() {
         $col = new Collection(['x' => 123]);
 
-        $this->assertEquals($col->count(), 1);
-        $this->assertEquals(count($col), 1);
+        $this->assertSame(1, $col->count());
+        $this->assertSame(1, count($col));
         $this->assertCount(1, $col);
     }
 
@@ -29,22 +29,22 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
 
         $col->set('x', 123);
         $this->assertTrue($col->has('x'));
-        $this->assertEquals($col->get('x'), 123);
+        $this->assertSame(123, $col->get('x'));
 
         $col->remove('x');
         $this->assertFalse($col->has('x'));
 
         $col->set('y', 456);
-        $this->assertEquals(456, $col->get('y', drop: true));
+        $this->assertSame(456, $col->get('y', drop: true));
 
         $this->assertEmpty($col);
         $this->assertCount(0, $col);
 
         $col->push('foo');
-        $this->assertEquals($col->get(0), 'foo');
+        $this->assertSame('foo', $col->get(0));
 
         $foo = $col->pop();
-        $this->assertEquals($foo, 'foo');
+        $this->assertSame('foo', $foo);
 
         $this->assertEquals(0, $col->empty()->count());
         $this->assertEquals(2, $col->append('1', '2')->count());
@@ -116,7 +116,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(3, $col->max());
         $this->assertEquals(6, $col->sum());
         $this->assertEquals(6, $col->product());
-        $this->assertEquals(2, $col->average());
+        $this->assertEquals(2.0, $col->average());
         $this->assertEquals($col->average(), $col->avg()); // Alias.
     }
 

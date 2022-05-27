@@ -33,11 +33,11 @@ class ItemCollectionTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($col->replace('bar', 'baz'));
         $this->assertFalse($col->replace('bat', 'baz'));
-        $this->assertEquals($col->item(1), 'baz');
-        $this->assertEquals($col->items(), ['foo', 'baz']);
+        $this->assertEquals('baz', $col->item(1));
+        $this->assertEquals(['foo', 'baz'], $col->items());
 
         $col[] = 'last item';
-        $this->assertEquals($col->last(), 'last item');
-        $this->assertEquals($col->first(), 'foo');
+        $this->assertEquals('last item', $col->last());
+        $this->assertEquals('foo', $col->first());
     }
 }
