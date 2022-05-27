@@ -1,9 +1,8 @@
 <?php
-namespace froq\collection\test;
 use froq\collection\{Collection, CollectionException};
 use froq\common\exception\ReadOnlyException;
 
-class CollectionTest extends \PHPUnit\Framework\TestCase
+class CollectionTest extends PHPUnit\Framework\TestCase
 {
     function test_empty() {
         $col = new Collection();
