@@ -35,7 +35,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(AgentInterface::class, $cache->agent);
         $this->assertInstanceOf(File::class, $cache->agent);
 
-        $this->assertEquals($cache->agent->getDirectory(), self::DIRECTORY);
+        $this->assertEquals(self::DIRECTORY, $cache->agent->getDirectory());
         $this->assertDirectoryExists($cache->agent->getDirectory());
     }
 
@@ -47,7 +47,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
 
         $cache->agent->set($key, $value);
         $this->assertTrue($cache->agent->has($key));
-        $this->assertEquals($cache->agent->get($key), $value);
+        $this->assertSame($value, $cache->agent->get($key));
 
         $cache->agent->delete($key);
         $this->assertFalse($cache->agent->has($key));
@@ -64,7 +64,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
 
         $cache->set($key, $value);
         $this->assertTrue($cache->has($key));
-        $this->assertEquals($cache->get($key), $value);
+        $this->assertSame($value, $cache->get($key));
 
         $cache->delete($key);
         $this->assertFalse($cache->has($key));
@@ -83,11 +83,11 @@ class CacheTest extends \PHPUnit\Framework\TestCase
 
         $cache->set($items);
         $this->assertTrue($cache->has($keys));
-        $this->assertEquals($cache->get($keys), $values);
+        $this->assertSame($values, $cache->get($keys));
 
         $cache->delete($keys);
         $this->assertFalse($cache->has($keys));
-        $this->assertEquals($cache->get($keys), [null, null]);
+        $this->assertSame([null, null], $cache->get($keys));
 
         $cache->clear();
     }
