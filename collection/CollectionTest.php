@@ -1,6 +1,6 @@
 <?php
 namespace froq\collection\test;
-use froq\collection\{Collection, CollectionInterface, CollectionException};
+use froq\collection\{Collection, CollectionException};
 use froq\common\exception\ReadOnlyException;
 
 class CollectionTest extends \PHPUnit\Framework\TestCase
