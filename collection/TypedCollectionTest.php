@@ -4,7 +4,7 @@ use froq\collection\{TypedCollection, CollectionException};
 
 class TypedCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    function test_constructMethod() {
+    function test_constructor() {
         try {
             new TypedCollection();
         } catch (\Throwable $e) {

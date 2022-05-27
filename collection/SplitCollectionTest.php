@@ -4,7 +4,7 @@ use froq\collection\{SplitCollection, CollectionException};
 
 class SplitCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    function test_constructMethod() {
+    function test_constructor() {
         $this->assertCount(5, new SplitCollection('a.b.c', ''));
         $this->assertCount(3, new SplitCollection('a.b.c', '.'));
     }
