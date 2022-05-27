@@ -1,8 +1,7 @@
 <?php
-/**
- * @command ~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./
- * @command ~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./acl/
- */
+// Bootstrap file of all tests.
+// $ ~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./
+// $ ~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./acl/
 
 // Path to "vendor/froq" folder.
 const __froqDir = __dir__ . '/../';
