@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace froq\test\collection;
 use froq\collection\{ItemCollection, CollectionException};
 use froq\common\exception\InvalidKeyException;

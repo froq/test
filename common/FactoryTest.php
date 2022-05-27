@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace froq\test\common;
 use froq\common\object\{Factory, FactoryException};
 

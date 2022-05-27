@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1); namespace froq\test\date;
+<?php declare(strict_types=1);
+namespace froq\test\date;
 use froq\date\{Formatter, FormatterException, Date, UtcDate};
 
 class FormatterTest extends \PHPUnit\Framework\TestCase
