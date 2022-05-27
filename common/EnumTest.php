@@ -1,7 +1,8 @@
 <?php
+namespace froq\test\common;
 use froq\common\object\{Enum, EnumException};
 
-class EnumTest extends PHPUnit\Framework\TestCase
+class EnumTest extends \PHPUnit\Framework\TestCase
 {
     function test_valueMethods() {
         $enum = $this->getMock();
@@ -59,28 +60,28 @@ class EnumTest extends PHPUnit\Framework\TestCase
 
         try {
             $enum->foo();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(EnumException::class, $e);
             $this->assertStringContainsString($noCallMessage, $e->getMessage());
         }
 
         try {
             $enum->isBlue();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(EnumException::class, $e);
             $this->assertStringContainsString($noConstMessage, $e->getMessage());
         }
 
         try {
             Colors::foo();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(EnumException::class, $e);
             $this->assertStringContainsString($noCallMessage, $e->getMessage());
         }
 
         try {
             Colors::isBlue();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(EnumException::class, $e);
             $this->assertStringContainsString($noConstMessage, $e->getMessage());
         }

@@ -1,12 +1,13 @@
 <?php
+namespace froq\test\collection;
 use froq\collection\{ComponentCollection, CollectionException};
 
-class ComponentCollectionTest extends PHPUnit\Framework\TestCase
+class ComponentCollectionTest extends \PHPUnit\Framework\TestCase
 {
     function test_emptyNamesException() {
         try {
             new ComponentCollection([]);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(CollectionException::class, $e);
             $this->assertStringContainsString('names', $e->getMessage());
         }
@@ -62,14 +63,14 @@ class ComponentCollectionTest extends PHPUnit\Framework\TestCase
 
         try {
             $col->setAge(20);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(CollectionException::class, $e);
             $this->assertStringContainsString('Invalid component name', $e->getMessage());
         }
 
         try {
             $col->undefinedMethod();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(CollectionException::class, $e);
             $this->assertStringContainsString('Invalid method call', $e->getMessage());
         }

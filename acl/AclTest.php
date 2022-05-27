@@ -1,5 +1,5 @@
 <?php
-namespace froq\acl\test;
+namespace froq\test\acl;
 use froq\acl\Acl;
 
 class AclTest extends \PHPUnit\Framework\TestCase

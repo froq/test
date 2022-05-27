@@ -1,8 +1,9 @@
 <?php
+namespace froq\test\cache;
 use froq\cache\{Cache, CacheFactory, CacheException};
 use froq\cache\agent\{AgentInterface, File, Apcu, Redis, Memcached};
 
-class CacheTest extends PHPUnit\Framework\TestCase
+class CacheTest extends \PHPUnit\Framework\TestCase
 {
     const DIRECTORY = '/tmp/froq-cache';
     const OPTIONS = [
@@ -13,7 +14,7 @@ class CacheTest extends PHPUnit\Framework\TestCase
     function test_exceptionByEmptyOptions() {
         try {
             new Cache('test', []);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(CacheException::class, $e);
             $this->assertStringContainsString('options', $e->getMessage());
         }
@@ -22,7 +23,7 @@ class CacheTest extends PHPUnit\Framework\TestCase
     function test_exceptionByEmptyAgentOption() {
         try {
             new Cache('test', ['agent' => null]);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(CacheException::class, $e);
             $this->assertStringContainsString('agent', $e->getMessage());
         }

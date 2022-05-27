@@ -1,19 +1,20 @@
 <?php
+namespace froq\test\common;
 use froq\common\object\{Factory, FactoryException};
 
-class FactoryTest extends PHPUnit\Framework\TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
     function test_noClassException() {
         try {
             Factory::init('nonexistent');
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(FactoryException::class, $e);
             $this->assertStringContainsString('No class exists', $e->getMessage());
         }
 
         try {
             Factory::initOnce('nonexistent');
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $this->assertInstanceOf(FactoryException::class, $e);
             $this->assertStringContainsString('No class exists', $e->getMessage());
         }

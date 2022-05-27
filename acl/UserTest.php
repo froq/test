@@ -1,5 +1,5 @@
 <?php
-namespace froq\acl\test;
+namespace froq\test\acl;
 use froq\acl\{Acl, User};
 
 class UserTest extends \PHPUnit\Framework\TestCase
