@@ -2,7 +2,7 @@
 namespace froq\test\dom;
 use froq\dom\{DomException, DomDocument, DomElement, DomElementList, DomNodeList};
 
-class DomTest extends \PHPUnit\Framework\TestCase
+class DocumentTest extends \PHPUnit\Framework\TestCase
 {
     function test_loaderMethods() {
         $doc = new DomDocument();
