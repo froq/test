@@ -3,7 +3,7 @@ namespace froq\test\encoding;
 use froq\encoding\encoder\{Encoder, EncoderException, GZipEncoder, ZLibEncoder, JsonEncoder, XmlEncoder};
 use froq\encoding\decoder\{Decoder, DecoderException, GZipDecoder, ZLibDecoder, JsonDecoder, XmlDecoder};
 
-class EncoderDecoderTest extends \PHPUnit\Framework\TestCase
+class EncDecTest extends \PHPUnit\Framework\TestCase
 {
     function test_options() {
         $encoder = new GZipEncoder(['level' => 9]);

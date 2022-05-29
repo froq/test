@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace froq\test\encoding;
-use froq\encoding\codec\{Codec, CodecException, GZipCodec, ZLibCodec, JsonCodec, XmlCodec};
+use froq\encoding\codec\{Codec, GZipCodec, ZLibCodec, JsonCodec, XmlCodec};
 use froq\encoding\encoder\{Encoder, GZipEncoder, ZLibEncoder, JsonEncoder, XmlEncoder};
 use froq\encoding\decoder\{Decoder, GZipDecoder, ZLibDecoder, JsonDecoder, XmlDecoder};
 
