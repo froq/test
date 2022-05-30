@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace froq\test\encoding;
-use froq\encoding\encoder\{Encoder, EncoderException, GZipEncoder, ZLibEncoder, JsonEncoder, XmlEncoder};
-use froq\encoding\decoder\{Decoder, DecoderException, GZipDecoder, ZLibDecoder, JsonDecoder, XmlDecoder};
+use froq\encoding\encoder\{EncoderError, EncoderException, GZipEncoder, ZLibEncoder, JsonEncoder, XmlEncoder};
+use froq\encoding\decoder\{DecoderError, DecoderException, GZipDecoder, ZLibDecoder, JsonDecoder, XmlDecoder};
 
 class EncDecTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,8 +19,26 @@ class EncDecTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(1024, $decoder->getOption('length'));
         $this->assertTrue($decoder->hasOption('length'));
         $this->assertNull($decoder->getOption('absent'));
+    }
 
+    function test_inputErrors() {
+        try {
+            $encoder = new GZipEncoder(['throwErrors' => true]);
+            $encoder->setInput(null)->encode();
+        } catch (\Throwable $e) {
+            $this->assertInstanceOf(EncoderError::class, $e);
+            $this->assertInstanceOf(\TypeError::class, $e->getCause());
+            $this->assertStringContainsString('must be of type string, null given', $e->getMessage());
+        }
 
+        try {
+            $decoder = new GZipDecoder(['throwErrors' => true]);
+            $decoder->setInput(null)->decode();
+        } catch (\Throwable $e) {
+            $this->assertInstanceOf(DecoderError::class, $e);
+            $this->assertInstanceOf(\TypeError::class, $e->getCause());
+            $this->assertStringContainsString('must be of type string, null given', $e->getMessage());
+        }
     }
 
     function test_inputExceptions() {
@@ -41,21 +59,38 @@ class EncDecTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    function test_convert() {
+        $decoded = 'Hello!';
+        $encoded = '1f8b0800000000000003f348cdc9c957040056cc2a9d06000000';
+
+        $encoder = new GZipEncoder();
+
+        $this->assertSame($encoded, bin2hex($bin = $encoder->convert($decoded, $error)));
+        $this->assertNull($error);
+
+        $decoder = new GZipDecoder();
+
+        $this->assertSame($decoded, $decoder->convert($bin, $error));
+        $this->assertNull($error);
+    }
+
     function test_gzip() {
         $decoded = 'Hello!';
         $encoded = '1f8b0800000000000003f348cdc9c957040056cc2a9d06000000';
 
         $encoder = new GZipEncoder();
-        $encoder->setInput($decoded)->encode($error);
+        $encoder->setInput($decoded);
 
+        $this->assertTrue($encoder->encode());
+        $this->assertNull($encoder->error());
         $this->assertSame($encoded, bin2hex($bin = $encoder->getOutput()));
-        $this->assertNull($error);
 
         $decoder = new GZipDecoder();
-        $decoder->setInput($bin)->decode($error);
+        $decoder->setInput($bin);
 
+        $this->assertTrue($decoder->decode());
+        $this->assertNull($encoder->error());
         $this->assertSame($decoded, $decoder->getOutput());
-        $this->assertNull($error);
     }
 
     function test_zlib() {
@@ -63,16 +98,18 @@ class EncDecTest extends \PHPUnit\Framework\TestCase
         $encoded = '789cf348cdc9c957040007a20216';
 
         $encoder = new ZLibEncoder();
-        $encoder->setInput($decoded)->encode($error);
+        $encoder->setInput($decoded);
 
+        $this->assertTrue($encoder->encode());
+        $this->assertNull($encoder->error());
         $this->assertSame($encoded, bin2hex($bin = $encoder->getOutput()));
-        $this->assertNull($error);
 
         $decoder = new ZLibDecoder();
-        $decoder->setInput($bin)->decode($error);
+        $decoder->setInput($bin);
 
+        $this->assertTrue($decoder->decode());
+        $this->assertNull($decoder->error());
         $this->assertSame($decoded, $decoder->getOutput());
-        $this->assertNull($error);
     }
 
     function test_json() {
@@ -83,16 +120,36 @@ class EncDecTest extends \PHPUnit\Framework\TestCase
         $encoded = '{"message":"Hello!","date":"2022-05-29"}';
 
         $encoder = new JsonEncoder();
-        $encoder->setInput($decoded)->encode($error);
+        $encoder->setInput($decoded);
 
+        $this->assertTrue($encoder->encode());
+        $this->assertNull($encoder->error());
         $this->assertSame($encoded, $encoder->getOutput());
-        $this->assertNull($error);
 
         $decoder = new JsonDecoder();
-        $decoder->setInput($encoded)->decode($error);
+        $decoder->setInput($encoded);
 
+        $this->assertTrue($decoder->decode());
+        $this->assertNull($decoder->error());
         $this->assertEquals($decoded, $decoder->getOutput());
-        $this->assertNull($error);
+
+        // Custom JSON object.
+        $sourceObject = new class { var $message = 'Hello!', $date = '2022-05-29'; };
+        $targetObject = new class { var $message, $date; };
+
+        $encoder = new JsonEncoder();
+
+        // No setInput() here, passing object as input.
+        $this->assertTrue($encoder->encode($sourceObject));
+        $this->assertNull($encoder->error());
+        $this->assertSame($encoded, $encoder->getOutput());
+
+        $decoder = new JsonDecoder();
+        $decoder->setInput($encoded);
+
+        $this->assertTrue($decoder->decode($targetObject));
+        $this->assertNull($decoder->error());
+        $this->assertEquals($targetObject, $decoder->getOutput());
     }
 
     function test_xml() {
@@ -105,21 +162,24 @@ class EncDecTest extends \PHPUnit\Framework\TestCase
                 ]
             ]
         ];
-        $encoded = '<?xml version="1.0" encoding="utf-8"?><test><message>Hello!</message><date>2022-05-29</date></test>';
+        $encoded = '<?xml version="1.0" encoding="utf-8"?><test>'
+                 . '<message>Hello!</message><date>2022-05-29</date></test>';
 
         $encoder = new XmlEncoder();
-        $encoder->setInput($decoded)->encode($error);
+        $encoder->setInput($decoded);
 
+        $this->assertTrue($encoder->encode());
+        $this->assertNull($encoder->error());
         $this->assertSame($encoded, $encoder->getOutput());
-        $this->assertNull($error);
 
         $decoder = new XmlDecoder();
-        $decoder->setInput($encoded)->decode($error);
+        $decoder->setInput($encoded);
 
+        $this->assertTrue($decoder->decode());
+        $this->assertNull($decoder->error());
         $this->assertSame(
             $decoded['@root']['@nodes'][0][1],
             $decoder->getOutput()['test']['message']
         );
-        $this->assertNull($error);
     }
 }
