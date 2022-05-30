@@ -22,7 +22,7 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
     }
 
     function test_parseDotenv() {
-        $file = sprintf('/tmp/test-%s.env', uuid());
+        $file = sprintf('%s/test-%s.env', tmp(), uuid());
 
         @unlink($file);
 
