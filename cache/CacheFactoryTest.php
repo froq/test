@@ -5,12 +5,6 @@ use froq\cache\agent\{AgentInterface, File, Apcu, Redis, Memcached};
 
 class CacheFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    const DIRECTORY = '/tmp/froq-cache';
-    const OPTIONS = [
-        'agent' => CacheFactory::AGENT_FILE,
-        'directory' => self::DIRECTORY,
-    ];
-
     function test_exceptionByEmptyOptions() {
         try {
             CacheFactory::init('', []);
@@ -30,13 +24,13 @@ class CacheFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     function test_cache() {
-        $cache = CacheFactory::init('test', self::OPTIONS);
+        $cache = CacheFactory::init('test', $this->options());
 
         $this->assertInstanceOf(Cache::class, $cache);
     }
 
     function test_cacheAgent() {
-        $agent = CacheFactory::initAgent('test', self::OPTIONS);
+        $agent = CacheFactory::initAgent('test', $this->options());
 
         $this->assertInstanceOf(AgentInterface::class, $agent);
         $this->assertInstanceOf(File::class, $agent);
@@ -52,5 +46,12 @@ class CacheFactoryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(CacheException::class);
 
         CacheFactory::getAgentInstance('none');
+    }
+
+    private function options() {
+        return [
+            'agent' => CacheFactory::AGENT_FILE,
+            'directory' => tmp() . '/froq-cache',
+        ];
     }
 }

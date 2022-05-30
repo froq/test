@@ -5,12 +5,6 @@ use froq\cache\agent\{AgentInterface, File, Apcu, Redis, Memcached};
 
 class CacheTest extends \PHPUnit\Framework\TestCase
 {
-    const DIRECTORY = '/tmp/froq-cache';
-    const OPTIONS = [
-        'agent' => CacheFactory::AGENT_FILE,
-        'directory' => self::DIRECTORY,
-    ];
-
     function test_exceptionByEmptyOptions() {
         try {
             new Cache('test', []);
@@ -30,17 +24,17 @@ class CacheTest extends \PHPUnit\Framework\TestCase
     }
 
     function test_fileAgent() {
-        $cache = new Cache('test', self::OPTIONS);
+        $cache = new Cache('test', $this->options());
 
         $this->assertInstanceOf(AgentInterface::class, $cache->agent);
         $this->assertInstanceOf(File::class, $cache->agent);
 
-        $this->assertEquals(self::DIRECTORY, $cache->agent->getDirectory());
+        $this->assertSame($this->options()['directory'], $cache->agent->getDirectory());
         $this->assertDirectoryExists($cache->agent->getDirectory());
     }
 
     function test_fileAgentStorage() {
-        $cache = new Cache('test', self::OPTIONS);
+        $cache = new Cache('test', $this->options());
         $key = 'foo'; $value = 123;
 
         $this->assertFalse($cache->agent->has($key));
@@ -57,7 +51,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
     }
 
     function test_cacheStorage() {
-        $cache = new Cache('test', self::OPTIONS);
+        $cache = new Cache('test', $this->options());
         $key = 'foo'; $value = 123;
 
         $this->assertFalse($cache->has($key));
@@ -74,7 +68,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
     }
 
     function test_cacheMultiStorage() {
-        $cache = new Cache('test', self::OPTIONS);
+        $cache = new Cache('test', $this->options());
         $items = ['foo' => 123, 'bar' => true];
         $keys = array_keys($items);
         $values = array_values($items);
@@ -90,5 +84,12 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([null, null], $cache->get($keys));
 
         $cache->clear();
+    }
+
+    private function options() {
+        return [
+            'agent' => CacheFactory::AGENT_FILE,
+            'directory' => tmp() . '/froq-cache',
+        ];
     }
 }
