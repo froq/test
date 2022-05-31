@@ -5,7 +5,9 @@
 
     backupGlobals="false"
     backupStaticAttributes="false"
-    cacheResult="true"
+
+    cacheResult="false"
+    cacheResultFile="vendor/bin/.phpunit.result.cache"
 
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
