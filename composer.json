@@ -7,11 +7,20 @@
     "authors": [{"name": "Kerem Güneş"}],
     "require": {
         "php": "^8.1",
-        "froq/froq-acl": "^6.0"
+        "froq/froq-acl": "^6.0",
+        "froq/froq-cache": "^6.0",
+        "froq/froq-collection": "^6.0",
+        "froq/froq-common": "^6.0",
+        "froq/froq-date": "^6.0",
+        "froq/froq-dom": "^6.0",
+        "froq/froq-encoding": "^6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
     },
     "scripts": {
-        "test": "~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php -- --filter",
-        "test-all": "~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./"
+        "test": "vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php -- --filter",
+        "test-all": "vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./"
     },
     "scripts-descriptions": {
         "test": "Run a test (eg: composer test -- ./acl/AclTest.php).",

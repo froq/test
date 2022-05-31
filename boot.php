@@ -1,35 +1,38 @@
 <?php
 // Bootstrap file of all tests.
-// $ ~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./
-// $ ~/.composer/vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./acl/
+// $ vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./
+// $ vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./acl/
+
+if (PHP_SAPI != 'cli') {
+    echo 'This file must be run via CLI only!', PHP_EOL;
+    exit(1);
+}
 
 // Path to "vendor/froq" folder.
-const __froqDir = __dir__ . '/../';
+$froqDir = __dir__ . '/vendor/froq';
 
 // Froq loader.
-$froqLoader = __froqDir . '/froq/src/Autoloader.php';
+$froqLoader = $froqDir . '/froq/src/Autoloader.php';
 if (is_file($froqLoader)) {
     include $froqLoader;
-    $loader = froq\Autoloader::init(__froqDir);
+    $loader = froq\Autoloader::init($froqDir);
     $loader->register();
 }
 
 // Froq sugars.
-$froqSugars = __froqDir . '/froq-util/src/sugars.php';
+$froqSugars = $froqDir . '/froq-util/src/sugars.php';
 if (is_file($froqSugars)) {
     include $froqSugars;
 }
 
 // Composer loader.
-$composerLoader = __froqDir . '/../vendor/autoload.php';
+$composerLoader = $froqDir . '/../vendor/autoload.php';
 if (is_file($composerLoader)) {
     include $composerLoader;
 }
 
 // @cancel: Not needed yet.
-// $composerLoader = __froqDir . '/vendor/autoload.php';
 // if (is_file($composerLoader)) {
-//     $loader = include $composerLoader;
 //     $loader->addPsr4('froq\\acl\\', __dir__ . '/../src/');
 
 //     $composerJson = file_get_contents(__dir__ . '/../composer.json');
@@ -40,7 +43,7 @@ if (is_file($composerLoader)) {
 //         if (substr($package, 0, 5) == 'froq/') {
 //             $package = substr($package, 5);
 //             $packagePrefix = strtr($package, '-', '\\') . '\\';
-//             $packageSource = __froqDir . $package . '/src/';
+//             $packageSource = $froqDir . $package . '/src/';
 //             $loader->addPsr4($packagePrefix, $packageSource);
 //         }
 //     }
