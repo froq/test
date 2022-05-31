@@ -1,0 +1,2 @@
+# Seems also blocking sublime search in symlinked "vendor/froq" folder.
+vendor/
