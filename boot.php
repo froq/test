@@ -54,3 +54,83 @@ if (is_file($composerLoader)) {
 //         }
 //     }
 // }
+
+use PHPUnit\Util\Blacklist;
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
+{
+    function assertLength(int $length, string $string, string $message = ''): void
+    {
+        if (strlen($string) == $length) {
+            $this->okay();
+            return;
+        }
+
+        try {
+            $this->fail(sprintf(
+                'Failed asserting that length %d is identical to %d.',
+                strlen($string), $length
+            ));
+        } catch (Throwable $error) {
+            $this->throw($error, $message, __function__);
+        }
+    }
+
+    function assertStringContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
+    {
+        try {
+            $icase ? $this->assertStringContainsStringIgnoringCase($needle, $haystack)
+                   : $this->assertStringContainsString($needle, $haystack);
+        } catch (Throwable $error) {
+            $this->throw($error, $message, __function__);
+        }
+    }
+
+    function assertStringNotContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
+    {
+        try {
+            $icase ? $this->assertStringNotContainsStringIgnoringCase($needle, $haystack)
+                   : $this->assertStringNotContainsString($needle, $haystack);
+        } catch (Throwable $error) {
+            $this->throw($error, $message, __function__);
+        }
+    }
+
+    private function okay(): void
+    {
+        // Faking "This test did not perform any assertions" error.
+        $this->assertTrue(true);
+    }
+
+    private function throw(Throwable $error, string $message, string $function): string
+    {
+        $this->checkBlacklist();
+
+        // Separate given error as original.
+        $message && $message .= PHP_EOL;
+
+        // Append call path to message as original, cos Blacklist'ed this file.
+        $message .= $error->getMessage() . PHP_EOL . PHP_EOL;
+        $message .= $this->getCallPath($error->getTrace(), $function);
+
+        throw new AssertionFailedError($message);
+    }
+
+    private function getCallPath(array $trace, string $function): string
+    {
+        foreach ($trace as $trace) {
+            if ($trace['function'] == $function) {
+                return sprintf('%s:%s', $trace['file'], $trace['line']);
+            }
+        }
+        return '[unknown]';
+    }
+
+    private function checkBlacklist(): void
+    {
+        // To remove this file from error trace.
+        Blacklist::$blacklistedClassNames[TestCase::class] ??= 1;
+    }
+}
