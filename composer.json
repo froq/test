@@ -16,14 +16,14 @@
         "froq/froq-encoding": "^6.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^9.5"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php -- --filter",
+        "test": "vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php",
         "test-all": "vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./"
     },
     "scripts-descriptions": {
-        "test": "Run a test (eg: composer test -- ./acl/AclTest.php).",
-        "test-all": "Run all tests (eg: composer test-all)."
+        "test": "Run a component test (eg: composer test -- ./acl/ or composer test -- ./acl/AclTest.php).",
+        "test-all": "Run all components tests (eg: composer test-all)."
     }
 }
