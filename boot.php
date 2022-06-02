@@ -55,7 +55,7 @@ if (is_file($composerLoader)) {
 //     }
 // }
 
-use PHPUnit\Util\Blacklist;
+use PHPUnit\Util\ExcludeList;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
@@ -63,19 +63,27 @@ abstract class TestCase extends BaseTestCase
 {
     function assertLength(int $length, string $string, string $message = ''): void
     {
-        if (strlen($string) == $length) {
-            $this->okay();
-            return;
-        }
+        // @keep
+        // try {
+        //     if (strlen($string) != $length) {
+        //         $this->fail(sprintf(
+        //             'Failed asserting that string length `%d` is identical to `%d`.',
+        //             strlen($string), $length
+        //         ));
+        //     }
+        // } catch (Throwable $error) {
+        //     $this->throw($error, $message, __function__);
+        // }
 
-        try {
-            $this->fail(sprintf(
-                'Failed asserting that length %d is identical to %d.',
+        if (strlen($string) != $length) {
+            $error = $this->error(
+                'Failed asserting that string length `%d` is identical to `%d`.',
                 strlen($string), $length
-            ));
-        } catch (Throwable $error) {
+            );
             $this->throw($error, $message, __function__);
         }
+
+        $this->okay();
     }
 
     function assertStringContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
@@ -98,29 +106,72 @@ abstract class TestCase extends BaseTestCase
         }
     }
 
+    function assertMatches(string $pattern, string $string, string $message = ''): void
+    {
+        try {
+            $this->assertMatchesRegularExpression($pattern, $string, $message);
+        } catch (Throwable $error) {
+            $this->throw($error, $message, __function__);
+        }
+    }
+
+    function assertNotMatches(string $pattern, string $string, string $message = ''): void
+    {
+        try {
+            $this->assertDoesNotMatchRegularExpression($pattern, $string, $message);
+        } catch (Throwable $error) {
+            $this->throw($error, $message, __function__);
+        }
+    }
+
+    function assertTypeOf(string $type, mixed $input, string $message = ''): void
+    {
+        if (!Assert::type($input, $type)) {
+            $error = $this->error('Failed asserting that `%t` is type of `%s`', $input, $type);
+            $this->throw($error, $message, __function__);
+        }
+
+        $this->okay();
+    }
+
+    function assertNotTypeOf(string $type, mixed $input, string $message = ''): void
+    {
+        if (Assert::type($input, $type)) {
+            $error = $this->error('Failed asserting that `%t` is not type of `%s`', $input, $type);
+            $this->throw($error, $message, __function__);
+        }
+
+        $this->okay();
+    }
+
     private function okay(): void
     {
         // Faking "This test did not perform any assertions" error.
         $this->assertTrue(true);
     }
 
+    private function error(string $message, mixed ...$messageParams): Throwable
+    {
+        return new Error(format($message, ...$messageParams));
+    }
+
     private function throw(Throwable $error, string $message, string $function): string
     {
-        $this->checkBlacklist();
+        $this->checkExcludeList();
 
         // Separate given error as original.
         $message && $message .= PHP_EOL;
 
-        // Append call path to message as original, cos Blacklist'ed this file.
+        // Append call path to message as original, cos ExcludeList'ed this file.
         $message .= $error->getMessage() . PHP_EOL . PHP_EOL;
         $message .= $this->getCallPath($error->getTrace(), $function);
 
         throw new AssertionFailedError($message);
     }
 
-    private function getCallPath(array $trace, string $function): string
+    private function getCallPath(array $traces, string $function): string
     {
-        foreach ($trace as $trace) {
+        foreach ($traces as $trace) {
             if ($trace['function'] == $function) {
                 return sprintf('%s:%s', $trace['file'], $trace['line']);
             }
@@ -128,9 +179,10 @@ abstract class TestCase extends BaseTestCase
         return '[unknown]';
     }
 
-    private function checkBlacklist(): void
+    private function checkExcludeList(): void
     {
         // To remove this file from error trace.
-        Blacklist::$blacklistedClassNames[TestCase::class] ??= 1;
+        $excludeList = new ExcludeList();
+        $excludeList->isExcluded(__file__) || $excludeList::addDirectory(__dir__);
     }
 }
