@@ -2,21 +2,19 @@
 namespace froq\test\collection;
 use froq\collection\{TypedCollection, CollectionException};
 
-class TypedCollectionTest extends \PHPUnit\Framework\TestCase
+class TypedCollectionTest extends \TestCase
 {
     function test_constructor() {
         try {
             new TypedCollection();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(CollectionException::class, $e);
-            $this->assertStringContainsString('Data type is required', $e->getMessage());
+        } catch (CollectionException $e) {
+            $this->assertStringContains('Data type is required', $e->getMessage());
         }
 
         try {
             new TypedCollection(['1'], dataType: 'int');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(CollectionException::class, $e);
-            $this->assertStringContainsString('must be type of int', $e->getMessage());
+        } catch (CollectionException $e) {
+            $this->assertStringContains('must be type of int', $e->getMessage());
         }
     }
 
@@ -29,9 +27,8 @@ class TypedCollectionTest extends \PHPUnit\Framework\TestCase
 
         try {
             $col->set('y', '1');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(CollectionException::class, $e);
-            $this->assertStringContainsString('must be type of int, string given', $e->getMessage());
+        } catch (CollectionException $e) {
+            $this->assertStringContains('must be type of int, string given', $e->getMessage());
         }
     }
 }

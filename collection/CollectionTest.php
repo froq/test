@@ -3,7 +3,7 @@ namespace froq\test\collection;
 use froq\collection\{Collection, CollectionException};
 use froq\common\exception\ReadOnlyException;
 
-class CollectionTest extends \PHPUnit\Framework\TestCase
+class CollectionTest extends \TestCase
 {
     function test_empty() {
         $col = new Collection();

@@ -2,7 +2,7 @@
 namespace froq\test\common;
 use froq\common\object\{Config, ConfigException};
 
-class ConfigTest extends \PHPUnit\Framework\TestCase
+class ConfigTest extends \TestCase
 {
     function test_updateMethod() {
         $con = new Config(['x' => 1]);
@@ -28,9 +28,8 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
         try {
             Config::parseDotenv($file);
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(ConfigException::class, $e);
-            $this->assertStringContainsString('No .env file', $e->getMessage());
+        } catch (ConfigException $e) {
+            $this->assertStringContains('No .env file', $e->getMessage());
         }
 
         file_put_contents($file, <<<ENV
@@ -39,8 +38,8 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
         try {
             Config::parseDotenv($file);
-        } catch (\Throwable $e) {
-            $this->assertStringContainsString('Invalid .env entry', $e->getMessage());
+        } catch (ConfigException $e) {
+            $this->assertStringContains('Invalid .env entry', $e->getMessage());
         }
 
         file_put_contents($file, <<<ENV
@@ -50,8 +49,8 @@ class ConfigTest extends \PHPUnit\Framework\TestCase
 
         try {
             Config::parseDotenv($file);
-        } catch (\Throwable $e) {
-            $this->assertStringContainsString('Duplicated .env entry', $e->getMessage());
+        } catch (ConfigException $e) {
+            $this->assertStringContains('Duplicated .env entry', $e->getMessage());
         }
 
         file_put_contents($file, <<<ENV

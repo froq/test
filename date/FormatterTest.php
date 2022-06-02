@@ -2,7 +2,7 @@
 namespace froq\test\date;
 use froq\date\{Formatter, FormatterException, Date, UtcDate};
 
-class FormatterTest extends \PHPUnit\Framework\TestCase
+class FormatterTest extends \TestCase
 {
     function test_construction() {
         $fmt = new Formatter();
@@ -30,17 +30,15 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
         try {
             $fmt = new Formatter();
             $fmt->format($when);
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(FormatterException::class, $e);
-            $this->assertStringContainsString('No format yet', $e->getMessage());
+        } catch (FormatterException $e) {
+            $this->assertStringContains('No format yet', $e->getMessage());
         }
 
         try {
             $fmt = new Formatter();
-            $fmt->format($when, 'invalid %O');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(FormatterException::class, $e);
-            $this->assertStringContainsString('Invalid format', $e->getMessage());
+            $fmt->format($when, '%O');
+        } catch (FormatterException $e) {
+            $this->assertStringContains('Invalid format', $e->getMessage());
         }
     }
 }

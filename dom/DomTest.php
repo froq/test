@@ -2,7 +2,7 @@
 namespace froq\test\dom;
 use froq\dom\{Dom, DomException, Document, XmlDocument, HtmlDocument};
 
-class DomTest extends \PHPUnit\Framework\TestCase
+class DomTest extends \TestCase
 {
     function test_encodeMethod() {
         $doc = Dom::createXmlDocument();
@@ -14,9 +14,8 @@ class DomTest extends \PHPUnit\Framework\TestCase
 
         try {
             $doc->setData([])->toString();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(DomException::class, $e);
-            $this->assertStringContainsString('Invalid document data', $e->getMessage());
+        } catch (DomException $e) {
+            $this->assertStringContains('Invalid document data', $e->getMessage());
         }
     }
 
@@ -33,9 +32,8 @@ class DomTest extends \PHPUnit\Framework\TestCase
 
         try {
             Dom::parseXml('<invalid');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(DomException::class, $e);
-            $this->assertStringContainsString('Parse error', $e->getMessage());
+        } catch (DomException $e) {
+            $this->assertStringContains('Parse error', $e->getMessage());
         }
     }
 

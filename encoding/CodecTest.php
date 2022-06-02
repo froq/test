@@ -1,41 +1,40 @@
 <?php declare(strict_types=1);
 namespace froq\test\encoding;
 use froq\encoding\codec\{Codec, GZipCodec, ZLibCodec, JsonCodec, XmlCodec};
-use froq\encoding\encoder\{Encoder, GZipEncoder, ZLibEncoder, JsonEncoder, XmlEncoder};
-use froq\encoding\decoder\{Decoder, GZipDecoder, ZLibDecoder, JsonDecoder, XmlDecoder};
+use froq\encoding\encoder\{GZipEncoder, ZLibEncoder, JsonEncoder, XmlEncoder};
+use froq\encoding\decoder\{GZipDecoder, ZLibDecoder, JsonDecoder, XmlDecoder};
 
-class CodecTest extends \PHPUnit\Framework\TestCase
+class CodecTest extends \TestCase
 {
     function test_properties() {
         $codec = new GZipCodec();
 
         try {
             $codec->absentProperty;
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(\UndefinedPropertyError::class, $e);
-            $this->assertRegExp('~Undefined property.+\$absentProperty~i', $e->getMessage());
+        } catch (\UndefinedPropertyError $e) {
+            $this->assertMatches('~Undefined property.+\$absentProperty~i', $e->getMessage());
         }
 
-        // Creates on demand via __get().
+        try {
+            $codec->absentProperty = 123;
+        } catch (\UndefinedPropertyError $e) {
+            $this->assertMatches('~Undefined property.+\$absentProperty~i', $e->getMessage());
+        }
+
+        // Creates on demand via __get() for once.
         $this->assertInstanceOf(GZipEncoder::class, $codec->encoder);
         $this->assertInstanceOf(GZipDecoder::class, $codec->decoder);
 
         try {
             $codec->encoder = 123;
-        } catch (\Throwable $e) {
-            $this->assertRegExp('~Cannot modify readonly property.+\$encoder~', $e->getMessage());
+        } catch (\ReadonlyPropertyError $e) {
+            $this->assertMatches('~Cannot modify readonly property.+\$encoder~', $e->getMessage());
         }
 
         try {
             $codec->decoder = 123;
-        } catch (\Throwable $e) {
-            $this->assertRegExp('~Cannot modify readonly property.+\$decoder~', $e->getMessage());
-        }
-
-        try {
-            $codec->absentProperty = 123;
-        } catch (\Throwable $e) {
-            $this->assertRegExp('~Undefined property.+\$absentProperty~i', $e->getMessage());
+        } catch (\ReadonlyPropertyError $e) {
+            $this->assertMatches('~Cannot modify readonly property.+\$decoder~', $e->getMessage());
         }
     }
 

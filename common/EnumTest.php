@@ -2,7 +2,7 @@
 namespace froq\test\common;
 use froq\common\object\{Enum, EnumException};
 
-class EnumTest extends \PHPUnit\Framework\TestCase
+class EnumTest extends \TestCase
 {
     function test_valueMethods() {
         $enum = $this->getMock();
@@ -60,30 +60,26 @@ class EnumTest extends \PHPUnit\Framework\TestCase
 
         try {
             $enum->foo();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(EnumException::class, $e);
-            $this->assertStringContainsString($noCallMessage, $e->getMessage());
+        } catch (EnumException $e) {
+            $this->assertStringContains($noCallMessage, $e->getMessage());
         }
 
         try {
             $enum->isBlue();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(EnumException::class, $e);
-            $this->assertStringContainsString($noConstMessage, $e->getMessage());
+        } catch (EnumException $e) {
+            $this->assertStringContains($noConstMessage, $e->getMessage());
         }
 
         try {
             Colors::foo();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(EnumException::class, $e);
-            $this->assertStringContainsString($noCallMessage, $e->getMessage());
+        } catch (EnumException $e) {
+            $this->assertStringContains($noCallMessage, $e->getMessage());
         }
 
         try {
             Colors::isBlue();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(EnumException::class, $e);
-            $this->assertStringContainsString($noConstMessage, $e->getMessage());
+        } catch (EnumException $e) {
+            $this->assertStringContains($noConstMessage, $e->getMessage());
         }
     }
 

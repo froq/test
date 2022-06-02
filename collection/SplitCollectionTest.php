@@ -2,7 +2,7 @@
 namespace froq\test\collection;
 use froq\collection\{SplitCollection, CollectionException};
 
-class SplitCollectionTest extends \PHPUnit\Framework\TestCase
+class SplitCollectionTest extends \TestCase
 {
     function test_constructor() {
         $this->assertCount(5, new SplitCollection('a.b.c', ''));
@@ -18,10 +18,9 @@ class SplitCollectionTest extends \PHPUnit\Framework\TestCase
 
         try {
             SplitCollection::splitRegExp('a.b.c', '~\.');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(CollectionException::class, $e);
+        } catch (CollectionException $e) {
             $this->assertInstanceOf(\RegExpError::class, $e->getCause());
-            $this->assertStringContainsString('No end delimiter ~', $e->getMessage());
+            $this->assertStringContains('No end delimiter ~', $e->getMessage());
         }
     }
 }

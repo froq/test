@@ -2,7 +2,7 @@
 namespace froq\test\date;
 use froq\date\{Date, DateException, TimezoneException};
 
-class DateTest extends \PHPUnit\Framework\TestCase
+class DateTest extends \TestCase
 {
     function test_constructor() {
         $date = new Date($when = date('c'), 'UTC');
@@ -17,9 +17,8 @@ class DateTest extends \PHPUnit\Framework\TestCase
 
         try {
             new Date('', where: 'invalid');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(TimezoneException::class, $e);
-            $this->assertStringContainsString('Invalid timezone', $e->getMessage());
+        } catch (TimezoneException $e) {
+            $this->assertStringContains('Invalid timezone', $e->getMessage());
         }
     }
 

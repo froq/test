@@ -3,23 +3,25 @@ namespace froq\test\cache;
 use froq\cache\{Cache, CacheFactory, CacheException};
 use froq\cache\agent\{AgentInterface, File, Apcu, Redis, Memcached};
 
-class CacheFactoryTest extends \PHPUnit\Framework\TestCase
+class CacheFactoryTest extends \TestCase
 {
-    function test_exceptionByEmptyOptions() {
+    function test_options() {
         try {
             CacheFactory::init('', []);
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(CacheException::class, $e);
-            $this->assertStringContainsString('options', $e->getMessage());
+        } catch (CacheException $e) {
+            $this->assertStringContains('No agent id given', $e->getMessage());
         }
-    }
 
-    function test_exceptionByEmptyAgentOption() {
         try {
             CacheFactory::init('test', ['agent' => null]);
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(CacheException::class, $e);
-            $this->assertStringContainsString('agent', $e->getMessage());
+        } catch (CacheException $e) {
+            $this->assertStringContains('Option `agent` is empty', $e->getMessage());
+        }
+
+        try {
+            CacheFactory::init('test', ['agent' => 'invalid']);
+        } catch (CacheException $e) {
+            $this->assertStringContains('Unimplemented agent `invalid`', $e->getMessage());
         }
     }
 
@@ -32,8 +34,8 @@ class CacheFactoryTest extends \PHPUnit\Framework\TestCase
     function test_cacheAgent() {
         $agent = CacheFactory::initAgent('test', $this->options());
 
-        $this->assertInstanceOf(AgentInterface::class, $agent);
         $this->assertInstanceOf(File::class, $agent);
+        $this->assertInstanceOf(AgentInterface::class, $agent);
     }
 
     function test_absentCacheInstanceException() {

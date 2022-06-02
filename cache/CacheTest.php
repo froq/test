@@ -3,31 +3,33 @@ namespace froq\test\cache;
 use froq\cache\{Cache, CacheFactory, CacheException};
 use froq\cache\agent\{AgentInterface, File, Apcu, Redis, Memcached};
 
-class CacheTest extends \PHPUnit\Framework\TestCase
+class CacheTest extends \TestCase
 {
-    function test_exceptionByEmptyOptions() {
+    function test_options() {
         try {
             new Cache('test', []);
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(CacheException::class, $e);
-            $this->assertStringContainsString('options', $e->getMessage());
+        } catch (CacheException $e) {
+            $this->assertStringContains('No agent options given', $e->getMessage());
         }
-    }
 
-    function test_exceptionByEmptyAgentOption() {
         try {
             new Cache('test', ['agent' => null]);
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(CacheException::class, $e);
-            $this->assertStringContainsString('agent', $e->getMessage());
+        } catch (CacheException $e) {
+            $this->assertStringContains('Option `agent` is empty', $e->getMessage());
+        }
+
+        try {
+            new Cache('test', ['agent' => 'invalid']);
+        } catch (CacheException $e) {
+            $this->assertStringContains('Unimplemented agent `invalid`', $e->getMessage());
         }
     }
 
     function test_fileAgent() {
         $cache = new Cache('test', $this->options());
 
-        $this->assertInstanceOf(AgentInterface::class, $cache->agent);
         $this->assertInstanceOf(File::class, $cache->agent);
+        $this->assertInstanceOf(AgentInterface::class, $cache->agent);
 
         $this->assertSame($this->options()['directory'], $cache->agent->getDirectory());
         $this->assertDirectoryExists($cache->agent->getDirectory());

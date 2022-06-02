@@ -2,7 +2,7 @@
 namespace froq\test\common;
 use froq\common\object\{Registry, RegistryException};
 
-class RegistryTest extends \PHPUnit\Framework\TestCase
+class RegistryTest extends \TestCase
 {
     function test_storageMethods() {
         [$id, $object] = $this->getMock();
@@ -28,9 +28,8 @@ class RegistryTest extends \PHPUnit\Framework\TestCase
 
         try {
             Registry::set($id, $object);
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(RegistryException::class, $e);
-            $this->assertStringContainsString('registered and locked', $e->getMessage());
+        } catch (RegistryException $e) {
+            $this->assertStringContains('registered and locked', $e->getMessage());
         }
 
         [$id, $object] = $this->getMock();

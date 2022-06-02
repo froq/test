@@ -3,14 +3,13 @@ namespace froq\test\collection;
 use froq\collection\{ItemCollection, CollectionException};
 use froq\common\exception\InvalidKeyException;
 
-class ItemCollectionTest extends \PHPUnit\Framework\TestCase
+class ItemCollectionTest extends \TestCase
 {
     function test_invalidKeyException() {
         try {
             new ItemCollection(['x' => 1]);
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(InvalidKeyException::class, $e);
-            $this->assertStringContainsString('keys must be int', $e->getMessage());
+        } catch (InvalidKeyException $e) {
+            $this->assertStringContains('keys must be int', $e->getMessage());
         }
     }
 

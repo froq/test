@@ -2,7 +2,7 @@
 namespace froq\test\dom;
 use froq\dom\{DomException, DomDocument, DomElement, DomElementList, DomNodeList};
 
-class DocumentTest extends \PHPUnit\Framework\TestCase
+class DocumentTest extends \TestCase
 {
     function test_loaderMethods() {
         $doc = new DomDocument();
@@ -25,9 +25,8 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         try {
             $doc = new DomDocument();
             $doc->loadSource('xml', '<invalid');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(DomException::class, $e);
-            $this->assertStringContainsString('Parse error', $e->getMessage());
+        } catch (DomException $e) {
+            $this->assertStringContains('Parse error', $e->getMessage());
         }
     }
 

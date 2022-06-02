@@ -3,7 +3,7 @@ namespace froq\test\encoding;
 use froq\encoding\encoder\{EncoderError, EncoderException, GZipEncoder, ZLibEncoder, JsonEncoder, XmlEncoder};
 use froq\encoding\decoder\{DecoderError, DecoderException, GZipDecoder, ZLibDecoder, JsonDecoder, XmlDecoder};
 
-class EncDecTest extends \PHPUnit\Framework\TestCase
+class EncDecTest extends \TestCase
 {
     function test_options() {
         $encoder = new GZipEncoder(['level' => 9]);
@@ -25,19 +25,17 @@ class EncDecTest extends \PHPUnit\Framework\TestCase
         try {
             $encoder = new GZipEncoder(['throwErrors' => true]);
             $encoder->setInput(null)->encode();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(EncoderError::class, $e);
+        } catch (EncoderError $e) {
             $this->assertInstanceOf(\TypeError::class, $e->getCause());
-            $this->assertStringContainsString('must be of type string, null given', $e->getMessage());
+            $this->assertStringContains('must be of type string, null given', $e->getMessage());
         }
 
         try {
             $decoder = new GZipDecoder(['throwErrors' => true]);
             $decoder->setInput(null)->decode();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(DecoderError::class, $e);
+        } catch (DecoderError $e) {
             $this->assertInstanceOf(\TypeError::class, $e->getCause());
-            $this->assertStringContainsString('must be of type string, null given', $e->getMessage());
+            $this->assertStringContains('must be of type string, null given', $e->getMessage());
         }
     }
 
@@ -45,17 +43,15 @@ class EncDecTest extends \PHPUnit\Framework\TestCase
         try {
             $encoder = new GZipEncoder();
             $encoder->encode();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(EncoderException::class, $e);
-            $this->assertRegExp('~No input given yet, call.+setInput()~i', $e->getMessage());
+        } catch (EncoderException $e) {
+            $this->assertMatches('~No input given yet, call.+setInput()~i', $e->getMessage());
         }
 
         try {
             $decoder = new GZipDecoder();
             $decoder->decode();
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(DecoderException::class, $e);
-            $this->assertRegExp('~No input given yet, call.+setInput()~i', $e->getMessage());
+        } catch (DecoderException $e) {
+            $this->assertMatches('~No input given yet, call.+setInput()~i', $e->getMessage());
         }
     }
 
