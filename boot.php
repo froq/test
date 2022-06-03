@@ -26,7 +26,7 @@ if (is_file($froqSugars)) {
 }
 
 // Composer loader.
-$composerLoader = $froqDir . '/../vendor/autoload.php';
+$composerLoader = __dir__ . '/vendor/autoload.php';
 if (is_file($composerLoader)) {
     include $composerLoader;
 }
@@ -55,92 +55,82 @@ if (is_file($composerLoader)) {
 //     }
 // }
 
-use PHPUnit\Util\ExcludeList;
-use PHPUnit\Framework\AssertionFailedError;
-use PHPUnit\Framework\TestCase as BaseTestCase;
+// Drop this file from trace stack.
+$GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __file__;
 
-abstract class TestCase extends BaseTestCase
+// Base test case for all test classes.
+abstract class TestCase extends PHPUnit\Framework\TestCase
 {
     function assertLength(int $length, string $string, string $message = ''): void
     {
-        // @keep
-        // try {
-        //     if (strlen($string) != $length) {
-        //         $this->fail(sprintf(
-        //             'Failed asserting that string length `%d` is identical to `%d`.',
-        //             strlen($string), $length
-        //         ));
-        //     }
-        // } catch (Throwable $error) {
-        //     $this->throw($error, $message, __function__);
-        // }
-
-        if (strlen($string) != $length) {
-            $error = $this->error(
-                'Failed asserting that string length `%d` is identical to `%d`.',
-                strlen($string), $length
-            );
-            $this->throw($error, $message, __function__);
-        }
-
-        $this->okay();
+        $this->assert(
+            strlen($string) === $length,
+            'Failed asserting that length of `%s`, `%d` is identical to `%d`.',
+            [$string, strlen($string), $length], $message
+        );
     }
 
     function assertStringContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
     {
-        try {
-            $icase ? $this->assertStringContainsStringIgnoringCase($needle, $haystack)
-                   : $this->assertStringContainsString($needle, $haystack);
-        } catch (Throwable $error) {
-            $this->throw($error, $message, __function__);
-        }
+        $this->assert(
+            str_has($haystack, $needle, $icase) === true,
+            'Failed asserting that string `%s` contains `%s`',
+            [$haystack, $needle], $message
+        );
     }
 
     function assertStringNotContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
     {
-        try {
-            $icase ? $this->assertStringNotContainsStringIgnoringCase($needle, $haystack)
-                   : $this->assertStringNotContainsString($needle, $haystack);
-        } catch (Throwable $error) {
-            $this->throw($error, $message, __function__);
-        }
+        $this->assert(
+            str_has($haystack, $needle, $icase) === false,
+            'Failed asserting that string `%s` not contains `%s`',
+            [$haystack, $needle], $message
+        );
     }
 
-    function assertMatches(string $pattern, string $string, string $message = ''): void
+    function assertMatches(string $pattern, string $subject, string $message = ''): void
     {
-        try {
-            $this->assertMatchesRegularExpression($pattern, $string, $message);
-        } catch (Throwable $error) {
-            $this->throw($error, $message, __function__);
-        }
+        $this->assert(
+            preg_test($pattern, $subject) === true,
+            'Failed asserting that subject `%s` matches pattern `%s`.',
+            [$subject, $pattern], $message
+        );
     }
 
-    function assertNotMatches(string $pattern, string $string, string $message = ''): void
+    function assertNotMatches(string $pattern, string $subject, string $message = ''): void
     {
-        try {
-            $this->assertDoesNotMatchRegularExpression($pattern, $string, $message);
-        } catch (Throwable $error) {
-            $this->throw($error, $message, __function__);
-        }
+        $this->assert(
+            preg_test($pattern, $subject) === false,
+            'Failed asserting that subject `%s` not matches pattern `%s`.',
+            [$subject, $pattern], $message
+        );
     }
 
     function assertTypeOf(string $type, mixed $input, string $message = ''): void
     {
-        if (!Assert::type($input, $type)) {
-            $error = $this->error('Failed asserting that `%t` is type of `%s`', $input, $type);
-            $this->throw($error, $message, __function__);
-        }
-
-        $this->okay();
+        $this->assert(
+            is_type_of($input, $type) === true,
+            'Failed asserting that `%t` is type of `%s`',
+            [$input, $type], $message
+        );
     }
 
     function assertNotTypeOf(string $type, mixed $input, string $message = ''): void
     {
-        if (Assert::type($input, $type)) {
-            $error = $this->error('Failed asserting that `%t` is not type of `%s`', $input, $type);
-            $this->throw($error, $message, __function__);
-        }
+        $this->assert(
+            is_type_of($input, $type) === false,
+            'Failed asserting that `%t` is not type of `%s`',
+            [$input, $type], $message
+        );
+    }
 
+    private function assert(bool $assertion, string $format, array $formatArgs, string $message): void
+    {
+        if (!$assertion) {
+            $message && $message .= PHP_EOL;
+            $message .= format($format, ...$formatArgs);
+            $this->fail($message);
+        }
         $this->okay();
     }
 
@@ -148,41 +138,5 @@ abstract class TestCase extends BaseTestCase
     {
         // Faking "This test did not perform any assertions" error.
         $this->assertTrue(true);
-    }
-
-    private function error(string $message, mixed ...$messageParams): Throwable
-    {
-        return new Error(format($message, ...$messageParams));
-    }
-
-    private function throw(Throwable $error, string $message, string $function): string
-    {
-        $this->checkExcludeList();
-
-        // Separate given error as original.
-        $message && $message .= PHP_EOL;
-
-        // Append call path to message as original, cos ExcludeList'ed this file.
-        $message .= $error->getMessage() . PHP_EOL . PHP_EOL;
-        $message .= $this->getCallPath($error->getTrace(), $function);
-
-        throw new AssertionFailedError($message);
-    }
-
-    private function getCallPath(array $traces, string $function): string
-    {
-        foreach ($traces as $trace) {
-            if ($trace['function'] == $function) {
-                return sprintf('%s:%s', $trace['file'], $trace['line']);
-            }
-        }
-        return '[unknown]';
-    }
-
-    private function checkExcludeList(): void
-    {
-        // To remove this file from error trace.
-        $excludeList = new ExcludeList();
-        $excludeList->isExcluded(__file__) || $excludeList::addDirectory(__dir__);
     }
 }
