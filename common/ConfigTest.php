@@ -22,7 +22,7 @@ class ConfigTest extends \TestCase
     }
 
     function test_parseDotenv() {
-        $file = sprintf('%s/test-%s.env', tmp(), uuid());
+        $file = sprintf('%s/test-%s.env', tmp(), uuid()); // @sugar
 
         @unlink($file);
 
