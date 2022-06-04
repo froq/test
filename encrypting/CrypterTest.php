@@ -5,7 +5,8 @@ use froq\encrypting\{Crypter, CryptException};
 class CrypterTest extends \TestCase
 {
     function test_encrypt() {
-        $crypter = new Crypter(...$this->secrets());
+        [$pp, $iv] = $this->secrets();
+        $crypter = new Crypter($pp, $iv);
 
         $this->assertSame('Z1xhQCgs', $crypter->encrypt('Hello!'));
         $this->assertSame('7K5Z19tyLT5', $crypter->encrypt('Hello!', encode: true));
@@ -19,7 +20,8 @@ class CrypterTest extends \TestCase
     }
 
     function test_decrypt() {
-        $crypter = new Crypter(...$this->secrets());
+        [$pp, $iv] = $this->secrets();
+        $crypter = new Crypter($pp, $iv);
 
         $this->assertSame('Hello!', $crypter->decrypt('Z1xhQCgs'));
         $this->assertSame('Hello!', $crypter->decrypt('7K5Z19tyLT5', decode: true));
