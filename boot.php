@@ -8,6 +8,9 @@ if (PHP_SAPI != 'cli') {
     exit(1);
 }
 
+// @important
+date_default_timezone_set('UTC');
+
 // Path to "vendor/froq" folder.
 $froqDir = __dir__ . '/vendor/froq';
 
