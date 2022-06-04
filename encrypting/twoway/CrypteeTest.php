@@ -17,6 +17,11 @@ class CrypteeTest extends \TestCase
         $cod = new Cryptee($key);
 
         $this->assertSame('FfDCT1wL', $cod->encrypt('Hello!'));
+
+        $cod = new Cryptee($key, ['convert' => 'hex']);
+        // $cod->setOption('convert', 'hex'); // Or later.
+
+        $this->assertSame('15f0c24f5c0b', $cod->encrypt('Hello!'));
     }
 
     function test_decrypt() {
@@ -24,6 +29,11 @@ class CrypteeTest extends \TestCase
         $cod = new Cryptee($key);
 
         $this->assertSame('Hello!', $cod->decrypt('FfDCT1wL'));
+
+        $cod = new Cryptee($key, ['convert' => 'hex']);
+        // $cod->setOption('convert', 'hex'); // Or later.
+
+        $this->assertSame('Hello!', $cod->decrypt('15f0c24f5c0b'));
     }
 
     private function key() {

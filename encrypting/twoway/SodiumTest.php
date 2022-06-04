@@ -29,6 +29,11 @@ class SodiumTest extends \TestCase
         $cod = new Sodium($key, $nonce);
 
         $this->assertSame('fHYs3D4IEYIh/dDhwOUBmLlXytf6Rw==', $cod->encrypt('Hello!'));
+
+        $cod = new Sodium($key, $nonce, options: ['convert' => 'hex']);
+        // $cod->setOption('convert', 'hex'); // Or later.
+
+        $this->assertSame('7c762cdc3e08118221fdd0e1c0e50198b957cad7fa47', $cod->encrypt('Hello!'));
     }
 
     function test_decrypt() {
@@ -36,6 +41,11 @@ class SodiumTest extends \TestCase
         $cod = new Sodium($key, $nonce);
 
         $this->assertSame('Hello!', $cod->decrypt('fHYs3D4IEYIh/dDhwOUBmLlXytf6Rw=='));
+
+        $cod = new Sodium($key, $nonce, options: ['convert' => 'hex']);
+        // $cod->setOption('convert', 'hex'); // Or later.
+
+        $this->assertSame('Hello!', $cod->decrypt('7c762cdc3e08118221fdd0e1c0e50198b957cad7fa47'));
     }
 
     private function secrets() {
