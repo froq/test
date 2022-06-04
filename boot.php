@@ -55,7 +55,23 @@ if (is_file($composerLoader)) {
 //     }
 // }
 
-// Drop this file from trace stack.
+// Apply exclusions.
+$excludeList = new PHPUnit\Util\ExcludeList();
+
+// Must be re-write here (as Composer does).
+$phpunitBin = realpath(__dir__ . '/vendor/bin/phpunit');
+$phpunitDir = realpath(dirname($phpunitBin) . '/../phpunit/phpunit');
+$excludeList->addDirectory($phpunitDir);
+
+// Drop Froq! dir from trace stack (as Composer does).
+foreach (glob(__dir__ . '/vendor/*') as $item) {
+    $item = realpath($item);
+    if (is_dir($item)) foreach (glob($item . '/*') as $item) {
+        if (is_dir($item)) $excludeList->addDirectory(realpath($item));
+    }
+}
+
+// Drop this file from trace stack (as Composer does in bin/phpunit file).
 $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __file__;
 
 // Base test case for all test classes.
