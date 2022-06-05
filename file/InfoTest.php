@@ -2,7 +2,6 @@
 namespace froq\test\file;
 use froq\file\{Info, InfoException};
 use froq\file\system\{Path, File, Directory};
-use froq\util\misc\System;
 
 class InfoTest extends \TestCase
 {
