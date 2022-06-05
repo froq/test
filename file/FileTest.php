@@ -2,6 +2,7 @@
 namespace froq\test\file;
 use froq\file\{File, FileError, FileException};
 use froq\file\object\FileObject;
+use froq\util\misc\System;
 
 class FileTest extends \TestCase
 {
@@ -140,9 +141,8 @@ class FileTest extends \TestCase
         $this->assertSame(FileError::NO_FILE_EXISTS, $e->getCode());
         $this->assertStringStartsWith('No file exists', $e->getMessage());
 
-        // Linux only.
-        if (DIRECTORY_SEPARATOR != "\\") {
-            File::errorCheck("/root", $e);
+        // Unix only.
+        if (System::isUnix() && File::errorCheck("/root", $e)) {
             $this->assertSame(FileError::NO_ACCESS_PERMISSION, $e->getCode());
             $this->assertStringStartsWith('No access permission', $e->getMessage());
         }
