@@ -98,25 +98,25 @@ class FileTest extends \TestCase
 
     function test_getContents() {
         $file = tmpnam('test-file'); // @sugar
-        $filePointer = fopen($file, 'r');
+        $resouce = fopen($file, 'r');
 
         $this->assertEmpty(File::getContents($file));
-        $this->assertEmpty(File::getContents($filePointer));
+        $this->assertEmpty(File::getContents($resouce));
 
-        fclose($filePointer);
+        fclose($resouce);
         $this->drop($file);
     }
 
     function test_setContents() {
         $file = tmpnam('test-file'); // @sugar
-        $filePointer = fopen($file, 'r+b');
+        $resouce = fopen($file, 'r+b');
         $contents = 'Hello!';
 
         $this->assertNotEmpty(File::setContents($file, $contents));
-        $this->assertNotEmpty(File::setContents($filePointer, $contents));
+        $this->assertNotEmpty(File::setContents($resouce, $contents));
         $this->assertStringEqualsFile($file, $contents);
 
-        fclose($filePointer);
+        fclose($resouce);
         $this->drop($file);
     }
 
