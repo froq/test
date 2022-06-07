@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace froq\test\date;
-use froq\date\{Date, DateException, TimezoneException};
+use froq\date\{Date, DateException, TimezoneException, One, Diff};
 
 class DateTest extends \TestCase
 {
@@ -63,5 +63,45 @@ class DateTest extends \TestCase
 
         $this->assertSame($dateInfo, $date->toArray());
         $this->assertSame($dateJson, json_encode($date));
+    }
+
+    function test_modify() {
+        $date = new Date('1990-01-09 23:30:11.506001 +00:00');
+        $this->assertSame('1990-01-10T00:30:11+00:00', $date->modify('+1 hour')->format('c'));
+
+        $this->expectException(DateException::class);
+        $this->expectExceptionMessage('Failed to modify date');
+        $date->modify('+1 hourzzz');
+    }
+
+    function test_diff() {
+        $date1 = new Date('1990-01-09 23:30:11.506001 +00:00');
+        $date2 = new Date('1990-02-19 13:22:45.389718 +00:00');
+
+        $diff = $date1->diff($date2);
+
+        $this->assertInstanceOf(Diff::class, $diff);
+        $this->assertEquals($diff, new Diff(
+            year: 0, month: 1, day: 9, days: 40,
+            hour: 13, minute: 52, second: 33, microsecond: 883717
+        ));
+
+        $this->assertSame($diff->year, 0);
+        $this->assertSame($diff->month, 1);
+        $this->assertSame($diff->day, 9);
+        $this->assertSame($diff->days, 40);
+        $this->assertSame($diff->hour, 13);
+        $this->assertSame($diff->minute, 52);
+        $this->assertSame($diff->second, 33);
+        $this->assertSame($diff->microsecond, 883717);
+
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage('Cannot modify readonly property froq\date\Diff::$year');
+        $diff->year = 1;
+    }
+
+    function test_staticMethods() {
+        $this->assertSame(time(), Date::now());
+        $this->assertSame(One::MINUTE, Date::interval('+1 minute'));
     }
 }
