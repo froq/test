@@ -11,7 +11,6 @@ class DateUtilTest extends \TestCase
         $this->assertSame('1 hour', DateUtil::ago('-1 hour'));
     }
 
-
     function test_diff() {
         $date1 = '1990-01-09 23:30:11.506001 +00:00';
         $date2 = '1990-02-19 13:22:45.389718 +00:00';
