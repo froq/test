@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace froq\test\date;
-use froq\date\UtcDate;
+use froq\date\{UtcDate, Date};
 
 class UtcDateTest extends \TestCase
 {
@@ -8,6 +8,7 @@ class UtcDateTest extends \TestCase
         $date = new UtcDate($when = gmdate('c'));
         $this->assertSame($when, $date->format('c'));
         $this->assertSame('UTC', $date->getTimezone());
+        $this->assertInstanceOf(Date::class, $date);
 
         $date = new UtcDate($when = time());
         $this->assertSame($when, (int) $date->format('U'));
