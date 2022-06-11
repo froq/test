@@ -80,21 +80,21 @@ $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __file__;
 // Base test case for all test classes.
 abstract class TestCase extends PHPUnit\Framework\TestCase
 {
-    function __construct()
-    {
-        parent::__construct();
+    // function __construct()
+    // {
+    //     parent::__construct();
 
-        if (method_exists($this, 'before')) {
-            $this->before();
-        }
-    }
+    //     if (method_exists($this, 'before')) {
+    //         $this->before();
+    //     }
+    // }
 
-    function __destruct()
-    {
-        if (method_exists($this, 'after')) {
-            $this->after();
-        }
-    }
+    // function __destruct()
+    // {
+    //     if (method_exists($this, 'after')) {
+    //         $this->after();
+    //     }
+    // }
 
     function assertLength(int $length, string $string, string $message = ''): void
     {
@@ -159,20 +159,32 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
         );
     }
 
-    protected function assert(bool $assertion, string $format, array $formatArgs, string $message): void
+    /** @override */
+    static function assertFileNotExists(string $file, string $message = ''): void
+    {
+        self::assert(
+            file_exists($file) === false,
+            'Failed asserting that file `%s` not exists.',
+            [$file], $message
+        );
+    }
+
+    // function assertDirectoryNotExists() {}
+
+    static function assert(bool $assertion, string $format, array $formatArgs, string $message): void
     {
         if (!$assertion) {
             $message && $message .= PHP_EOL;
             $message .= format($format, ...$formatArgs);
-            $this->fail($message);
+            self::fail($message);
         }
-        $this->okay();
+        self::okay();
     }
 
     /** Faking "This test did not perform any assertions" error. */
-    protected function okay(): void
+    static function okay(): void
     {
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     protected mixed $util = null;
