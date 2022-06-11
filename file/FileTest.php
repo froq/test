@@ -149,8 +149,7 @@ class FileTest extends \TestCase
     }
 
     private function drop(...$files) {
-        foreach ($files as $file) {
-            @unlink($file);
-        }
+        $this->util ??= $this->etc('util/FileUtil');
+        $this->util->drop(...$files);
     }
 }

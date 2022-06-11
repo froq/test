@@ -5,6 +5,10 @@ use froq\file\system\{Path, File, Directory};
 
 class InfoTest extends \TestCase
 {
+    function setUp(): void {
+        $this->util = $this->util('File');
+    }
+
     function test_constructor()
     {
         try {
@@ -38,7 +42,7 @@ class InfoTest extends \TestCase
     }
 
     function test_checkers() {
-        $file = $this->file('test-file');
+        $file = $this->util->file('test-file');
         $info = new Info($file);
 
         $this->assertFalse($info->exists());
@@ -53,7 +57,7 @@ class InfoTest extends \TestCase
     }
 
     function test_initers() {
-        $file = $this->file('');
+        $file = $this->util->file();
         $info = new Info($file);
 
         $this->assertInstanceOf(Path::class, $info->toPath());
@@ -63,7 +67,7 @@ class InfoTest extends \TestCase
     }
 
     function test_converters() {
-        $file = $this->file('', true);
+        $file = $this->util->file('', true);
         $info = new Info($file);
 
         $dirname = dirname($file);
@@ -88,8 +92,6 @@ class InfoTest extends \TestCase
         $this->assertSame($basename, $object->basename);
         $this->assertSame($filename, $object->filename);
         $this->assertNull($object->extension);
-
-        $this->drop($file);
     }
 
     function test_normalizePath() {
@@ -98,19 +100,5 @@ class InfoTest extends \TestCase
 
         $this->assertNotSame($path, Info::normalizePath($path));
         $this->assertSame($realpath, Info::normalizePath($path));
-    }
-
-    private function file($prefix, $create = false) {
-        $file = tmp() . '/' . $prefix . suid(); // @sugar
-        if ($create) {
-            touch($file);
-        }
-        return $file;
-    }
-
-    private function drop(...$files) {
-        foreach ($files as $file) {
-            @unlink($file);
-        }
     }
 }

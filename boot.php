@@ -80,7 +80,7 @@ $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __file__;
 // Base test case for all test classes.
 abstract class TestCase extends PHPUnit\Framework\TestCase
 {
-    public function __construct()
+    function __construct()
     {
         parent::__construct();
 
@@ -89,7 +89,7 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
         }
     }
 
-    public function __destruct()
+    function __destruct()
     {
         if (method_exists($this, 'after')) {
             $this->after();
@@ -159,7 +159,7 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
         );
     }
 
-    private function assert(bool $assertion, string $format, array $formatArgs, string $message): void
+    protected function assert(bool $assertion, string $format, array $formatArgs, string $message): void
     {
         if (!$assertion) {
             $message && $message .= PHP_EOL;
@@ -169,9 +169,25 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
         $this->okay();
     }
 
-    private function okay(): void
+    /** Faking "This test did not perform any assertions" error. */
+    protected function okay(): void
     {
-        // Faking "This test did not perform any assertions" error.
         $this->assertTrue(true);
+    }
+
+    protected mixed $util = null;
+
+    /** Get an etc file constents. */
+    protected function etc(string $file): mixed
+    {
+        $file = sprintf('%s/.etc/%s.php', __dir__, $file);
+        // $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = $file;
+        return include $file;
+    }
+
+    /** Get an etc/util file constents. */
+    protected function util(string $name): mixed
+    {
+        return $this->etc('util/' . $name . 'Util');
     }
 }
