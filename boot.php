@@ -80,6 +80,22 @@ $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __file__;
 // Base test case for all test classes.
 abstract class TestCase extends PHPUnit\Framework\TestCase
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        if (method_exists($this, 'before')) {
+            $this->before();
+        }
+    }
+
+    public function __destruct()
+    {
+        if (method_exists($this, 'after')) {
+            $this->after();
+        }
+    }
+
     function assertLength(int $length, string $string, string $message = ''): void
     {
         $this->assert(
