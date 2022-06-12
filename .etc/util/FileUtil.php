@@ -63,7 +63,8 @@ return new class() {
      */
     function drop(string ...$files): void {
         foreach ($files as $file) {
-            @unlink($file);
+            is_file($file) && unlink($file);
+            is_file($file . '.png') && unlink($file . '.png');
         }
     }
 };
