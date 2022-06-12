@@ -33,8 +33,7 @@ class FileObjectTest extends \TestCase
         $this->assertFalse($fo->unsave($savedFile));
     }
 
-    public function test_free()
-    {
+    function test_free() {
         $fo = new FileObject($this->util->file('', true));
 
         $this->assertTrue($fo->free());
