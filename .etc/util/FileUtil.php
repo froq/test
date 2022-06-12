@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
 /**
- * File utility class.
+ * File utility class for working temp files.
  */
 return new class() {
     var $file, $files = [];
     var $options = ['autoclean' => true];
 
     function __construct() {
-        $this->file = $this->file('', true);
+        $this->file = $this->file('test', true);
     }
 
     function __destruct() {
@@ -20,7 +20,7 @@ return new class() {
     /**
      * Create or return a temp file.
      */
-    function file(string $prefix = null, bool $create = false): string {
+    function file(string $prefix = 'test', bool $create = false): string {
         $file = tmp() . '/' . $prefix . suid(); // @sugar
         $this->files[] = $file; // For clean up.
         $create && touch($file);
@@ -28,12 +28,33 @@ return new class() {
     }
 
     /**
+     * Create and return a temp file.
+     */
+    function fileMake(string $prefix = 'test'): string {
+        return $this->file($prefix, true);
+    }
+
+    /**
      * Open a file or create opening a new temp file.
      * @return resource
      */
     function fileOpen(string $file = null, string $mode = 'r+b') {
-        $file ??= $this->file('', true);
-        return fopen($file, $mode);
+        return fopen($file ?? $this->fileMake(), $mode);
+    }
+
+    /**
+     * Return froq image.
+     */
+    function image(): string {
+        return realpath(__dir__ . '/../img/froq.png');
+    }
+
+    /**
+     * Copy image to temp directory.
+     */
+    function imageMake(): string {
+        copy($image = $this->image(), tmp() . '/froq.png');
+        return $image;
     }
 
     /**
