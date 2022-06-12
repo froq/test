@@ -6,6 +6,10 @@ use froq\util\misc\System;
 
 class FileTest extends \TestCase
 {
+    function setUp(): void {
+        $this->util = $this->util('File');
+    }
+
     function test_getMime() {
         $this->assertSame('text/x-php', File::getMime(__file__));
         $this->assertSame('directory', File::getMime(__dir__));
@@ -30,13 +34,11 @@ class FileTest extends \TestCase
     }
 
     function test_isAvailable() {
-        $file = tmpnam('test-file'); // @sugar
+        $file = $this->util->fileMake();
 
         $this->assertTrue(File::isReadable($file));
         $this->assertTrue(File::isWritable($file));
         $this->assertTrue(File::isAvailable($file));
-
-        $this->drop($file);
     }
 
     function test_make() {
@@ -47,7 +49,7 @@ class FileTest extends \TestCase
         $this->assertNotNull(File::make($file));
         $this->assertNotNull($tempFile = File::make($prefix, temp: true));
 
-        $this->drop($file, $tempFile);
+        $this->util->drop($file, $tempFile);
 
         $nullFile = null;
         try {
@@ -62,8 +64,8 @@ class FileTest extends \TestCase
 
     function test_open() {
         $files = [
-            tmpnam('test-file-0'), // @sugar
-            tmpnam('test-file-1'), // @sugar
+            $this->util->fileMake('test-0'), // @sugar
+            $this->util->fileMake('test-1'), // @sugar
         ];
 
         $this->assertInstanceOf(FileObject::class, File::open($files[0]));
@@ -77,12 +79,10 @@ class FileTest extends \TestCase
 
         $invalidMode = 'z';
         try {
-            File::open($files[1], $invalidMode);
+            File::open($files[1], mode: $invalidMode);
         } catch (FileException $e) {
             $this->assertStringContains("{$invalidMode}' is not a valid mode", $e->getMessage());
         }
-
-        $this->drop(...$files);
     }
 
     function test_openTemp() {
@@ -90,25 +90,24 @@ class FileTest extends \TestCase
 
         $invalidMode = 'z';
         try {
-            File::openTemp($invalidMode);
+            File::openTemp('', mode: $invalidMode);
         } catch (FileException $e) {
             $this->assertStringContains("{$invalidMode}' is not a valid mode", $e->getMessage());
         }
     }
 
     function test_getContents() {
-        $file = tmpnam('test-file'); // @sugar
+        $file = $this->util->fileMake();
         $resouce = fopen($file, 'r');
 
         $this->assertEmpty(File::getContents($file));
         $this->assertEmpty(File::getContents($resouce));
 
         fclose($resouce);
-        $this->drop($file);
     }
 
     function test_setContents() {
-        $file = tmpnam('test-file'); // @sugar
+        $file = $this->util->fileMake();
         $resouce = fopen($file, 'r+b');
         $contents = 'Hello!';
 
@@ -117,7 +116,6 @@ class FileTest extends \TestCase
         $this->assertStringEqualsFile($file, $contents);
 
         fclose($resouce);
-        $this->drop($file);
     }
 
     function test_errorCheck() {
@@ -146,10 +144,5 @@ class FileTest extends \TestCase
             $this->assertSame(FileError::NO_ACCESS_PERMISSION, $e->getCode());
             $this->assertStringStartsWith('No access permission', $e->getMessage());
         }
-    }
-
-    private function drop(...$files) {
-        $this->util ??= $this->etc('util/FileUtil');
-        $this->util->drop(...$files);
     }
 }

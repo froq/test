@@ -67,7 +67,7 @@ class InfoTest extends \TestCase
     }
 
     function test_converters() {
-        $file = $this->util->file('', true);
+        $file = $this->util->fileMake();
         $info = new Info($file);
 
         $dirname = dirname($file);
