@@ -8,7 +8,7 @@ return new class() {
     var $options = ['autoclean' => true];
 
     function __construct() {
-        $this->file = $this->file('test', true);
+        $this->file = $this->fileMake();
     }
 
     function __destruct() {
@@ -53,7 +53,8 @@ return new class() {
      * Copy image to temp directory.
      */
     function imageMake(): string {
-        copy($image = $this->image(), tmp() . '/froq.png');
+        $image = $this->file() . '.png';
+        copy($this->image(), $image);
         return $image;
     }
 
