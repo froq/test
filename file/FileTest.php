@@ -64,8 +64,8 @@ class FileTest extends \TestCase
 
     function test_open() {
         $files = [
-            $this->util->fileMake('test-0'), // @sugar
-            $this->util->fileMake('test-1'), // @sugar
+            $this->util->fileMake('test-0'),
+            $this->util->fileMake('test-1'),
         ];
 
         $this->assertInstanceOf(FileObject::class, File::open($files[0]));
