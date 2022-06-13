@@ -4,33 +4,53 @@
  * File utility class for working temp files.
  */
 return new class() {
-    var $file, $files = [];
+    var $base;
+    // var $dirs = [], $files = [];
     var $options = ['autoclean' => true];
 
     function __construct() {
-        $this->file = $this->fileMake();
+        $this->base = tmp() . '/froq-test';
+        dirmake($this->base); // Ensure.
     }
 
     function __destruct() {
         if ($this->options['autoclean']) {
-            $this->drop(...$this->files);
+            $glob = glob($this->base . '/*');
+            $this->drop(...$glob);
         }
+    }
+
+    /**
+     * Create or return a temp dir.
+     */
+    function dir(string $prefix = '', bool $make = false): string {
+        $dir = $this->base . '/' . $prefix . suid();
+        // $this->dirs[] = $dir; // For clean up.
+        $make && dirmake($dir, 0777);
+        return $dir;
+    }
+
+    /**
+     * Create and return a temp file.
+     */
+    function dirMake(string $prefix = ''): string {
+        return $this->dir($prefix, true);
     }
 
     /**
      * Create or return a temp file.
      */
-    function file(string $prefix = 'test', bool $create = false): string {
-        $file = tmp() . '/' . $prefix . suid(); // @sugar
-        $this->files[] = $file; // For clean up.
-        $create && touch($file);
+    function file(string $prefix = '', bool $make = false): string {
+        $file = $this->base . '/' . $prefix . suid();
+        // $this->files[] = $file; // For clean up.
+        $make && filemake($file, 0777);
         return $file;
     }
 
     /**
      * Create and return a temp file.
      */
-    function fileMake(string $prefix = 'test'): string {
+    function fileMake(string $prefix = ''): string {
         return $this->file($prefix, true);
     }
 
@@ -59,9 +79,31 @@ return new class() {
     }
 
     /**
+     * Remove given dirs/files.
+     */
+    function drop(string ...$paths): void {
+        foreach ($paths as $path) {
+            is_dir($path) && $this->dropDirs($path);
+            is_file($path) && $this->dropFiles($path);
+        }
+    }
+
+    /**
+     * Remove given dirs.
+     */
+    function dropDirs(string ...$dirs): void {
+        foreach ($dirs as $dir) {
+            $glob = glob($dir . '/*');
+            $this->dropDirs(...filter($glob, 'is_dir'));
+            $this->dropFiles(...filter($glob, 'is_file'));
+            is_dir($dir) && rmdir($dir);
+        }
+    }
+
+    /**
      * Remove given files.
      */
-    function drop(string ...$files): void {
+    function dropFiles(string ...$files): void {
         foreach ($files as $file) {
             is_file($file) && unlink($file);
             is_file($file . '.png') && unlink($file . '.png');
