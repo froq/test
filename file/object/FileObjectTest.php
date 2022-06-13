@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\file;
+namespace froq\test\file\object;
 use froq\file\object\{FileObject, FileObjectException};
 
 class FileObjectTest extends \TestCase
