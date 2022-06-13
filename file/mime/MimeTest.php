@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\file\mime;
+namespace test\froq\file\mime;
 use froq\file\mime\{Mime, MimeException};
 
 class MimeTest extends \TestCase

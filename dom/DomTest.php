@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\dom;
+namespace test\froq\dom;
 use froq\dom\{Dom, DomException, Document, XmlDocument, HtmlDocument};
 
 class DomTest extends \TestCase

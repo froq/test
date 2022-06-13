@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\date;
+namespace test\froq\date;
 use froq\date\{Timezone, TimezoneException};
 
 class TimezoneTest extends \TestCase

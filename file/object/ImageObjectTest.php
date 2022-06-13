@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\file\object;
+namespace test\froq\file\object;
 use froq\file\object\{ImageObject, ImageObjectException};
 
 class ImageObjectTest extends \TestCase

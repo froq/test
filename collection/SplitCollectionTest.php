@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\collection;
+namespace test\froq\collection;
 use froq\collection\{SplitCollection, CollectionException};
 
 class SplitCollectionTest extends \TestCase

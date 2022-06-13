@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\cache;
+namespace test\froq\cache;
 use froq\cache\{Cache, CacheFactory, CacheException};
 use froq\cache\agent\{AgentInterface, File, Apcu, Redis, Memcached};
 

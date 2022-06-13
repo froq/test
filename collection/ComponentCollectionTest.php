@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\collection;
+namespace test\froq\collection;
 use froq\collection\{ComponentCollection, CollectionException};
 
 class ComponentCollectionTest extends \TestCase

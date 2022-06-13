@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\acl;
+namespace test\froq\acl;
 use froq\acl\{Acl, User};
 
 class UserTest extends \TestCase

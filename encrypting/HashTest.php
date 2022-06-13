@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\encrypting;
+namespace test\froq\encrypting;
 use froq\encrypting\{Hash, HashException};
 
 class HashTest extends \TestCase

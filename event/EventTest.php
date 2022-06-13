@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\event;
+namespace test\froq\event;
 use froq\event\{Event, EventException};
 
 class EventTest extends \TestCase

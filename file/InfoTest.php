@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\file;
+namespace test\froq\file;
 use froq\file\{Info, InfoException};
 use froq\file\system\{Path, File, Directory};
 

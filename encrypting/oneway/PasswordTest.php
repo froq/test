@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\encrypting\oneway;
+namespace test\froq\encrypting\oneway;
 use froq\encrypting\oneway\Password;
 
 class PasswordTest extends \TestCase

@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\encrypting\twoway;
+namespace test\froq\encrypting\twoway;
 use froq\encrypting\twoway\{Sodium, TwowayException};
 
 class SodiumTest extends \TestCase

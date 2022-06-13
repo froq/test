@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\common;
+namespace test\froq\common;
 use froq\common\object\{Registry, RegistryException};
 
 class RegistryTest extends \TestCase

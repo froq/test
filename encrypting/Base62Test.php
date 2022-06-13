@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace froq\test\encrypting;
+namespace test\froq\encrypting;
 use froq\encrypting\Base62;
 
 class Base62Test extends \TestCase
