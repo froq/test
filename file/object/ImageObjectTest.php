@@ -54,12 +54,12 @@ class ImageObjectTest extends \TestCase
         $this->assertFalse($fo->isValid());
     }
 
-    function _test_resize() {
+    function test_resize() {
         $fo = new ImageObject($this->util->imageMake());
-        $this->assertSame([100, 50], $fo->resize(100, 50)->dimensions());
+        $this->assertSame([100, 100], $fo->resize(100, 0)->dimensions());
     }
 
-    function _test_crop() {
+    function test_crop() {
         $fo = new ImageObject($this->util->imageMake());
         $this->assertSame([50, 50], $fo->crop(50, 50)->dimensions());
     }
