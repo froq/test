@@ -13,11 +13,6 @@ class MimeTest extends \TestCase
         Mime::getType('absent-file', errorCheck: true);
     }
 
-    function test_getExtension() {
-        $this->assertSame('php', Mime::getExtension(__file__));
-        $this->assertNull(Mime::getExtension(__dir__));
-    }
-
     function test_getTypeByExtension() {
         $this->assertSame('application/x-httpd-php', Mime::getTypeByExtension('php'));
         $this->assertNull(Mime::getTypeByExtension('invalid'));
