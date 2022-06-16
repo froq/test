@@ -106,9 +106,9 @@ class ImageObjectTest extends \TestCase
         $this->assertSame(base64_encode(file_get_contents($file)), $fo->toBase64());
     }
 
-    function test_toBase64Url() {
+    function test_toDataUrl() {
         $fo = new ImageObject($file = $this->util->imageMake());
-        $this->assertSame('data:image/png;base64,' . base64_encode(file_get_contents($file)), $fo->toBase64Url());
+        $this->assertSame('data:image/png;base64,' . base64_encode(file_get_contents($file)), $fo->toDataUrl());
     }
 
     function test_fromFile() {
