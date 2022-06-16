@@ -18,6 +18,7 @@ class FileTest extends \TestCase
 
     function test_getExtension() {
         $this->assertSame('php', File::getExtension(__file__));
+        $this->assertSame(null, File::getExtension('maybe-exists-file'));
         $this->assertSame('txt', File::getExtension('maybe-exists-file.txt'));
     }
 
