@@ -50,8 +50,10 @@ return new class() {
     /**
      * Create and return a temp file.
      */
-    function fileMake(string $prefix = ''): string {
-        return $this->file($prefix, true);
+    function fileMake(string $prefix = '', string $contents = null): string {
+        $file = $this->file($prefix, true);
+        $contents && file_put_contents($file, $contents);
+        return $file;
     }
 
     /**
