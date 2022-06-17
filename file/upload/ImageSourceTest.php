@@ -15,7 +15,7 @@ class ImageSourceTest extends \TestCase
         $info = ['mime' => 'image/png', 'size' => 20541, 'name' => $name, 'extension' => 'png'];
 
         $is = new ImageSource(['overwrite' => true]);
-        $is->prepare(['file' => $file, 'directory' => dirname($file), 'name' => $name]);
+        $is->prepare(['file' => $file, 'directory' => dirname($file), 'name' => $name, 'extension' => 'png']);
         // $is->resample();
         $is->save();
 
