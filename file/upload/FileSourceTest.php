@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace test\froq\file\system;
+namespace test\froq\file\upload;
 use froq\file\upload\{FileSource, FileSourceException};
 
 class FileSourceTest extends \TestCase

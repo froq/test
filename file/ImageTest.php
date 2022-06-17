@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
-namespace test\froq\file\system;
+namespace test\froq\file;
 use froq\file\{Image, ImageException};
-use froq\file\upload\{ImageSource, ImageSourceException};
+use froq\file\upload\ImageSource;
 
 class ImageTest extends \TestCase
 {
