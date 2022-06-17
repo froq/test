@@ -73,11 +73,7 @@ class ImageSourceTest extends \TestCase
     }
 
     function test_resample() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
-
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
         $is->resample();
 
         $this->assertSame([200, 200], $is->getDimensions());
@@ -85,11 +81,7 @@ class ImageSourceTest extends \TestCase
     }
 
     function test_resize() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
-
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
         $is->resize(50, 50);
 
         $this->assertSame([50, 50], $is->getDimensions());
@@ -97,11 +89,7 @@ class ImageSourceTest extends \TestCase
     }
 
     function test_resizeThumbnail() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
-
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
         $is->resizeThumbnail(50, null);
 
         $this->assertSame([50, 50], $is->getDimensions());
@@ -109,11 +97,7 @@ class ImageSourceTest extends \TestCase
     }
 
     function test_crop() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
-
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
         $is->crop(50, 50);
 
         $this->assertSame([50, 50], $is->getDimensions());
@@ -121,11 +105,7 @@ class ImageSourceTest extends \TestCase
     }
 
     function test_cropThumbnail() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
-
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
         $is->cropThumbnail(50, 50);
 
         $this->assertSame([50, 50], $is->getDimensions());
@@ -133,11 +113,7 @@ class ImageSourceTest extends \TestCase
     }
 
     function test_chop() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
-
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
         $is->chop(50, 50, 0, 0);
 
         $this->assertSame([50, 50], $is->getDimensions());
@@ -145,11 +121,7 @@ class ImageSourceTest extends \TestCase
     }
 
     function test_rotate() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
-
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
         $is->rotate(45);
 
         $this->assertSame([283, 283], $is->getDimensions());
@@ -159,27 +131,23 @@ class ImageSourceTest extends \TestCase
     function test_toString() {
         $is = (new ImageSource)->prepare([
             'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
+            'directory' => dirname($file)
         ]);
 
         $this->assertStringEqualsFile($is->save(), $is->toString());
     }
 
     function test_toBase64() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
+        $is->resample();
 
-        $this->assertSame(base64_encode(file_get_contents($is->save())), $is->toBase64());
+        $this->assertSame(base64_encode($is->toString()), $is->toBase64());
     }
 
     function test_toDataUrl() {
-        $is = (new ImageSource)->prepare([
-            'file' => $file = $this->util->imageMake(),
-            'name' => uuid(), 'directory' => dirname($file)
-        ]);
+        $is = (new ImageSource)->prepare(['file' => $this->util->imageMake()]);
+        $is->resample();
 
-        $this->assertSame('data:image/png;base64,' . base64_encode(file_get_contents($is->save())), $is->toDataUrl());
+        $this->assertSame('data:image/png;base64,' . base64_encode($is->toString()), $is->toDataUrl());
     }
 }
