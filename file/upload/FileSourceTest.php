@@ -14,52 +14,52 @@ class FileSourceTest extends \TestCase
         $path = dirname($file) .'/'. $name .'.txt'; // Target path.
         $info = ['mime' => 'text/plain', 'size' => 6, 'name' => $name, 'extension' => 'txt'];
 
-        $fs = new FileSource(['overwrite' => true]);
-        $fs->prepare(['file' => $file, 'directory' => dirname($file), 'name' => $name, 'extension' => 'txt']);
-        $fs->save();
+        $fu = new FileSource(['overwrite' => true]);
+        $fu->prepare(['file' => $file, 'directory' => dirname($file), 'name' => $name, 'extension' => 'txt']);
+        $fu->save();
 
         // Inherits.
-        $this->assertSame($file, $fs->getSource());
-        $this->assertSame($info, $fs->getSourceInfo());
-        $this->assertSame($path, $fs->getTarget());
-        $this->assertSame($info['size'], $fs->getSize());
-        $this->assertSame($info['mime'], $fs->getMime());
-        $this->assertSame($info['name'], $fs->getName());
-        $this->assertSame($info['extension'], $fs->getExtension());
+        $this->assertSame($file, $fu->getSource());
+        $this->assertSame($info, $fu->getSourceInfo());
+        $this->assertSame($path, $fu->getTarget());
+        $this->assertSame($info['size'], $fu->getSize());
+        $this->assertSame($info['mime'], $fu->getMime());
+        $this->assertSame($info['name'], $fu->getName());
+        $this->assertSame($info['extension'], $fu->getExtension());
     }
 
     function test_save() {
-        $fs = (new FileSource)->prepare([
+        $fu = (new FileSource)->prepare([
             'file' => $file = $this->util->fileMake(),
             'directory' => dirname($file)
         ]);
 
-        $this->assertSame($fs->save(), $fs->getTarget());
+        $this->assertSame($fu->save(), $fu->getTarget());
 
         $this->expectException(FileSourceException::class);
-        $this->expectExceptionMessage("Cannot overwrite on existing file `{$fs->getTarget()}`");
-        $fs->save();
+        $this->expectExceptionMessage("Cannot overwrite on existing file `{$fu->getTarget()}`");
+        $fu->save();
     }
 
     function test_move() {
-        $fs = (new FileSource)->prepare([
+        $fu = (new FileSource)->prepare([
             'file' => $file = $this->util->fileMake(),
             'directory' => dirname($file)
         ]);
 
-        $this->assertSame($fs->move(), $fs->getTarget());
+        $this->assertSame($fu->move(), $fu->getTarget());
 
         $this->expectException(FileSourceException::class);
-        $this->expectExceptionMessage("Cannot overwrite on existing file `{$fs->getTarget()}`");
-        $fs->move();
+        $this->expectExceptionMessage("Cannot overwrite on existing file `{$fu->getTarget()}`");
+        $fu->move();
     }
 
     function test_toString() {
-        $fs = (new FileSource)->prepare([
+        $fu = (new FileSource)->prepare([
             'file' => $file = $this->util->fileMake(),
             'directory' => dirname($file)
         ]);
 
-        $this->assertStringEqualsFile($fs->save(), $fs->toString());
+        $this->assertStringEqualsFile($fu->save(), $fu->toString());
     }
 }
