@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\date;
-use froq\date\{Date, DateException, TimeZoneException, Diff};
+use froq\date\{Date, DateException, TimeZone, TimeZoneException, TimeZoneInfo, Diff};
 
 class DateTest extends \TestCase
 {
@@ -96,6 +96,23 @@ class DateTest extends \TestCase
         $this->expectException(\Error::class);
         $this->expectExceptionMessage('Cannot modify readonly property froq\date\Diff::$year');
         $diff->year = 1;
+    }
+
+    function test_zone() {
+        $date = new Date('', 'UTC');
+        $zone = $date->zone();
+
+        $this->assertSame('UTC', $zone->getId());
+        $this->assertSame('UTC', $zone->getName());
+        $this->assertSame(0, $zone->getOffset());
+        $this->assertSame('+00:00', $zone->getOffsetCode());
+
+        $this->assertInstanceOf(TimeZone::class, $zone);
+
+        $this->assertEquals(new TimeZoneInfo(
+            id: 'UTC', name: 'UTC',
+            offset: 0, offsetCode: '+00:00',
+        ), $zone->info);
     }
 
     function test_staticMethods() {
