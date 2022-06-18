@@ -18,10 +18,10 @@ class DateUtilTest extends \TestCase
         $diff = DateUtil::diff($date1, $date2);
 
         $this->assertInstanceOf(Diff::class, $diff);
-        $this->assertEquals($diff, new Diff(
+        $this->assertEquals(new Diff(
             year: 0, month: 1, day: 9, days: 40,
             hour: 13, minute: 52, second: 33, microsecond: 883717
-        ));
+        ), $diff);
 
         $this->assertSame($diff->year, 0);
         $this->assertSame($diff->month, 1);

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\date;
-use froq\date\{Date, DateException, TimezoneException, Diff};
+use froq\date\{Date, DateException, TimeZoneException, Diff};
 
 class DateTest extends \TestCase
 {
@@ -15,11 +15,9 @@ class DateTest extends \TestCase
         $date = new Date($when = microtime(true), 'UTC');
         $this->assertSame($when, (float) $date->format('U.u'));
 
-        try {
-            new Date('', where: 'invalid');
-        } catch (TimezoneException $e) {
-            $this->assertStringContains('Invalid timezone', $e->getMessage());
-        }
+        $this->expectException(TimeZoneException::class);
+        $this->expectExceptionMessageMatches('~^Invalid time zone id~');
+        new Date('', where: 'invalid');
     }
 
     function test_formatMethods() {
