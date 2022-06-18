@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\date;
-use froq\date\{Date, DateException, TimezoneException, One, Diff};
+use froq\date\{Date, DateException, TimezoneException, Diff};
 
 class DateTest extends \TestCase
 {
@@ -102,6 +102,6 @@ class DateTest extends \TestCase
 
     function test_staticMethods() {
         $this->assertSame(time(), Date::now());
-        $this->assertSame(One::MINUTE, Date::interval('+1 minute'));
+        $this->assertSame(60, Date::interval('+1 minute'));
     }
 }
