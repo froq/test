@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\date;
-use froq\date\{Formatter, FormatterException, Date, UtcDate};
+use froq\date\{Formatter, FormatterException, Intl, Format, Locale, Date, UtcDate};
 
 class FormatterTest extends \TestCase
 {
@@ -9,6 +9,11 @@ class FormatterTest extends \TestCase
         $this->assertSame([], $fmt->getIntl());
         $this->assertSame('', $fmt->getFormat());
         $this->assertSame('C.UTF-8', $fmt->getLocale());
+
+        $fmt = new Formatter(new Intl([]), new Format('%A'), new Locale('tr_TR.UTF-8'));
+        $this->assertSame([], $fmt->getIntl());
+        $this->assertSame('%A', $fmt->getFormat());
+        $this->assertSame('tr_TR.UTF-8', $fmt->getLocale());
     }
 
     function test_formatMethods() {
@@ -19,6 +24,9 @@ class FormatterTest extends \TestCase
         $this->assertSame($when, $fmt->format($when, $format));
 
         $fmt = new Formatter(format: $format);
+        $this->assertSame($when, $fmt->format($when));
+
+        $fmt = new Formatter(format: new Format($format));
         $this->assertSame($when, $fmt->format($when));
 
         $date = new Date($when);
