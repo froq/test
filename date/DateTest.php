@@ -115,12 +115,31 @@ class DateTest extends \TestCase
         ), $zone->info);
     }
 
-    function test_staticMethods() {
+    function test_make() {
         $date = Date::make(1990, 1, 9, 23, 30, 11);
         $this->assertInstanceOf(Date::class, $date);
         $this->assertSame('1990-01-09 23:30:11', $date->format('Y-m-d H:i:s'));
+    }
 
+    function test_parse() {
+        $date = Date::parse('1990-01-09 23:30:11');
+        $this->assertSame(1990, $date['year']);
+        $this->assertSame(1, $date['month']);
+        $this->assertSame(9, $date['day']);
+        $this->assertSame(23, $date['hour']);
+        $this->assertSame(30, $date['minute']);
+        $this->assertSame(11, $date['second']);
+
+        $this->expectException(DateException::class);
+        $this->expectExceptionMessageMatches('~^Invalid date: foo~');
+        Date::parse('foo');
+    }
+
+    function test_now() {
         $this->assertSame(time(), Date::now());
+    }
+
+    function test_interval() {
         $this->assertSame(60, Date::interval('+1 minute'));
     }
 }
