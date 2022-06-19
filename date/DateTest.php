@@ -116,6 +116,10 @@ class DateTest extends \TestCase
     }
 
     function test_staticMethods() {
+        $date = Date::make(1990, 1, 9, 23, 30, 11);
+        $this->assertInstanceOf(Date::class, $date);
+        $this->assertSame('1990-01-09 23:30:11', $date->format('Y-m-d H:i:s'));
+
         $this->assertSame(time(), Date::now());
         $this->assertSame(60, Date::interval('+1 minute'));
     }
