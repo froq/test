@@ -35,7 +35,7 @@ class DaterTest extends \TestCase
               ->setHours(23)
               ->setMinutes(30)
               ->setSeconds(11)
-              ->setMicroseconds(530198)
+              ->setMicroseconds(506001)
               ->setTimezone('UTC')
               ->setLocale('en_US')
         ;
@@ -46,7 +46,7 @@ class DaterTest extends \TestCase
         $this->assertSame(23, $dater->getHour());
         $this->assertSame(30, $dater->getMinute());
         $this->assertSame(11, $dater->getSecond());
-        $this->assertSame(530198, $dater->getMicrosecond());
+        $this->assertSame(506001, $dater->getMicrosecond());
         $this->assertSame('UTC', $dater->getTimezone());
         $this->assertSame('en_US', $dater->getLocale());
     }
@@ -65,12 +65,20 @@ class DaterTest extends \TestCase
     }
 
     function test_getDate() {
-        $dater = new Dater(1990, 1, 9);
+        $dater = new Dater(1990, 1, 9, 23, 30, 11, 506001);
         $this->assertSame('1990-01-09', $dater->getDate());
+        $this->assertSame('1990-01-09 23:30:11.506001', $dater->getFullDate());
     }
 
     function test_getTime() {
-        $dater = new Dater(1990, 1, 9, 23, 30, 11, 530198);
-        $this->assertSame('23:30:11.530198', $dater->getTime());
+        $dater = new Dater(1990, 1, 9, 23, 30, 11, 506001);
+        $this->assertSame('23:30', $dater->getTime());
+        $this->assertSame('23:30:11.506001', $dater->getFullTime());
+    }
+
+    function test_getTimestamp() {
+        $dater = new Dater(1990, 1, 9, 23, 30, 11, 506001);
+        $this->assertSame(631927811, $dater->getTimestamp());
+        $this->assertSame(631927811.506001, $dater->getTimestamp(true));
     }
 }
