@@ -69,8 +69,8 @@ class DaterTest extends \TestCase
         $this->assertSame('1990-01-09', $dater->getDate());
     }
 
-    function _test_getTime() {
-        $dater = new Dater(1990, 1, 9, 23, 30, 11);
-        $this->assertSame('23:30:11', $dater->getTime());
+    function test_getTime() {
+        $dater = new Dater(1990, 1, 9, 23, 30, 11, 530198);
+        $this->assertSame('23:30:11.530198', $dater->getTime());
     }
 }
