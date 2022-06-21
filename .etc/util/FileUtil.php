@@ -40,11 +40,12 @@ return new class() {
     /**
      * Create and return a dir in a dir.
      */
-    function dirMakeIn(string $dir, string $prefix = ''): string {
+    function dirMakeIn(string $dir, string $prefix = '', int $count = 1): string|array {
+        $dirs = [];
         for ($i = 1; $i < $count + 1; $i++) {
-            dirmake($dir = $dir . '/' . $i . $prefix, 0777);
+            dirmake($dirs[] = $dir . '/' . $i . $prefix, 0777);
         }
-        return $dir;
+        return $count == 1 ? $dirs[0] : $dirs;
     }
 
     /**
@@ -69,11 +70,12 @@ return new class() {
     /**
      * Create and return a file in a dir.
      */
-    function fileMakeIn(string $dir, string $prefix = '', int $count = 1): string {
+    function fileMakeIn(string $dir, string $prefix = '', int $count = 1): string|array {
+        $files = [];
         for ($i = 1; $i < $count + 1; $i++) {
-            filemake($file = $dir . '/' . $i . $prefix, 0777);
+            filemake($files[] = $dir . '/' . $i . $prefix, 0777);
         }
-        return $file;
+        return $count == 1 ? $files[0] : $files;
     }
 
     /**
