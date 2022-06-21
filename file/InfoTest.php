@@ -9,8 +9,7 @@ class InfoTest extends \TestCase
         $this->util = $this->util('File');
     }
 
-    function test_constructor()
-    {
+    function test_constructor() {
         try {
             new Info("null-\0-byte-filename");
         } catch (InfoException $e) {
