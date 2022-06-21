@@ -21,7 +21,7 @@ return new class() {
     }
 
     /**
-     * Create or return a temp dir.
+     * Return a temp dir, optionally create it.
      */
     function dir(string $prefix = '', bool $make = false): string {
         $dir = $this->base . '/' . $prefix . suid();
@@ -31,14 +31,24 @@ return new class() {
     }
 
     /**
-     * Create and return a temp file.
+     * Create and return a temp dir.
      */
     function dirMake(string $prefix = ''): string {
         return $this->dir($prefix, true);
     }
 
     /**
-     * Create or return a temp file.
+     * Create and return a dir in a dir.
+     */
+    function dirMakeIn(string $dir, string $prefix = ''): string {
+        for ($i = 1; $i < $count + 1; $i++) {
+            dirmake($dir = $dir . '/' . $i . $prefix, 0777);
+        }
+        return $dir;
+    }
+
+    /**
+     * Return a temp file, optionally create it.
      */
     function file(string $prefix = '', bool $make = false): string {
         $file = $this->base . '/' . $prefix . suid();
@@ -53,6 +63,16 @@ return new class() {
     function fileMake(string $prefix = '', string $contents = null): string {
         $file = $this->file($prefix, true);
         $contents && file_put_contents($file, $contents);
+        return $file;
+    }
+
+    /**
+     * Create and return a file in a dir.
+     */
+    function fileMakeIn(string $dir, string $prefix = '', int $count = 1): string {
+        for ($i = 1; $i < $count + 1; $i++) {
+            filemake($file = $dir . '/' . $i . $prefix, 0777);
+        }
         return $file;
     }
 
