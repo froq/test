@@ -33,7 +33,7 @@ class EventStackTest extends \TestCase
         $this->assertSame(1, $events->fire('bar'));
 
         $this->expectException(EventStackException::class);
-        $this->expectExceptionMessage('No event found in stack with name `baz`');
+        $this->expectExceptionMessage("No event found in stack with name 'baz'");
 
         $events->fire('baz');
     }
