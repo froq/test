@@ -96,15 +96,8 @@ class UuidTest extends \TestCase
         $guid = '40f4f461-253e-6f83-ac0e-4f75becc416d';
 
         $this->assertTrue(Uuid::isValid($uuid));
-        $this->assertFalse(Uuid::isValid($guid, v4: true));
-    }
-
-    function test_isValidV4() {
-        $uuid = 'a0551dd1-eda1-4a8b-905a-a51917723c53';
-        $guid = '40f4f461-253e-6f83-ac0e-4f75becc416d';
-
-        $this->assertTrue(Uuid::isValidV4($uuid));
-        $this->assertFalse(Uuid::isValidV4($guid));
+        $this->assertFalse(Uuid::isValid($guid));
+        $this->assertTrue(Uuid::isValid($guid, strict: false));
     }
 
     function test_isValidHash() {
