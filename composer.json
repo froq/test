@@ -11,7 +11,7 @@
         "froq/froq-cache": "^6.0",
         "froq/froq-collection": "^6.0",
         "froq/froq-common": "^6.0",
-        "froq/froq-date": "^6.0",
+        "froq/froq-datetime": "^6.0",
         "froq/froq-dom": "^6.0",
         "froq/froq-encoding": "^6.0"
     },
