@@ -5,7 +5,7 @@ use froq\file\upload\{FileSource, FileSourceException};
 class FileSourceTest extends \TestCase
 {
     function setUp(): void {
-        $this->util = $this->util('File');
+        $this->util = $this->util('file');
     }
 
     function test_getters() {

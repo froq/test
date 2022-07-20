@@ -6,7 +6,7 @@ use froq\file\object\FileObject;
 class FileTest extends \TestCase
 {
     function setUp(): void {
-        $this->util = $this->util('File');
+        $this->util = $this->util('file');
     }
 
     function test_constructor() {

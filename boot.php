@@ -17,7 +17,7 @@ $froqDir = __dir__ . '/vendor/froq';
 // Froq loader.
 $froqLoader = $froqDir . '/froq/src/Autoloader.php';
 if (is_file($froqLoader)) {
-    include $froqLoader;
+    require $froqLoader;
     $loader = froq\Autoloader::init($froqDir);
     $loader->register();
 }
@@ -25,13 +25,13 @@ if (is_file($froqLoader)) {
 // Froq sugars.
 $froqSugars = $froqDir . '/froq-util/src/sugars.php';
 if (is_file($froqSugars)) {
-    include $froqSugars;
+    require $froqSugars;
 }
 
 // Composer loader.
 $composerLoader = __dir__ . '/vendor/autoload.php';
 if (is_file($composerLoader)) {
-    include $composerLoader;
+    require $composerLoader;
 }
 
 // @cancel: Not needed yet.
@@ -53,7 +53,7 @@ if (is_file($composerLoader)) {
 //     // Load files.
 //     if (isset($composerData['autoload']['files'])) {
 //         foreach ($composerData['autoload']['files'] as $file) {
-//             include $file;
+//             require $file;
 //         }
 //     }
 // }
@@ -194,12 +194,12 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
     {
         $file = sprintf('%s/.etc/%s.php', __dir__, $file);
         // $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = $file;
-        return include $file;
+        return require $file;
     }
 
     /** Get an etc/util file constents. */
     protected function util(string $name): mixed
     {
-        return $this->etc('util/' . $name . 'Util');
+        return $this->etc('util/' . $name . '-util');
     }
 }
