@@ -33,7 +33,7 @@ class EnumTest extends \TestCase
     function test_checkerMethods() {
         $this->assertTrue(Colors::validName('BLACK'));
         $this->assertFalse(Colors::validName('black'));
-        $this->assertTrue(Colors::validName('black', upper: true));
+        $this->assertTrue(Colors::validName('black', case: 'upper'));
 
         $this->assertTrue(Colors::validValue(1));
         $this->assertFalse(Colors::validValue(10));
@@ -45,7 +45,7 @@ class EnumTest extends \TestCase
 
         $this->assertSame(Colors::BLACK, Colors::valueOf('BLACK'));
         $this->assertSame(null, Colors::valueOf('black'));
-        $this->assertSame(Colors::BLACK, Colors::valueOf('black', upper: true));
+        $this->assertSame(Colors::BLACK, Colors::valueOf('black', case: 'upper'));
     }
 
     function test_callMagicMethod() {
