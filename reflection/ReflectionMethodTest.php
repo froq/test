@@ -1,0 +1,76 @@
+<?php declare(strict_types=1);
+namespace test\froq\reflection;
+use froq\reflection\ReflectionMethod;
+
+class ReflectionMethodTest extends \TestCase
+{
+    function test_getters() {
+        $ref = new ReflectionMethod($this, 'theShinyMethod');
+        $this->assertSame('theShinyMethod', $ref->getName());
+        $this->assertSame(__class__, $ref->getClass());
+        $this->assertSame(__class__, $ref->getDeclaringClass()->name);
+        $this->assertSame('public', $ref->getVisibility());
+        $this->assertSame(['final', 'public', 'static'], $ref->getModifierNames());
+        $this->assertSame('int|float|null', $ref->getReturnType()->getName());
+    }
+
+    function test_attributeMethods() {
+        $ref = new ReflectionMethod($this, 'theShinyMethod');
+        $this->assertInstanceOf(\Set::class, $ref->attributes());
+        $this->assertCount(3, $ref->attributes());
+        $this->assertTrue($ref->hasAttribute(__namespace__ . '\Foo'));
+        $this->assertFalse($ref->hasAttribute('Foo'));
+        $this->assertNotNull($ref->getAttribute(__namespace__ . '\Foo'));
+        $this->assertNull($ref->getAttribute('Foo'));
+        $this->assertSame(array_map(fn($name) => __namespace__ .'\\'. $name, ['Foo', 'Bar', 'Baz']),
+            $ref->getAttributeNames());
+    }
+
+    function test_interfaceMethods() {
+        $ref = new ReflectionMethod($this, 'theShinyMethod');
+        $this->assertInstanceOf(\Set::class, $ref->interfaces());
+        $this->assertCount(0, $ref->interfaces());
+        $this->assertNull($ref->getInterface());
+        $this->assertNull($ref->getInterface('Foo'));
+        $this->assertSame([], $ref->getInterfaces());
+        $this->assertNull($ref->getInterfaceName());
+        $this->assertSame([], $ref->getInterfaceNames());
+    }
+
+    function test_traitMethods() {
+        $ref = new ReflectionMethod($this, 'theShinyMethod');
+        $this->assertInstanceOf(\Set::class, $ref->traits());
+        $this->assertCount(0, $ref->traits());
+        $this->assertNull($ref->getTrait());
+        $this->assertNull($ref->getTrait('Foo'));
+        $this->assertSame([], $ref->getTraits());
+        $this->assertNull($ref->getTraitName());
+        $this->assertSame([], $ref->getTraitNames());
+    }
+
+    function test_parameterMethods() {
+        $ref = new ReflectionMethod($this, 'theShinyMethod');
+        $this->assertInstanceOf(\Set::class, $ref->parameters());
+        $this->assertCount(2, $ref->parameters());
+        $this->assertTrue($ref->hasParameter(0));
+        $this->assertTrue($ref->hasParameter('arg1'));
+        $this->assertFalse($ref->hasParameter(3));
+        $this->assertFalse($ref->hasParameter('arg3'));
+        $this->assertNotNull($ref->getParameter(0));
+        $this->assertNull($ref->getParameter(3));
+        $this->assertNotNull($ref->getParameter('arg1'));
+        $this->assertNull($ref->getParameter('arg3'));
+        $this->assertCount(2, $ref->getParameters());
+        $this->assertSame(2, $ref->getParametersCount());
+        $this->assertSame(['arg1', 'arg2'], $ref->getParameterNames());
+        $this->assertSame([null, 0.0], $ref->getParameterValues());
+    }
+
+    /** The Shiny Method. */
+    #[Foo(arg: 1), Bar(), Baz]
+    public static final function theShinyMethod(
+        int $arg1, float $arg2 = 0.0,
+    ): int|float|null {
+        return null;
+    }
+}
