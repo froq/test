@@ -44,7 +44,7 @@ class IntervalTest extends \TestCase
         $interval = Interval::of(
             year: 0, month: 1, day: 9,
             hour: 13, minute: 52, second: 33,
-            fraction: 0.883717, days: 40,
+            fraction: 0.883717, days: null,
         );
 
         $this->assertSame(0, $interval->getYear());
@@ -79,7 +79,7 @@ class IntervalTest extends \TestCase
         $interval = Interval::of(
             year: 0, month: 1, day: 9,
             hour: 13, minute: 52, second: 33,
-            fraction: 0.883717, days: 40,
+            fraction: 0.883717, days: null,
         );
 
         $this->assertEquals($interval->toArray(), [

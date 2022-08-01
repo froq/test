@@ -20,7 +20,7 @@ class SplitCollectionTest extends \TestCase
             SplitCollection::splitRegExp('a.b.c', '~\.');
         } catch (CollectionException $e) {
             $this->assertInstanceOf(\RegExpError::class, $e->getCause());
-            $this->assertStringContains('No end delimiter ~', $e->getMessage());
+            $this->assertStringContains("No end delimiter '~'", $e->getMessage());
         }
     }
 }
