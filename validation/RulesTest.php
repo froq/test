@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\validation;
-use froq\validation\{Rules, Validation};
+use froq\validation\{Rules, ValidationType};
 
 class RulesTest extends \TestCase
 {
@@ -18,6 +18,6 @@ class RulesTest extends \TestCase
         ]);
         $this->assertSame('user', $rules->user->field);
         $this->assertSame('string', $rules->user->fieldOptions['image']['@fields']['id']['type']);
-        $this->assertSame(Validation::TYPE_STRING, $rules->user->fieldOptions['image']['@fields']['id']['type']);
+        $this->assertSame(ValidationType::STRING, $rules->user->fieldOptions['image']['@fields']['id']['type']);
     }
 }

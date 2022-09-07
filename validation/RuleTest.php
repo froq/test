@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\validation;
-use froq\validation\{Rule, Validation, ValidationError, ValidationException};
+use froq\validation\{Rule, ValidationType, ValidationError, ValidationException};
 
 class RuleTest extends \TestCase
 {
@@ -8,7 +8,7 @@ class RuleTest extends \TestCase
         $rule = new Rule('id', ['type' => 'int']);
         $this->assertSame('id', $rule->field);
         $this->assertSame('int', $rule->fieldOptions['type']);
-        $this->assertSame(Validation::TYPE_INT, $rule->fieldOptions['type']);
+        $this->assertSame(ValidationType::INT, $rule->fieldOptions['type']);
 
         // Invalids.
         try {
