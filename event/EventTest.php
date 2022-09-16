@@ -19,29 +19,28 @@ class EventTest extends \TestCase
                 && $e->once === $once
                 && $e->data === $data;
         };
-        $event = new Event('foo', $callback, once: true, data: 123);
+        $event = new Event('foo', $callback, once: $once, data: $data);
 
         $this->assertTrue($event->once);
-        $this->assertSame(123, $event->data);
+        $this->assertSame($data, $event->data);
         $this->assertSame(null, $event->fired);
-        $this->assertSame(true, $event());
-        $this->assertSame(true, $event->fired);
+        $this->assertSame(true, $event()); // Fire.
+        $this->assertSame(1, $event->fired);
 
         $this->expectException(EventException::class);
         $this->expectExceptionMessage("No state found such 'absentState'");
-
         $event->absentState;
     }
 
     function test_invoke() {
-        $event = new Event('foo', fn($e, $arg = null) => $arg);
+        $event = new Event('foo', fn($e, $arg = null) => $arg, once: false);
 
         $this->assertNull($event());
         $this->assertSame(123, $event(123));
     }
 
     function test_fire() {
-        $event = new Event('foo', fn($e, $arg = null) => $arg);
+        $event = new Event('foo', fn($e, $arg = null) => $arg, once: false);
 
         $this->assertNull($event->fire());
         $this->assertSame(123, $event->fire(123));
