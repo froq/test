@@ -17,6 +17,25 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'id' is required, none given.", $validation->errors()['id']['message']);
     }
 
+    function test_options() {
+        $validation = new Validation(['id' => ['type' => 'int', 'required']], options: ['throwErrors' => true]);
+
+        $data = ['id' => 123];
+        $this->assertTrue($validation->validate($data));
+        $this->assertNull($validation->errors());
+
+        $data = ['id' => null];
+        try {
+            $validation->validate($data);
+        } catch (ValidationError $e) {
+            $this->assertSame("Validation failed, use errors() to see error details", $e->getMessage());
+            $this->assertSame(['id' => [
+                'code' => ValidationError::REQUIRED,
+                'message' => "Field 'id' is required, none given."
+            ]], $e->errors());
+        }
+    }
+
     function test_arrayValidation() {
         $validation = new Validation(['tags' => ['type' => 'array']]);
 
