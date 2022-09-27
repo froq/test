@@ -83,7 +83,6 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
     // function __construct()
     // {
     //     parent::__construct();
-
     //     if (method_exists($this, 'before')) {
     //         $this->before();
     //     }
