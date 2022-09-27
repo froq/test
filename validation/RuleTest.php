@@ -86,9 +86,8 @@ class RuleTest extends \TestCase
         $this->assertTrue($rule->fieldOptions['required']);
         $this->assertTrue($rule->fieldOptions['unsigned']);
 
-        $rule = new Rule('name', ['type' => 'uuid', 'dashed', 'cased']);
-        $this->assertTrue($rule->fieldOptions['dashed']);
-        $this->assertTrue($rule->fieldOptions['cased']);
+        $rule = new Rule('name', ['type' => 'uuid', 'strict']);
+        $this->assertTrue($rule->fieldOptions['strict']);
 
         $rule = new Rule('rate', ['type' => 'number', 'nullable', 'strict', 'drop']);
         $this->assertTrue($rule->fieldOptions['nullable']);
