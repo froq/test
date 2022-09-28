@@ -101,51 +101,20 @@ class FinderTest extends \TestCase
         $finder = new Finder($dir = $this->util->dirMake());
         $pattern = '*';
 
-        $iter = $finder->glob($pattern);
-        $iter->next(); // For valid check.
+        // @var XArray
+        $iter = $finder->xglob($pattern);
 
-        $this->assertFalse($iter->valid());
+        $this->assertTrue($iter->isEmpty());
         $this->assertCount(0, $iter);
         $this->assertSame(0, count($iter));
 
         $files = $this->util->fileMakeIn($dir, '', 3);
         $count = count($files);
 
-        $iter = $finder->glob($pattern);
-        $iter->next(); // For valid check.
+        $iter = $finder->xglob($pattern);
 
-        $this->assertTrue($iter->valid());
+        $this->assertFalse($iter->isEmpty());
         $this->assertCount(3, $iter);
         $this->assertSame($count, count($iter));
-    }
-
-    function test_checkRoot() {
-        $finder = new Finder(tmp());
-        $this->assertTrue($finder->checkRoot());
-
-        $finder = new Finder('absent-dir');
-        $this->assertFalse($finder->checkRoot());
-    }
-
-    function test_prepareRoot() {
-        $weirdDir = $dir = DIRECTORY_SEPARATOR . tmp() . str_repeat(DIRECTORY_SEPARATOR, 3);
-        $normalDir = realpath($dir) . DIRECTORY_SEPARATOR;
-
-        $finder = new Finder($weirdDir);
-        $this->assertSame($normalDir, $finder->prepareRoot());
-
-        try {
-            $finder = new Finder();
-            $finder->prepareRoot(check: true);
-        } catch (FinderException $e) {
-            $this->assertSame("Root is empty yet, call setRoot()", $e->getMessage());
-        }
-
-        try {
-            $finder = new Finder('absent-dir');
-            $finder->prepareRoot(check: true);
-        } catch (FinderException $e) {
-            $this->assertSame("Root directory not exists: 'absent-dir'", $e->getMessage());
-        }
     }
 }
