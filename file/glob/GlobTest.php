@@ -90,6 +90,19 @@ class GlobTest extends \TestCase
         $this->assertSame(array_sort($dirs, fn() => 1), $paths);
     }
 
+    function test_sortSpecial() {
+        [$base] = $this->generate(3, 2);
+
+        $glob = new Glob($base . '/*');
+
+        $this->assertFalse($glob->get(0)->isFile());
+
+        // Move files up.
+        $glob->sort(fn($a, $b) => $a->isDir() - $b->isDir());
+
+        $this->assertTrue($glob->get(0)->isFile());
+    }
+
     function test_toArray() {
         [$base, $dirs] = $this->generate(3);
 
