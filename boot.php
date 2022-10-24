@@ -158,6 +158,24 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
         );
     }
 
+    function assertSubclassOf(string|object $class, string|object $subclass, string $message = ''): void
+    {
+        $this->assert(
+            is_subclass_of($subclass = get_class_name($subclass), $class = get_class_name($class)) === true,
+            'Failed asserting that `%s` is subclass of `%s`',
+            [$subclass, $class], $message
+        );
+    }
+
+    function assertNotSubclassOf(string|object $class, string|object $subclass, string $message = ''): void
+    {
+        $this->assert(
+            is_subclass_of($subclass = get_class_name($subclass), $class = get_class_name($class)) === false,
+            'Failed asserting that `%s` is not subclass of `%s`',
+            [$subclass, $class], $message
+        );
+    }
+
     /** @override */
     static function assertFileNotExists(string $file, string $message = ''): void
     {
