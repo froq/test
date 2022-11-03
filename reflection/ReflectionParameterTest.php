@@ -29,11 +29,11 @@ class ReflectionParameterTest extends \TestCase
 
         $ref = new ReflectionParameter($fun, 'a');
         $this->assertNull($ref->getType());
-        $this->assertNull($ref->getTypes());
+        $this->assertIsArray($ref->getTypes());
 
         $ref = new ReflectionParameter($fun, 'b');
         $this->assertNotNull($ref->getType());
-        $this->assertIsArray($ref->getTypes());
         $this->assertInstanceOf(ReflectionType::class, $ref->getType());
+        $this->assertInstanceOf(ReflectionType::class, $ref->getTypes()[0]);
     }
 }
