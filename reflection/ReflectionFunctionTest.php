@@ -9,16 +9,8 @@ class ReflectionFunctionTest extends \TestCase
         $this->assertSame('strlen', $ref->getName());
         $this->assertSame('int', $ref->getReturnType()->getName());
 
-        try {
-            $this->assertSame(__class__, $ref->getClass());
-        } catch (\ReflectionException $e) {
-            $this->assertSame('Invalid call as froq\reflection\ReflectionFunction::getClass()', $e->getMessage());
-        }
-        try {
-            $this->assertSame(__class__, $ref->getDeclaringClass()->name);
-        } catch (\ReflectionException $e) {
-            $this->assertSame('Invalid call as froq\reflection\ReflectionFunction::getDeclaringClass()', $e->getMessage());
-        }
+        $this->assertNull($ref->getClass());
+        $this->assertNull($ref->getDeclaringClass()?->name);
     }
 
     function test_attributeMethods() {
