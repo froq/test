@@ -1,9 +1,31 @@
 <?php declare(strict_types=1);
 namespace test\froq\reflection;
-use froq\reflection\{ReflectionParameter, ReflectionType};
+use froq\reflection\{ReflectionParameter, ReflectionMethod, ReflectionFunction, ReflectionType};
 
 class ReflectionParameterTest extends \TestCase
 {
+    function test_getters($a = null) {
+        $fun = function ($a) {};
+
+        $ref = new ReflectionParameter($fun, 'a');
+        $this->assertSame(__class__, $ref->getClass());
+        $this->assertSame(__class__, $ref->getDeclaringClass()->name);
+        $this->assertNull($ref->getDeclaringMethod()?->name);
+        $this->assertNotNull($ref->getDeclaringFunction()?->name);
+
+        $ref = new ReflectionParameter(__method__, 'a');
+        $this->assertSame(__class__, $ref->getClass());
+        $this->assertSame(__class__, $ref->getDeclaringClass()->name);
+        $this->assertInstanceOf(ReflectionMethod::class, $ref->getDeclaringMethod());
+        $this->assertInstanceOf(ReflectionMethod::class, $ref->getDeclaringFunction());
+
+        $ref = new ReflectionParameter('strlen', 'string');
+        $this->assertNull($ref->getClass());
+        $this->assertNull($ref->getDeclaringClass()?->name);
+        $this->assertNull($ref->getDeclaringMethod()?->name);
+        $this->assertInstanceOf(ReflectionFunction::class, $ref->getDeclaringFunction());
+    }
+
     function test_valueMethods() {
         $fun = function ($a, $b = 0, $c = \PRECISION) {};
 
