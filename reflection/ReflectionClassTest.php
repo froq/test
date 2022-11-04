@@ -84,7 +84,6 @@ class ReflectionClassTest extends \TestCase
             fn($methodName) => new ReflectionMethod($class, $methodName));
 
         $ref = new ReflectionClass($class);
-        // prd($ref->getMethods(),1);
         $this->assertInstanceOf(\Set::class, $ref->methods());
         $this->assertCount(count($methods), $ref->methods());
         $this->assertNotNull($ref->getMethod('from'));
@@ -119,7 +118,6 @@ class ReflectionClassTest extends \TestCase
             fn($propertyName) => new ReflectionProperty($class, $propertyName));
 
         $ref = new ReflectionClass($class);
-        // prd($ref->getPropertyValues(),1);
         $this->assertInstanceOf(\Set::class, $ref->properties());
         $this->assertCount(5, $ref->properties());
         $this->assertTrue($ref->hasProperty('language'));
@@ -143,5 +141,12 @@ class ReflectionClassTest extends \TestCase
         $this->assertEquals([new ReflectionProperty($class, 'x')], $ref->getProperties());
         $this->assertSame(['x'], $ref->getPropertyNames());
         $this->assertSame([1], $ref->getPropertyValues());
+    }
+
+    function test_checkerMethods() {
+        $ref = new ReflectionClass('KeyError');
+        $this->assertTrue($ref->implementsInterface('Throwable'));
+        $this->assertTrue($ref->usesTrait('froq\common\trait\ThrowableTrait'));
+        $this->assertTrue($ref->extendsClass('froq\common\Error'));
     }
 }
