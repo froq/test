@@ -34,6 +34,7 @@ class ReflectionClassTest extends \TestCase
         $ref = new ReflectionClass(self::class);
         $this->assertInstanceOf(\Set::class, $ref->parents());
         $this->assertCount(3, $ref->parents());
+        $this->assertTrue($ref->hasParent());
         $this->assertEquals($parents[0], $ref->getParent());
         $this->assertEquals($parents[2], $ref->getParent(baseOnly: true));
         $this->assertEquals($parents, $ref->getParents());
