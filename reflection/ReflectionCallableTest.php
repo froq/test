@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\reflection;
 use froq\reflection\ReflectionCallable;
+use froq\reflection\document\CallableDocument;
 
 class ReflectionCallableTest extends \TestCase
 {
@@ -98,7 +99,29 @@ class ReflectionCallableTest extends \TestCase
         $this->assertSame([null, 0.0], $ref->getParameterValues());
     }
 
-    /** The Shiny Method. */
+    function test_documentMethods() {
+        $ref = new ReflectionCallable($this, 'theShinyMethod');
+        $this->assertSame('The Shiny Method.', $ref->getDocumentDescription());
+
+        $doc = $ref->getDocument();
+        $this->assertInstanceOf(CallableDocument::class, $doc);
+        $this->assertSame('The Shiny Method.', $doc->getDescription());
+        $this->assertCount(2, $doc->getParameters());
+        $this->assertSame('arg1', $doc->getParameter(0)->getName());
+        $this->assertSame('int|float|null', $doc->getReturn()->getType());
+        $this->assertSame('Error', $doc->getThrows()->getType());
+        $this->assertSame('Exception', $doc->getCauses()->getType());
+    }
+
+    /**
+     * The Shiny Method.
+     *
+     * @param  int $arg1 The arg 1.
+     * @param  int $arg2 The arg 2.
+     * @return int|float|null
+     * @throws Error
+     * @causes Exception
+     */
     #[Foo(arg: 1), Bar(), Baz]
     public static final function theShinyMethod(
         int $arg1, float $arg2 = 0.0,

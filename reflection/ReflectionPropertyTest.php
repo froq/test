@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\reflection;
 use froq\reflection\{ReflectionProperty, ReflectionClass};
+use froq\reflection\document\PropertyDocument;
 
 class ReflectionPropertyTest extends \TestCase
 {
@@ -81,5 +82,18 @@ class ReflectionPropertyTest extends \TestCase
             $this->assertSame('Cannot get property $language of non-instantiated class Locale',
                 $e->getMessage());
         }
+    }
+
+    function test_documentMethods() {
+        require_once __DIR__ . '/../.etc/util/reflections.php';
+
+        $ref = new ReflectionProperty('foo\bar\Test::a');
+        $this->assertSame('The var.', $ref->getDocumentDescription());
+
+        $doc = $ref->getDocument();
+        $this->assertInstanceOf(PropertyDocument::class, $doc);
+        $this->assertSame('The var.', $doc->getDescription());
+        $this->assertSame('bool', $doc->getVariable()->getType());
+        $this->assertNull($doc->getVariable()->getName());
     }
 }

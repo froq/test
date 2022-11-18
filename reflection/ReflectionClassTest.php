@@ -2,6 +2,7 @@
 namespace test\froq\reflection;
 use froq\reflection\{ReflectionClass, ReflectionClassConstant, ReflectionProperty,
     ReflectionMethod, ReflectionInterface};
+use froq\reflection\document\ClassDocument;
 use froq\util\Objects;
 
 class ReflectionClassTest extends \TestCase
@@ -148,5 +149,22 @@ class ReflectionClassTest extends \TestCase
         $this->assertTrue($ref->implementsInterface('Throwable'));
         $this->assertTrue($ref->usesTrait('froq\common\trait\ThrowableTrait'));
         $this->assertTrue($ref->extendsClass('froq\common\Error'));
+    }
+
+    function test_documentMethods() {
+        require_once __DIR__ . '/../.etc/util/reflections.php';
+
+        $ref = new ReflectionClass('foo\bar\Test');
+        $this->assertSame('The class.', $ref->getDocumentDescription());
+
+        $doc = $ref->getDocument();
+        $this->assertInstanceOf(ClassDocument::class, $doc);
+        $this->assertSame('The class.', $doc->getDescription());
+        $this->assertSame('foo\bar', $doc->getPackage()->getName());
+        $this->assertSame('foo\bar\Test', $doc->getClass()->getName());
+        $this->assertSame('1.0', $doc->getSince(0)->getVersion());
+        $this->assertSame('Jon Doo', $doc->getAuthor(0)->getName());
+        $this->assertNull($doc->getAuthor(0)->getEmail());
+        $this->assertCount(1, $doc->getAuthors());
     }
 }

@@ -39,4 +39,10 @@ class ReflectionFunctionTest extends \TestCase
         $this->assertSame(['string'], $ref->getParameterNames());
         $this->assertSame([null], $ref->getParameterValues());
     }
+
+    function test_documentMethods() {
+        $ref = new ReflectionFunction('strlen');
+        $this->assertNull($ref->getDocument());
+        $this->assertNull($ref->getDocumentDescription());
+    }
 }
