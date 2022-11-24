@@ -8,7 +8,7 @@ class ReflectionTypeTest extends \TestCase
         new ReflectionType('int'); // OK.
 
         $this->expectException(\ReflectionException::class);
-        $this->expectExceptionMessage('No name given');
+        $this->expectExceptionMessage('Invalid name');
         new ReflectionType('');
     }
 
