@@ -11,7 +11,7 @@ class ReflectionPropertyTest extends \TestCase
         $this->assertInstanceOf(ReflectionClass::class, $ref->getDeclaringClass());
         $this->assertSame('string', $ref->getType()->name);
         $this->assertSame('public', $ref->getVisibility());
-        $this->assertSame(['public'], $ref->getModifierNames());
+        $this->assertSame(['public', 'readonly'], $ref->getModifierNames());
     }
 
     function test_checkerMethods() {
