@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\reflection;
-use froq\reflection\ReflectionCallable;
+use froq\reflection\{ReflectionCallable, ReflectionAttribute};
 use froq\reflection\document\CallableDocument;
 
 class ReflectionCallableTest extends \TestCase
@@ -57,6 +57,15 @@ class ReflectionCallableTest extends \TestCase
         $this->assertNull($ref->getAttribute('Foo'));
         $this->assertSame(array_map(fn($name) => __namespace__ .'\\'. $name, ['Foo', 'Bar', 'Baz']),
             $ref->getAttributeNames());
+
+        $attr = $ref->getAttribute($name = __namespace__ . '\Foo');
+        $this->assertInstanceOf(ReflectionAttribute::class, $attr);
+        $this->assertSame($name, $attr->name);
+        $this->assertSame(['arg' => 1], $attr->arguments);
+        $this->assertSame(1, $attr->getArgument('arg'));
+        $this->assertSame($name, $attr->getName());
+        $this->assertSame('Foo', $attr->getShortName());
+        $this->assertSame(__namespace__, $attr->getNamespace());
     }
 
     function test_interfaceMethods() {
