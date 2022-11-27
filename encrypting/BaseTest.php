@@ -50,7 +50,7 @@ class BaseTest extends \TestCase
         try {
             Base::decode('ABCabc', Base::BASE36_CHARS);
         } catch (BaseException $e) {
-            $this->assertStringContains('Invalid characters `ABC` found', $e->getMessage());
+            $this->assertStringContains("Invalid characters 'ABC' found", $e->getMessage());
         }
     }
 

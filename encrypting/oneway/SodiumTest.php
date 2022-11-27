@@ -39,14 +39,14 @@ class SodiumTest extends \TestCase
         try {
             new Sodium(['opslimit' => 0]);
         } catch (OnewayException $e) {
-            $this->assertEquals('Option `opslimit` is too low, minimum value is 1',
+            $this->assertEquals('Option "opslimit" is too low, minimum value is 1',
                 $e->getMessage());
         }
 
         try {
             new Sodium(['memlimit' => 1]);
         } catch (OnewayException $e) {
-            $this->assertEquals('Option `memlimit` is too low, minimum value is 8KB (8192 bytes)',
+            $this->assertEquals('Option "memlimit" is too low, minimum value is 8KB (8192 bytes)',
                 $e->getMessage());
         }
     }

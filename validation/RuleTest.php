@@ -26,28 +26,28 @@ class RuleTest extends \TestCase
         try {
             $rule = new Rule('id', ['type' => 'foo']);
         } catch (ValidationException $e) {
-            $this->assertStringStartsWith('Option `type` is invalid (given type: foo, available types: ',
+            $this->assertStringStartsWith('Option "type" is invalid (given type: foo, available types: ',
                 $e->getMessage());
         }
 
         try {
             $rule = new Rule('status', ['type' => 'enum']);
         } catch (ValidationException $e) {
-            $this->assertStringStartsWith('Option `type.enum` requires `spec` definition as array in options ',
+            $this->assertStringStartsWith('Option "type.enum" requires "spec" definition as array in options ',
                 $e->getMessage());
         }
 
         try {
             $rule = new Rule('status', ['type' => 'enum', 'spec' => 123]);
         } catch (ValidationException $e) {
-            $this->assertStringStartsWith('Invalid `spec` given, only an array accepted for enum types ',
+            $this->assertStringStartsWith('Invalid "spec" given, only an array accepted for enum types ',
                 $e->getMessage());
         }
 
         try {
             $rule = new Rule('status', ['type' => 'json', 'spec' => 'foo']);
         } catch (ValidationException $e) {
-            $this->assertStringStartsWith('Invalid `spec` given, only array and object accepted for json types ',
+            $this->assertStringStartsWith('Invalid "spec" given, only array and object accepted for json types ',
                 $e->getMessage());
         }
 

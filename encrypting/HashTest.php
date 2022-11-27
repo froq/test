@@ -12,7 +12,7 @@ class HashTest extends \TestCase
         $this->assertSame('aa21c9de', Hash::make($input, 8));
 
         $this->expectException(HashException::class);
-        $this->expectExceptionMessageMatches('~Invalid length `1`~');
+        $this->expectExceptionMessageMatches("~Invalid length '1'~");
 
         Hash::make($input, 1);
     }
@@ -25,7 +25,7 @@ class HashTest extends \TestCase
         $this->assertSame('aa21c9de', Hash::makeBy($input, 'fnv1a32'));
 
         $this->expectException(HashException::class);
-        $this->expectExceptionMessageMatches('~Invalid algo `foo`~');
+        $this->expectExceptionMessageMatches("~Invalid algo 'foo'~");
 
         Hash::makeBy($input, 'foo');
     }
