@@ -15,13 +15,13 @@ class CacheTest extends \TestCase
         try {
             new Cache('test', ['agent' => null]);
         } catch (CacheException $e) {
-            $this->assertStringContains('Option `agent` is empty', $e->getMessage());
+            $this->assertStringContains('Option "agent" is empty', $e->getMessage());
         }
 
         try {
             new Cache('test', ['agent' => 'invalid']);
         } catch (CacheException $e) {
-            $this->assertStringContains('Unimplemented agent `invalid`', $e->getMessage());
+            $this->assertStringContains('Unimplemented agent \'invalid\'', $e->getMessage());
         }
     }
 

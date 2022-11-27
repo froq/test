@@ -30,7 +30,7 @@ class FileTest extends \TestCase
 
         $this->expectException(FileException::class);
         $this->expectExceptionMessage(sprintf(
-            'Be sure before calling %s::%s() and deleting all contents of file `%s`',
+            "Be sure before calling %s::%s() and deleting all contents of file '%s'",
             File::class, 'empty', $file
         ));
         $this->assertTrue($fs->empty(sure: false));

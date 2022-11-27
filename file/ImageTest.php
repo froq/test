@@ -43,7 +43,7 @@ class ImageTest extends \TestCase
         $this->assertSame($image->save(), $image->source->getTarget());
 
         $this->expectException(ImageException::class);
-        $this->expectExceptionMessage("Cannot overwrite on existing file `{$image->source->getTarget()}`");
+        $this->expectExceptionMessage("Cannot overwrite on existing file '{$image->source->getTarget()}'");
         $image->save();
     }
 
@@ -55,7 +55,7 @@ class ImageTest extends \TestCase
         $this->assertSame($image->move(), $image->source->getTarget());
 
         $this->expectException(ImageException::class);
-        $this->expectExceptionMessage("Cannot overwrite on existing file `{$image->source->getTarget()}`");
+        $this->expectExceptionMessage("Cannot overwrite on existing file '{$image->source->getTarget()}'");
         $image->move();
     }
 

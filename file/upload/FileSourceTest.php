@@ -37,7 +37,7 @@ class FileSourceTest extends \TestCase
         $this->assertSame($fu->save(), $fu->getTarget());
 
         $this->expectException(FileSourceException::class);
-        $this->expectExceptionMessage("Cannot overwrite on existing file `{$fu->getTarget()}`");
+        $this->expectExceptionMessage("Cannot overwrite on existing file '{$fu->getTarget()}'");
         $fu->save();
     }
 
@@ -50,7 +50,7 @@ class FileSourceTest extends \TestCase
         $this->assertSame($fu->move(), $fu->getTarget());
 
         $this->expectException(FileSourceException::class);
-        $this->expectExceptionMessage("Cannot overwrite on existing file `{$fu->getTarget()}`");
+        $this->expectExceptionMessage("Cannot overwrite on existing file '{$fu->getTarget()}'");
         $fu->move();
     }
 

@@ -13,7 +13,7 @@ class PathTest extends \TestCase
         $path = __dir__;
 
         $this->expectException(PathException::class);
-        $this->expectExceptionMessage("Unmatched types `file != dir`");
+        $this->expectExceptionMessage("Unmatched types 'file' - 'dir'");
         new Path($path, 'file');
     }
 

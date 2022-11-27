@@ -69,7 +69,7 @@ class DirectoryTest extends \TestCase
 
         $this->expectException(DirectoryException::class);
         $this->expectExceptionMessage(sprintf(
-            'Be sure before calling %s::%s() and deleting all contents of directory `%s`',
+            "Be sure before calling %s::%s() and deleting all contents of directory '%s'",
             Directory::class, 'empty', $dir
         ));
         $this->assertTrue($fs->empty(sure: false));
