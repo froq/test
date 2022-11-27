@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace test\froq\common;
+namespace test\froq\common\object;
 use froq\common\object\{Factory, FactoryException};
 
 class FactoryTest extends \TestCase
