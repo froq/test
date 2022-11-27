@@ -147,7 +147,7 @@ class ReflectionClassTest extends \TestCase
     function test_checkerMethods() {
         $ref = new ReflectionClass('KeyError');
         $this->assertTrue($ref->implementsInterface('Throwable'));
-        $this->assertTrue($ref->usesTrait('froq\common\trait\ThrowableTrait'));
+        $this->assertTrue($ref->usesTrait('froq\common\trait\ThrownableTrait'));
         $this->assertTrue($ref->extendsClass('froq\common\Error'));
     }
 

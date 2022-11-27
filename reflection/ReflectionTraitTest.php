@@ -5,7 +5,7 @@ use froq\reflection\{ReflectionClass, ReflectionTrait};
 class ReflectionTraitTest extends \TestCase
 {
     function test_constructor() {
-        $ref = new ReflectionTrait('froq\common\trait\ThrowableTrait');
+        $ref = new ReflectionTrait('froq\common\trait\ThrownableTrait');
         $this->assertFalse($ref->isClass());
         $this->assertSame('trait', $ref->getType());
         $this->assertInstanceOf(ReflectionClass::class, $ref);
