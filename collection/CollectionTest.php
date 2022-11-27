@@ -64,7 +64,7 @@ class CollectionTest extends \TestCase
         $this->assertTrue($col->containsKey('x'));
 
         $this->assertFalse($col->deleteKey('x')->containsKey('x'));
-        $this->assertTrue(['z' => 3, 'y' => 2] === $col->reverse()->toArray());
+        $this->assertSame(['z' => 3, 'y' => 2], $col->reverse()->toArray());
     }
 
     function test_accessingMethods() {
