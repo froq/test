@@ -14,7 +14,6 @@ class LoggerTest extends \TestCase
         $this->assertSame('UTC', $logger->getOption('timeZone'));
         $this->assertSame('D, d M Y H:i:s.u P', $logger->getOption('timeFormat'));
         $this->assertFalse($logger->getOption('json'));
-        $this->assertFalse($logger->getOption('pretty'));
         $this->assertFalse($logger->getOption('rotate'));
     }
 
@@ -29,7 +28,6 @@ class LoggerTest extends \TestCase
             'timeZone'   => '+00:00',
             'timeFormat' => 'Y-m-d H:i:s P',
             'json'       => true,
-            'pretty'     => true,
             'rotate'     => true,
         ];
 
@@ -42,7 +40,6 @@ class LoggerTest extends \TestCase
         $this->assertSame($options['timeZone'], $logger->getOption('timeZone'));
         $this->assertSame($options['timeFormat'], $logger->getOption('timeFormat'));
         $this->assertTrue($logger->getOption('json'));
-        $this->assertTrue($logger->getOption('pretty'));
         $this->assertTrue($logger->getOption('rotate'));
     }
 
