@@ -101,7 +101,7 @@ class DateTimeTest extends \TestCase
         $this->assertSame('1990-01-09 '. $dt->format('H:i:s.u'), $dt->getFullDate());
 
         $this->expectException(DateTimeException::class);
-        $this->expectExceptionMessage("Invalid date: '1111' (use a parsable format, eg: 2022-01-01)");
+        $this->expectExceptionMessage("Invalid date: '1111' (use a parsable date, eg: 2022-01-01)");
         $dt->setDate('1111');
     }
 
@@ -116,7 +116,7 @@ class DateTimeTest extends \TestCase
         $this->assertSame('23:30:11.123456', $dt->getFullTime());
 
         $this->expectException(DateTimeException::class);
-        $this->expectExceptionMessage("Invalid time: '1111' (use a parsable format, eg: 22:11:19, 22:11:19.123345)");
+        $this->expectExceptionMessage("Invalid time: '1111' (use a parsable time, eg: 22:11:19 or 22:11:19.123345)");
         $dt->setTime('1111');
     }
 
