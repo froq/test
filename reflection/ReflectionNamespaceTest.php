@@ -27,26 +27,26 @@ class ReflectionNamespaceTest extends \TestCase
     }
 
     function test_classMethods() {
-        $ref = new ReflectionNamespace('froq\pager');
-        $this->assertTrue($ref->hasClass('Pager'));
-        $this->assertInstanceOf(ReflectionClass::class, $ref->getClass('Pager'));
-        $this->assertEquals([new ReflectionClass('froq\pager\Pager')], $ref->getClasses());
-        $this->assertEquals(['froq\pager\Pager'], $ref->getClassNames());
+        $ref = new ReflectionNamespace('froq\dom');
+        $this->assertTrue($ref->hasClass('DomDocument'));
+        $this->assertInstanceOf(ReflectionClass::class, $ref->getClass('DomDocument'));
+        $this->assertEquals([new ReflectionClass('froq\dom\DomDocument')], slice($ref->getClasses(), 0, 1));
+        $this->assertEquals(['froq\dom\DomDocument'], slice($ref->getClassNames(), 0, 1));
     }
 
     function test_interfaceMethods() {
-        $ref = new ReflectionNamespace('froq\pager');
-        $this->assertFalse($ref->hasInterface('PagerInterface'));
-        $this->assertNull($ref->getInterface('PagerInterface'));
+        $ref = new ReflectionNamespace('froq\dom');
+        $this->assertFalse($ref->hasInterface('DomDocumentInterface'));
+        $this->assertNull($ref->getInterface('DomDocumentInterface'));
         $this->assertEquals([], $ref->getInterfaces());
         $this->assertEquals([], $ref->getInterfaceNames());
     }
 
     function test_traitMethods() {
-        $ref = new ReflectionNamespace('froq\pager');
-        $this->assertTrue($ref->hasTrait('PagerTrait'));
-        $this->assertInstanceOf(ReflectionTrait::class, $ref->getTrait('PagerTrait'));
-        $this->assertEquals([new ReflectionTrait('froq\pager\PagerTrait')], $ref->getTraits());
-        $this->assertEquals(['froq\pager\PagerTrait'], $ref->getTraitNames());
+        $ref = new ReflectionNamespace('froq\dom');
+        $this->assertTrue($ref->hasTrait('NodeTrait'));
+        $this->assertInstanceOf(ReflectionTrait::class, $ref->getTrait('NodeTrait'));
+        $this->assertEquals([new ReflectionTrait('froq\dom\NodeTrait')], slice($ref->getTraits(), 0, 1));
+        $this->assertEquals(['froq\dom\NodeTrait'], slice($ref->getTraitNames(), 0, 1));
     }
 }
