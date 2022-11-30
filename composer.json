@@ -19,7 +19,7 @@
         "froq/froq-event": "^6.0",
         "froq/froq-file": "^6.0",
         "froq/froq-logger": "^6.0",
-        "froq/froq-pager": "^6.0",
+        "froq/froq-pagination": "^6.0",
         "froq/froq-reflection": "^6.0",
         "froq/froq-session": "^6.0",
         "froq/froq-validation": "^6.0"
