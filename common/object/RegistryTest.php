@@ -29,7 +29,7 @@ class RegistryTest extends \TestCase
         try {
             Registry::set($id, $object);
         } catch (RegistryException $e) {
-            $this->assertStringContains('registered and locked', $e->getMessage());
+            $this->assertStringContains("Id '{$id}' is used", $e->getMessage());
         }
 
         [$id, $object] = $this->getMock();
