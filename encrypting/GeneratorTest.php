@@ -20,8 +20,7 @@ class GeneratorTest extends \TestCase
 
         try {
             Generator::generateToken(10);
-        } catch (GeneratorException $e) {
-            $this->assertInstanceOf(HashException::class, $e->getCause());
+        } catch (HashException $e) {
             $this->assertStringContains('Invalid length', $e->getMessage());
         }
     }
