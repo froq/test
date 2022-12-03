@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
-namespace test\froq\logger;
-use froq\logger\{Logger, LogLevel};
+namespace test\froq\log;
+use froq\log\{Logger, LogLevel};
 
 class LoggerTest extends \TestCase
 {
