@@ -1,18 +1,9 @@
 <?php declare(strict_types=1);
 namespace test\froq\collection;
 use froq\collection\{ItemCollection, CollectionException};
-use froq\common\exception\InvalidKeyException;
 
 class ItemCollectionTest extends \TestCase
 {
-    function test_invalidKeyException() {
-        try {
-            new ItemCollection(['x' => 1]);
-        } catch (InvalidKeyException $e) {
-            $this->assertStringContains('keys must be int', $e->getMessage());
-        }
-    }
-
     function test_accessAndAlterMethods() {
         $col = new ItemCollection([null]);
 

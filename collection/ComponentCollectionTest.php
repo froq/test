@@ -37,11 +37,11 @@ class ComponentCollectionTest extends \TestCase
         $this->assertEquals(1, $col->get('x'));
         $this->assertEquals(null, $col->get('y'));
 
-        $this->assertEquals(1, @$col->x);
-        $this->assertEquals(null, @$col->y);
+        $this->assertEquals(1, $col->x);
+        $this->assertEquals(null, $col->y);
 
-        $this->assertEquals(1, @$col['x']);
-        $this->assertEquals(null, @$col['y']);
+        $this->assertEquals(1, $col['x']);
+        $this->assertEquals(null, $col['y']);
 
         $col->remove('x');
         $this->assertFalse($col->has('x'));
