@@ -191,11 +191,4 @@ class CollectionTest extends \TestCase
         $this->assertEquals([1, 2, null, 0], $col->copy()->unique()->values()); // Not strict.
         $this->assertEquals([1, 2, null], $col->copy()->unique(SORT_REGULAR)->values()); // Not strict.
     }
-
-    function test_readOnly() {
-        $this->expectException(ReadOnlyException::class);
-
-        $col = new Collection(['x' => 1], readOnly: true);
-        $col->set('x', 2);
-    }
 }
