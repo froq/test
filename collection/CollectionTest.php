@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\collection;
 use froq\collection\{Collection, CollectionException};
-use froq\common\exception\ReadOnlyException;
 
 class CollectionTest extends \TestCase
 {
