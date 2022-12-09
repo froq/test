@@ -7,8 +7,7 @@ class SessionTest extends \TestCase
     function test_defaultOptions() {
         $session =@ new Session();
         $this->assertSame('SID', $session->option('name'));
-        $this->assertFalse($session->option('hash'));
-        $this->assertSame(32, $session->option('hashLength'));
+        $this->assertNull($session->option('hash'));
         $this->assertFalse($session->option('hashUpper'));
         $this->assertNull($session->option('savePath'));
         $this->assertNull($session->option('saveHandler'));
@@ -23,7 +22,7 @@ class SessionTest extends \TestCase
     function test_customOptions() {
         $options = [
             'name' => 'foo',
-            'hash' => true, 'hashLength' => 40, 'hashUpper' => true,
+            'hash' => 40, 'hashUpper' => true,
             'savePath' => tmp() . '/froq-session',
             'saveHandler' => [
                 'foo\bar\SessionHandler',
@@ -37,8 +36,7 @@ class SessionTest extends \TestCase
 
         $session =@ new Session($options);
         $this->assertSame($options['name'], $session->option('name'));
-        $this->assertTrue($session->option('hash'));
-        $this->assertSame($options['hashLength'], $session->option('hashLength'));
+        $this->assertSame(40, $session->option('hash'));
         $this->assertTrue($session->option('hashUpper'));
         $this->assertSame($options['savePath'], $session->option('savePath'));
         $this->assertSame($options['saveHandler'], $session->option('saveHandler'));
