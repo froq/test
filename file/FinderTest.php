@@ -8,27 +8,15 @@ class FinderTest extends \TestCase
         $this->util = $this->util('file');
     }
 
-    function test_settersGetters() {
+    function test_root() {
         $dir = tmp();
         $finder = new Finder();
 
         $this->assertNull($finder->getRoot());
-        $this->assertNull($finder->getFileClass());
-        $this->assertNull($finder->getInfoClass());
+        $this->assertSame($dir, $finder->setRoot($dir)->getRoot());
 
-        $finder->setRoot($dir)
-               ->setFileClass('SplFileObject')
-               ->setInfoClass('SplFileInfo');
-
+        $finder = new Finder($dir);
         $this->assertSame($dir, $finder->getRoot());
-        $this->assertSame('SplFileObject', $finder->getFileClass());
-        $this->assertSame('SplFileInfo', $finder->getInfoClass());
-
-        $finder = new Finder($dir, 'SplFileObject', 'SplFileInfo');
-
-        $this->assertSame($dir, $finder->getRoot());
-        $this->assertSame('SplFileObject', $finder->getFileClass());
-        $this->assertSame('SplFileInfo', $finder->getInfoClass());
     }
 
     function test_find() {
