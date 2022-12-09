@@ -121,11 +121,6 @@ class GeneratorTest extends \TestCase
         }
     }
 
-    function test_generateSessionId() {
-        $this->assertLength(26, Generator::generateSessionId());
-        $this->assertLength(32, Generator::generateSessionId(['hash' => true, 'hashLength' => 32]));
-    }
-
     function test_generateObjectId() {
         $this->assertLength(24, Generator::generateObjectId());
     }
