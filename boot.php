@@ -3,7 +3,7 @@
 // $ vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./
 // $ vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php ./acl/
 
-if (PHP_SAPI != 'cli') {
+if (PHP_SAPI !== 'cli') {
     echo 'This file must be run via CLI only!', PHP_EOL;
     exit(1);
 }
@@ -12,7 +12,7 @@ if (PHP_SAPI != 'cli') {
 date_default_timezone_set('UTC');
 
 // Path to "vendor/froq" folder.
-$froqDir = __dir__ . '/vendor/froq';
+$froqDir = __DIR__ . '/vendor/froq';
 
 // Froq loader.
 $froqLoader = $froqDir . '/froq/src/Autoloader.php';
@@ -29,21 +29,21 @@ if (is_file($froqSugars)) {
 }
 
 // Composer loader.
-$composerLoader = __dir__ . '/vendor/autoload.php';
+$composerLoader = __DIR__ . '/vendor/autoload.php';
 if (is_file($composerLoader)) {
     require $composerLoader;
 }
 
 // @cancel: Not needed yet.
 // if (is_file($composerLoader)) {
-//     $loader->addPsr4('froq\\acl\\', __dir__ . '/../src/');
+//     $loader->addPsr4('froq\\acl\\', __DIR__ . '/../src/');
 
-//     $composerJson = file_get_contents(__dir__ . '/../composer.json');
+//     $composerJson = file_get_contents(__DIR__ . '/../composer.json');
 //     $composerData = json_decode($composerJson, true);
 
 //     // Load deps.
 //     foreach ($composerData['require'] as $package => $_) {
-//         if (substr($package, 0, 5) == 'froq/') {
+//         if (substr($package, 0, 5) === 'froq/') {
 //             $package = substr($package, 5);
 //             $packagePrefix = strtr($package, '-', '\\') . '\\';
 //             $packageSource = $froqDir . $package . '/src/';
@@ -58,42 +58,42 @@ if (is_file($composerLoader)) {
 //     }
 // }
 
-// Apply exclusions.
-$excludeList = new PHPUnit\Util\ExcludeList();
+// // Apply exclusions.
+// $excludeList = new PHPUnit\Util\ExcludeList();
 
-// Must be re-write here (as Composer does).
-$phpunitBin = realpath(__dir__ . '/vendor/bin/phpunit');
-$phpunitDir = realpath(dirname($phpunitBin) . '/../phpunit/phpunit');
-$excludeList->addDirectory($phpunitDir);
+// // Must be re-write here (as Composer does).
+// $phpunitBin = realpath(__DIR__ . '/vendor/bin/phpunit');
+// $phpunitDir = realpath(dirname($phpunitBin) . '/../phpunit/phpunit');
+// $excludeList->addDirectory($phpunitDir);
 
-// Drop Froq! dir from trace stack (as Composer does).
-foreach (glob(__dir__ . '/vendor/*') as $item) {
-    $item = realpath($item);
-    if (is_dir($item)) foreach (glob($item . '/*') as $item) {
-        if (is_dir($item)) $excludeList->addDirectory(realpath($item));
-    }
-}
+// // Drop Froq! dir from trace stack (as Composer does).
+// foreach (glob(__DIR__ . '/vendor/*') as $item) {
+//     $item = realpath($item);
+//     if (is_dir($item)) foreach (glob($item . '/*') as $item) {
+//         if (is_dir($item)) $excludeList->addDirectory(realpath($item));
+//     }
+// }
 
-// Drop this file from trace stack (as Composer does in bin/phpunit file).
-$GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __file__;
+// // Drop this file from trace stack (as Composer does in bin/phpunit file).
+// $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __FILE__;
 
 // Base test case for all test classes.
 abstract class TestCase extends PHPUnit\Framework\TestCase
 {
-    // function __construct()
-    // {
-    //     parent::__construct();
-    //     if (method_exists($this, 'before')) {
-    //         $this->before();
-    //     }
-    // }
+    function __construct()
+    {
+        parent::__construct();
+        if (method_exists($this, 'before')) {
+            $this->before();
+        }
+    }
 
-    // function __destruct()
-    // {
-    //     if (method_exists($this, 'after')) {
-    //         $this->after();
-    //     }
-    // }
+    function __destruct()
+    {
+        if (method_exists($this, 'after')) {
+            $this->after();
+        }
+    }
 
     function assertLength(int $length, string $string, string $message = ''): void
     {
@@ -103,6 +103,30 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
             [$string, strlen($string), $length], $message
         );
     }
+
+    // function assertEqual(mixed $expected, mixed $actual, string $message = ''): void
+    // {
+    //     $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __FILE__;
+    //     try {
+    //         $this->assertEquals($expected, $actual, $message);
+    //     } catch (\Throwable $error) {
+    //         throw $error;
+    //         array_delete($GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'], __FILE__);
+    //     }
+    //     self::okay();
+    // }
+
+    // function assertNotEqual(mixed $expected, mixed $actual, string $message = ''): void
+    // {
+    //     $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __FILE__;
+    //     try {
+    //         $this->assertNotEquals($expected, $actual, $message);
+    //     } catch (\Throwable $error) {
+    //         throw $error;
+    //         array_delete($GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'], __FILE__);
+    //     }
+    //     self::okay();
+    // }
 
     function assertStringContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
     {
@@ -209,7 +233,7 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
     /** Get an etc file constents. */
     protected function etc(string $file): mixed
     {
-        $file = sprintf('%s/.etc/%s.php', __dir__, $file);
+        $file = sprintf('%s/.etc/%s.php', __DIR__, $file);
         // $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = $file;
         return require $file;
     }
