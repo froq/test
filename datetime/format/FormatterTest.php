@@ -6,7 +6,7 @@ use froq\datetime\locale\{Locale, Intl};
 
 class FormatterTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $formatter = new Formatter();
         $this->assertSame('', $formatter->getFormat());
         $this->assertSame('', $formatter->getLocale());
@@ -23,7 +23,7 @@ class FormatterTest extends \TestCase
         $this->assertSame([], $formatter->getIntl());
     }
 
-    function test_settersGetters() {
+    function testSettersGetters() {
         $formatter = new Formatter();
         $this->assertSame('', $formatter->getFormat());
         $this->assertSame('', $formatter->getLocale());
@@ -38,7 +38,7 @@ class FormatterTest extends \TestCase
         $this->assertSame(['today' => 'Bugün'], $formatter->getIntl());
     }
 
-    function test_format() {
+    function testFormat() {
         $when = '1990-01-09 23:30:11';
         $format = 'Y-m-d H:i:s';
 
@@ -47,7 +47,7 @@ class FormatterTest extends \TestCase
         $this->assertSame('1990-01-10 01:30:11', $formatter->format(new DateTime($when, 'Europe/Istanbul')));
     }
 
-    function test_formatUtc() {
+    function testFormatUtc() {
         $when = '1990-01-09 23:30:11';
         $format = 'Y-m-d H:i:s';
 
@@ -56,7 +56,7 @@ class FormatterTest extends \TestCase
         $this->assertSame('1990-01-09 23:30:11', $formatter->formatUtc(new DateTime($when, 'Europe/Istanbul')));
     }
 
-    function test_formatLocale() {
+    function testFormatLocale() {
         $when = '1990-01-09 23:30:11';
         $format = '%Y-%m-%d %T';
 
@@ -77,7 +77,7 @@ class FormatterTest extends \TestCase
         $this->assertSame('09 Januar 1990, 23:30 ', $formatter->formatLocale($dt, '%d %B %Y, %R %p'));
     }
 
-    function test_formatLocaleUtc() {
+    function testFormatLocaleUtc() {
         $when = '1990-01-09 23:30:11';
         $format = '%Y-%m-%d %T';
 
@@ -98,7 +98,7 @@ class FormatterTest extends \TestCase
         $this->assertSame('09 Januar 1990, 23:30 ', $formatter->formatLocaleUtc($dt, '%d %B %Y, %R %p'));
     }
 
-    function test_formatAgo() {
+    function testFormatAgo() {
         $intl = $this->util('intl');
         $dt = new DateTime('-1 day');
 
@@ -112,7 +112,7 @@ class FormatterTest extends \TestCase
         $this->assertSame('Gestern, ' . $formatter->format($dt, 'H:i'), $formatter->formatAgo($dt));
     }
 
-    function test_exceptions() {
+    function testExceptions() {
         $when = '1990-01-09 23:30:11';
 
         try {

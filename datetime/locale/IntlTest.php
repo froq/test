@@ -4,13 +4,14 @@ use froq\datetime\locale\Intl;
 
 class IntlTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $intl = new Intl($translations = $this->util('intl'));
         $this->assertSame($translations, (array) $intl);
+        $this->assertInstanceOf(\XArrayObject::class, $intl);
         $this->assertInstanceOf(\ArrayObject::class, $intl);
     }
 
-    function test_settersGetters() {
+    function testSettersGetters() {
         $intl = new Intl();
         $this->assertSame([], $intl->getTranslations());
         $this->assertSame(['foo' => 'Foo!'], $intl->setTranslations(['foo' => 'Foo!'])->getTranslations());

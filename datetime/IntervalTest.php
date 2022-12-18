@@ -4,7 +4,7 @@ use froq\datetime\Interval;
 
 class IntervalTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $interval = new Interval();
         $this->assertInstanceOf(\DateInterval::class, $interval);
 
@@ -26,7 +26,7 @@ class IntervalTest extends \TestCase
         new Interval('invalid');
     }
 
-    function test_getters() {
+    function testGetters() {
         $interval = new Interval('P1Y2M3DT1H2M3S');
 
         $this->assertSame(1, $interval->getYear());
@@ -40,7 +40,7 @@ class IntervalTest extends \TestCase
         $this->assertSame(false, $interval->getDays()); // No diff call.
     }
 
-    function test_of() {
+    function testOf() {
         $interval = Interval::of(
             year: 0, month: 1, day: 9,
             hour: 13, minute: 52, second: 33,
@@ -58,7 +58,7 @@ class IntervalTest extends \TestCase
         $this->assertSame(false, $interval->getDays()); // No diff call.
     }
 
-    function test_ofDate() {
+    function testOfDate() {
         $interval = Interval::ofDate(
             '0 year + 1 month + 9 day + '.
             '13 hour + 52 minute + 33 second'
@@ -75,7 +75,7 @@ class IntervalTest extends \TestCase
         $this->assertSame(false, $interval->getDays()); // No diff call.
     }
 
-    function test_toArray() {
+    function testToArray() {
         $interval = Interval::of(
             year: 0, month: 1, day: 9,
             hour: 13, minute: 52, second: 33,

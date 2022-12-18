@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 namespace test\froq\cache;
 use froq\cache\{Cache, CacheFactory, CacheException};
-use froq\cache\agent\{AgentInterface, File, Apcu, Redis, Memcached};
+use froq\cache\agent\{AgentInterface, File};
 
 class CacheFactoryTest extends \TestCase
 {
-    function test_options() {
+    function testOptions() {
         try {
             CacheFactory::init('', []);
         } catch (CacheException $e) {
@@ -25,26 +25,26 @@ class CacheFactoryTest extends \TestCase
         }
     }
 
-    function test_cache() {
+    function testCache() {
         $cache = CacheFactory::init('test', $this->options());
 
         $this->assertInstanceOf(Cache::class, $cache);
     }
 
-    function test_cacheAgent() {
+    function testCacheAgent() {
         $agent = CacheFactory::initAgent('test', $this->options());
 
         $this->assertInstanceOf(File::class, $agent);
         $this->assertInstanceOf(AgentInterface::class, $agent);
     }
 
-    function test_absentCacheInstanceException() {
+    function testAbsentCacheInstanceException() {
         $this->expectException(CacheException::class);
 
         CacheFactory::getInstance('none');
     }
 
-    function test_absentCacheAgentInstanceException() {
+    function testAbsentCacheAgentInstanceException() {
         $this->expectException(CacheException::class);
 
         CacheFactory::getAgentInstance('none');

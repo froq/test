@@ -4,7 +4,7 @@ use froq\collection\collector\SetCollector;
 
 class SetCollectorTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $col = new SetCollector([1, 2, 2]);
         $this->assertSame([1, 2], $col->toArray());
 
@@ -12,7 +12,7 @@ class SetCollectorTest extends \TestCase
         $this->assertSame([1, 2], $col->toArray());
     }
 
-    function test_add() {
+    function testAdd() {
         $col = new SetCollector();
         $this->assertSame([], $col->toArray());
 
@@ -20,7 +20,7 @@ class SetCollectorTest extends \TestCase
         $this->assertSame([1], $col->toArray());
     }
 
-    function test_set() {
+    function testSet() {
         $col = new SetCollector();
         $this->assertSame([], $col->toArray());
 
@@ -31,7 +31,7 @@ class SetCollectorTest extends \TestCase
         $col->set('a', 1);
     }
 
-    function test_get() {
+    function testGet() {
         $col = new SetCollector();
         $this->assertNull($col->get(0));
 
@@ -42,7 +42,7 @@ class SetCollectorTest extends \TestCase
         $col->get('a', 1);
     }
 
-    function test_remove() {
+    function testRemove() {
         $col = new SetCollector();
         $this->assertFalse($col->remove(0));
 
@@ -53,7 +53,7 @@ class SetCollectorTest extends \TestCase
         $col->remove('a');
     }
 
-    function test_removeValue() {
+    function testRemoveValue() {
         $col = new SetCollector();
         $this->assertFalse($col->removeValue(1));
 
@@ -61,7 +61,7 @@ class SetCollectorTest extends \TestCase
         $this->assertTrue($col->removeValue(1));
     }
 
-    function test_replace() {
+    function testReplace() {
         $col = new SetCollector();
         $this->assertFalse($col->replace(0, 2));
 
@@ -72,7 +72,7 @@ class SetCollectorTest extends \TestCase
         $col->replace('a', 2);
     }
 
-    function test_replaceValue() {
+    function testReplaceValue() {
         $col = new SetCollector();
         $this->assertFalse($col->replaceValue(1, 2));
 
@@ -80,7 +80,7 @@ class SetCollectorTest extends \TestCase
         $this->assertTrue($col->replaceValue(1, 2));
     }
 
-    function test_hasMethods() {
+    function testHasMethods() {
         $col = new SetCollector();
         $this->assertFalse($col->has(0));
         $this->assertFalse($col->hasKey(0));

@@ -4,7 +4,7 @@ use froq\collection\{ItemCollection, CollectionException};
 
 class ItemCollectionTest extends \TestCase
 {
-    function test_accessAndAlterMethods() {
+    function testAccessAndAlterMethods() {
         $col = new ItemCollection([null]);
 
         $this->assertFalse($col->has(0));

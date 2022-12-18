@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 namespace test\froq\cache;
 use froq\cache\{Cache, CacheFactory, CacheException};
-use froq\cache\agent\{AgentInterface, File, Apcu, Redis, Memcached};
+use froq\cache\agent\{AgentInterface, File};
 
 class CacheTest extends \TestCase
 {
-    function test_options() {
+    function testOptions() {
         try {
             new Cache('test', []);
         } catch (CacheException $e) {
@@ -25,7 +25,7 @@ class CacheTest extends \TestCase
         }
     }
 
-    function test_fileAgent() {
+    function testFileAgent() {
         $cache = new Cache('test', $this->options());
 
         $this->assertInstanceOf(File::class, $cache->agent);
@@ -35,7 +35,7 @@ class CacheTest extends \TestCase
         $this->assertDirectoryExists($cache->agent->getDirectory());
     }
 
-    function test_fileAgentStorage() {
+    function testFileAgentStorage() {
         $cache = new Cache('test', $this->options());
         $key = 'foo'; $value = 123;
 
@@ -52,7 +52,7 @@ class CacheTest extends \TestCase
         $cache->clear();
     }
 
-    function test_cacheStorage() {
+    function testCacheStorage() {
         $cache = new Cache('test', $this->options());
         $key = 'foo'; $value = 123;
 
@@ -69,7 +69,7 @@ class CacheTest extends \TestCase
         $cache->clear();
     }
 
-    function test_cacheMultiStorage() {
+    function testCacheMultiStorage() {
         $cache = new Cache('test', $this->options());
         $items = ['foo' => 123, 'bar' => true];
         $keys = array_keys($items);

@@ -4,7 +4,7 @@ use froq\collection\{TypedCollection, CollectionException};
 
 class TypedCollectionTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         try {
             new TypedCollection();
         } catch (CollectionException $e) {
@@ -18,7 +18,7 @@ class TypedCollectionTest extends \TestCase
         }
     }
 
-    function test_alterMethodsWithTypeChecks() {
+    function testAlterMethodsWithTypeChecks() {
         $col = new TypedCollection([], 'int');
 
         $col->set('x', 1);

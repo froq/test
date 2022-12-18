@@ -4,8 +4,9 @@ use froq\log\{Logger, LogLevel};
 
 class LoggerTest extends \TestCase
 {
-    function test_defaultOptions() {
+    function testDefaultOptions() {
         $logger = new Logger();
+
         $this->assertSame(LogLevel::ALL, $logger->getOption('level'));
         $this->assertNull($logger->getOption('tag'));
         $this->assertNull($logger->getOption('directory'));
@@ -17,7 +18,7 @@ class LoggerTest extends \TestCase
         $this->assertFalse($logger->getOption('rotate'));
     }
 
-    function test_customOptions() {
+    function testCustomOptions() {
         $file = $this->file();
         $options = [
             'level'      => LogLevel::ERROR|LogLevel::WARN,
@@ -43,50 +44,62 @@ class LoggerTest extends \TestCase
         $this->assertTrue($logger->getOption('rotate'));
     }
 
-    function test_levelMethods() {
+    function testLevelMethods() {
         $logger = new Logger();
+
         $this->assertSame(LogLevel::ALL, $logger->getLevel());
         $this->assertSame(LogLevel::INFO, $logger->setLevel(LogLevel::INFO)->getLevel());
     }
 
-    function test_optionMethods() {
+    function testOptionMethods() {
         $logger = new Logger();
+
         $this->assertSame(null, $logger->getOption('tag'));
         $this->assertSame('test', $logger->setOption('tag', 'test')->getOption('tag'));
     }
 
-    function test_log() {
+    function testLog() {
         $logger = new Logger(['file' => $this->file()]);
+
         $this->assertTrue($logger->log('Test log!'));
+
         unlink($logger->getFile());
     }
 
-    function test_logError() {
+    function testLogError() {
         $logger = new Logger(['file' => $this->file(), 'level' => LogLevel::ERROR|LogLevel::WARN]);
+
         $this->assertTrue($logger->logError('Test log!'));
         $this->assertTrue($logger->logWarn('Test log!'));
         $this->assertFalse($logger->logDebug('Test log!'));
+
         unlink($logger->getFile());
     }
 
-    function test_logWarn() {
+    function testLogWarn() {
         $logger = new Logger(['file' => $this->file(), 'level' => LogLevel::WARN]);
+
         $this->assertTrue($logger->logWarn('Test log!'));
         $this->assertFalse($logger->logDebug('Test log!'));
+
         unlink($logger->getFile());
     }
 
-    function test_logInfo() {
+    function testLogInfo() {
         $logger = new Logger(['file' => $this->file(), 'level' => LogLevel::INFO]);
+
         $this->assertTrue($logger->logInfo('Test log!'));
         $this->assertFalse($logger->logDebug('Test log!'));
+
         unlink($logger->getFile());
     }
 
-    function test_logDebug() {
+    function testLogDebug() {
         $logger = new Logger(['file' => $this->file(), 'level' => LogLevel::DEBUG]);
+
         $this->assertTrue($logger->logDebug('Test log!'));
         $this->assertFalse($logger->logInfo('Test log!'));
+
         unlink($logger->getFile());
     }
 

@@ -4,7 +4,7 @@ use froq\common\object\{Config, ConfigException};
 
 class ConfigTest extends \TestCase
 {
-    function test_updateMethod() {
+    function testUpdateMethod() {
         $con = new Config(['x' => 1]);
 
         $this->assertSame(1, $con->get('x'));
@@ -15,13 +15,13 @@ class ConfigTest extends \TestCase
         $this->assertSame(22, $con->get('y.z'));
     }
 
-    function test_getByPathMethod() {
+    function testGetByPathMethod() {
         $con = new Config(['x' => ['y' => ['z' => 1]]]);
 
         $this->assertSame(1, $con->get('x.y.z'));
     }
 
-    function test_parseDotEnv() {
+    function testParseDotEnv() {
         $file = sprintf('%s/test-%s.env', tmp(), uuid()); // @sugar
 
         @unlink($file);

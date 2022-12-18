@@ -4,7 +4,7 @@ use froq\collection\collector\ArrayCollector;
 
 class ArrayCollectorTest extends \TestCase
 {
-    function test_add() {
+    function testAdd() {
         $col = new ArrayCollector();
         $this->assertSame([], $col->toArray());
 
@@ -12,7 +12,7 @@ class ArrayCollectorTest extends \TestCase
         $this->assertSame([1], $col->toArray());
     }
 
-    function test_set() {
+    function testSet() {
         $col = new ArrayCollector();
         $this->assertSame([], $col->toArray());
 
@@ -20,7 +20,7 @@ class ArrayCollectorTest extends \TestCase
         $this->assertSame([0 => 0, 'a' => 1], $col->toArray());
     }
 
-    function test_get() {
+    function testGet() {
         $col = new ArrayCollector();
         $this->assertNull($col->get('a'));
 
@@ -28,7 +28,7 @@ class ArrayCollectorTest extends \TestCase
         $this->assertSame(1, $col->get('a'));
     }
 
-    function test_remove() {
+    function testRemove() {
         $col = new ArrayCollector();
         $this->assertFalse($col->remove('a'));
 
@@ -36,7 +36,7 @@ class ArrayCollectorTest extends \TestCase
         $this->assertTrue($col->remove('a'));
     }
 
-    function test_removeValue() {
+    function testRemoveValue() {
         $col = new ArrayCollector();
         $this->assertFalse($col->removeValue(1));
 
@@ -44,7 +44,7 @@ class ArrayCollectorTest extends \TestCase
         $this->assertTrue($col->removeValue(1));
     }
 
-    function test_replace() {
+    function testReplace() {
         $col = new ArrayCollector();
         $this->assertFalse($col->replace('a', 2));
 
@@ -52,7 +52,7 @@ class ArrayCollectorTest extends \TestCase
         $this->assertTrue($col->replace('a', 2));
     }
 
-    function test_replaceValue() {
+    function testReplaceValue() {
         $col = new ArrayCollector();
         $this->assertFalse($col->replaceValue(1, 2));
 
@@ -60,7 +60,7 @@ class ArrayCollectorTest extends \TestCase
         $this->assertTrue($col->replaceValue(1, 2));
     }
 
-    function test_hasMethods() {
+    function testHasMethods() {
         $col = new ArrayCollector();
         $this->assertFalse($col->has('a'));
         $this->assertFalse($col->hasKey('a'));

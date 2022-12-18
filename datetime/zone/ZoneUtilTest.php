@@ -4,7 +4,7 @@ use froq\datetime\zone\{ZoneUtil, ZoneException};
 
 class ZoneUtilTest extends \TestCase
 {
-    function test_listIds() {
+    function testListIds() {
         $ids = ZoneUtil::listIds('UTC');
         $this->assertCount(1, $ids);
         $this->assertInstanceOf(\Set::class, $ids);
@@ -20,12 +20,12 @@ class ZoneUtilTest extends \TestCase
         ZoneUtil::listIds('foo');
     }
 
-    function test_idToName() {
+    function testIdToName() {
         $this->assertSame('UTC', ZoneUtil::idToName('UTC'));
         $this->assertSame('Europe / Istanbul', ZoneUtil::idToName('Europe/Istanbul'));
     }
 
-    function test_offsetToCode() {
+    function testOffsetToCode() {
         $this->assertSame('+00:00', ZoneUtil::offsetToCode(0));
         $this->assertSame('+03:00', ZoneUtil::offsetToCode(10800));
     }

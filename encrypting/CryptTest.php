@@ -4,7 +4,7 @@ use froq\encrypting\{Crypt, CryptException};
 
 class CryptTest extends \TestCase
 {
-    function test_encrypt() {
+    function testEncrypt() {
         [$pp, $iv] = $this->secrets();
 
         $this->assertSame('Z1xhQCgs', Crypt::encrypt('Hello!', $pp, $iv));
@@ -17,7 +17,7 @@ class CryptTest extends \TestCase
         }
     }
 
-    function test_decrypt() {
+    function testDecrypt() {
         [$pp, $iv] = $this->secrets();
 
         $this->assertSame('Hello!', Crypt::decrypt('Z1xhQCgs', $pp, $iv));

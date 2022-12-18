@@ -4,7 +4,7 @@ use froq\datetime\zone\{ZoneIdList, ZoneException, ZoneId};
 
 class ZoneIdListTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $zoneIdList = new ZoneIdList('UTC');
         $this->assertCount(1, $zoneIdList);
         $this->assertInstanceOf(ZoneId::class, $zoneIdList[0]);
@@ -18,7 +18,7 @@ class ZoneIdListTest extends \TestCase
         new ZoneIdList('foo');
     }
 
-    function test_toArray() {
+    function testToArray() {
         $zoneIdList = new ZoneIdList();
         $this->assertSame(count(\DateTimeZone::listIdentifiers()), count($zoneIdList->toArray()));
     }

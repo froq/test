@@ -4,7 +4,7 @@ use froq\reflection\ReflectionType;
 
 class ReflectionTypeTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         new ReflectionType('int'); // OK.
 
         $this->expectException(\ReflectionException::class);
@@ -12,7 +12,7 @@ class ReflectionTypeTest extends \TestCase
         new ReflectionType('');
     }
 
-    function test_magicGet() {
+    function testMagicGet() {
         $ref = new ReflectionType('int');
         $this->assertSame('int', $ref->name);
         $this->assertFalse($ref->nullable);
@@ -30,7 +30,13 @@ class ReflectionTypeTest extends \TestCase
         $ref->foo;
     }
 
-    function test_getterMethods() {
+    function testStringCast() {
+        $ref = new ReflectionType('?int');
+        $this->assertIsString((string) $ref);
+        $this->assertStringContains('int|null', (string) $ref);
+    }
+
+    function testGetterMethods() {
         $ref = new ReflectionType('int');
         $this->assertSame('int', $ref->getName());
         $this->assertSame('int', $ref->getPureName());
@@ -60,7 +66,7 @@ class ReflectionTypeTest extends \TestCase
             $ref->getTypes());
     }
 
-    function test_checkerMethods() {
+    function testCheckerMethods() {
         $ref = new ReflectionType('int');
         $this->assertTrue($ref->isBuiltin());
         $this->assertTrue($ref->isNamed());

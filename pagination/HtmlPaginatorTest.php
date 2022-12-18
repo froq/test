@@ -4,7 +4,7 @@ use froq\pagination\{Paginator, HtmlPaginator};
 
 class HtmlPaginatorTest extends \TestCase
 {
-    function test_generateLinks() {
+    function testGenerateLinks() {
         $paginator = new HtmlPaginator();
         $paginator->paginate(10);
 
@@ -30,7 +30,7 @@ class HtmlPaginatorTest extends \TestCase
         );
     }
 
-    function test_generateCenteredLinks() {
+    function testGenerateCenteredLinks() {
         $paginator = new HtmlPaginator();
         $paginator->paginate(10);
 

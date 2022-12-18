@@ -4,17 +4,17 @@ use froq\encrypting\{Generator, GeneratorException, HashException};
 
 class GeneratorTest extends \TestCase
 {
-    function test_generateSalt() {
+    function testGenerateSalt() {
         $this->assertLength(40, Generator::generateSalt());
         $this->assertLength(10, Generator::generateSalt(10));
     }
 
-    function test_generateNonce() {
+    function testGenerateNonce() {
         $this->assertLength(16, Generator::generateNonce());
         $this->assertLength(20, Generator::generateNonce(20));
     }
 
-    function test_generateToken() {
+    function testGenerateToken() {
         $this->assertLength(32, Generator::generateToken());
         $this->assertLength(40, Generator::generateToken(40));
 
@@ -25,17 +25,17 @@ class GeneratorTest extends \TestCase
         }
     }
 
-    function test_generateUuid() {
+    function testGenerateUuid() {
         $this->assertLength(36, Generator::generateUuid());
         $this->assertLength(32, Generator::generateUuid(dashed: false));
     }
 
-    function test_generateGuid() {
+    function testGenerateGuid() {
         $this->assertLength(36, Generator::generateGuid());
         $this->assertLength(32, Generator::generateGuid(dashed: false));
     }
 
-    function test_generateSerial() {
+    function testGenerateSerial() {
         $this->assertLength(20, Generator::generateSerial());
         $this->assertLength(30, Generator::generateSerial(30));
 
@@ -52,7 +52,7 @@ class GeneratorTest extends \TestCase
         Generator::generateRandomSerial(1);
     }
 
-    function test_generateRandomSerial() {
+    function testGenerateRandomSerial() {
         $this->assertLength(20, Generator::generateRandomSerial());
         $this->assertLength(30, Generator::generateRandomSerial(30));
 
@@ -61,7 +61,7 @@ class GeneratorTest extends \TestCase
         Generator::generateRandomSerial(1);
     }
 
-    function test_generateId() {
+    function testGenerateId() {
         $this->assertLength(10, Generator::generateId(10));
         $this->assertMatches('~^[a-zA-Z0-9]+$~', Generator::generateId(10));
         $this->assertMatches('~^[a-z0-9]+$~', Generator::generateId(10, base: 36));
@@ -75,7 +75,7 @@ class GeneratorTest extends \TestCase
         $this->assertStringStartsWith($date, Generator::generateId(10, dated: true));
         $this->assertStringStartsNotWith($date, Generator::generateId(10, dated: false));
 
-        try { // Let next error.
+        try {
             Generator::generateId(1);
         } catch (GeneratorException $e) {
             $this->assertEquals('Argument $length must be minimun 10, 1 given', $e->getMessage());
@@ -88,27 +88,27 @@ class GeneratorTest extends \TestCase
         }
     }
 
-    function test_generateShortId() {
+    function testGenerateShortId() {
         $this->assertLength(16, Generator::generateShortId());
         $this->assertStringStartsWith(date('Ymd'), Generator::generateShortId(dated: true));
         $this->assertStringMatchesFormat('%x', Generator::generateShortId(base: 16));
     }
 
-    function test_generateLongId() {
+    function testGenerateLongId() {
         $this->assertLength(32, Generator::generateLongId());
         $this->assertStringStartsWith(date('Ymd'), Generator::generateLongId(dated: true));
         $this->assertStringMatchesFormat('%x', Generator::generateLongId(base: 16));
     }
 
-    function test_generateSerialId() {
+    function testGenerateSerialId() {
         $this->assertLength(20, Generator::generateSerialId());
         $this->assertStringStartsWith(date('Ymd'), Generator::generateSerialId(true));
     }
 
-    function test_generateRandomId() {
+    function testGenerateRandomId() {
         $this->assertLength(10, Generator::generateRandomId(10));
 
-        try { // Let next error.
+        try {
             Generator::generateRandomId(1);
         } catch (GeneratorException $e) {
             $this->assertEquals('Argument $length must be minimun 4, 1 given', $e->getMessage());
@@ -121,16 +121,16 @@ class GeneratorTest extends \TestCase
         }
     }
 
-    function test_generateObjectId() {
+    function testGenerateObjectId() {
         $this->assertLength(24, Generator::generateObjectId());
     }
 
-    function test_generatePassword() {
+    function testGeneratePassword() {
         $this->assertLength(8, Generator::generatePassword());
         $this->assertLength(12, Generator::generatePassword(12));
     }
 
-    function test_generateOneTimePassword() {
+    function testGenerateOneTimePassword() {
         $this->assertLength(6, Generator::generateOneTimePassword('secret'));
         $this->assertLength(10, Generator::generateOneTimePassword('secret', 10));
     }

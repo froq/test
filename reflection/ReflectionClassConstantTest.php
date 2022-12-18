@@ -5,7 +5,7 @@ use froq\reflection\document\ClassConstantDocument;
 
 class ReflectionClassConstantTest extends \TestCase
 {
-    function test_getterMethods() {
+    function testGetterMethods() {
         $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
         $this->assertSame(\Locale::class, $ref->getClass());
         $this->assertInstanceOf(ReflectionClass::class, $ref->getDeclaringClass());
@@ -14,7 +14,7 @@ class ReflectionClassConstantTest extends \TestCase
         $this->assertSame(['public'], $ref->getModifierNames());
     }
 
-    function test_attributeMethods() {
+    function testAttributeMethods() {
         $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
         $this->assertInstanceOf(\Set::class, $ref->attributes());
         $this->assertCount(0, $ref->attributes());
@@ -24,7 +24,7 @@ class ReflectionClassConstantTest extends \TestCase
     }
 
     // @todo: 8.2 / Trait constants.
-    // function test_traitMethods() {
+    // function testTraitMethods() {
     //     $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
     //     $this->assertInstanceOf(\Set::class, $ref->traits());
     //     $this->assertCount(0, $ref->traits());
@@ -33,7 +33,7 @@ class ReflectionClassConstantTest extends \TestCase
     //     $this->assertSame([], $ref->getTraitNames());
     // }
 
-    function test_interfaceMethods() {
+    function testInterfaceMethods() {
         $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
         $this->assertInstanceOf(\Set::class, $ref->interfaces());
         $this->assertCount(0, $ref->interfaces());
@@ -44,14 +44,14 @@ class ReflectionClassConstantTest extends \TestCase
         $this->assertSame([], $ref->getInterfaceNames());
     }
 
-    function test_typeMethods() {
+    function testTypeMethods() {
         $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
         $this->assertInstanceOf(ReflectionType::class, $ref->getType());
         $this->assertSame('string', $ref->getType()->getName());
         $this->assertEquals([new ReflectionType('string')], $ref->getTypes());
     }
 
-    function test_documentMethods() {
+    function testDocumentMethods() {
         require_once __DIR__ . '/../.etc/util/reflections.php';
 
         $ref = new ReflectionClassConstant('foo\bar\Test::A');

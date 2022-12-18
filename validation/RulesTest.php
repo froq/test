@@ -4,7 +4,7 @@ use froq\validation\{Rules, ValidationType};
 
 class RulesTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $rules = new Rules([
             'user' => [
                 'image' => [

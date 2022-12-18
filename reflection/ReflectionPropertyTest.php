@@ -5,7 +5,7 @@ use froq\reflection\document\PropertyDocument;
 
 class ReflectionPropertyTest extends \TestCase
 {
-    function test_getterMethods() {
+    function testGetterMethods() {
         $ref = new ReflectionProperty(\Locale::class, 'language');
         $this->assertSame(\Locale::class, $ref->getClass());
         $this->assertInstanceOf(ReflectionClass::class, $ref->getDeclaringClass());
@@ -14,7 +14,7 @@ class ReflectionPropertyTest extends \TestCase
         $this->assertSame(['public', 'readonly'], $ref->getModifierNames());
     }
 
-    function test_checkerMethods() {
+    function testCheckerMethods() {
         $ref = new ReflectionProperty(\Locale::class, 'language');
         $this->assertTrue($ref->isReadOnly());
         $this->assertFalse($ref->isNullable());
@@ -34,7 +34,7 @@ class ReflectionPropertyTest extends \TestCase
         $this->assertTrue($ref->isDynamic());
     }
 
-    function test_attributeMethods() {
+    function testAttributeMethods() {
         $ref = new ReflectionProperty(\Locale::class, 'language');
         $this->assertInstanceOf(\Set::class, $ref->attributes());
         $this->assertCount(0, $ref->attributes());
@@ -43,7 +43,7 @@ class ReflectionPropertyTest extends \TestCase
         $this->assertSame([], $ref->getAttributeNames());
     }
 
-    function test_traitMethods() {
+    function testTraitMethods() {
         $ref = new ReflectionProperty(\Locale::class, 'language');
         $this->assertInstanceOf(\Set::class, $ref->traits());
         $this->assertCount(0, $ref->traits());
@@ -52,7 +52,7 @@ class ReflectionPropertyTest extends \TestCase
         $this->assertSame([], $ref->getTraitNames());
     }
 
-    function test_valueMethods() {
+    function testValueMethods() {
         $class = new class('tr') extends \Locale {};
 
         $ref = new ReflectionProperty($class, 'language');
@@ -84,7 +84,7 @@ class ReflectionPropertyTest extends \TestCase
         }
     }
 
-    function test_documentMethods() {
+    function testDocumentMethods() {
         require_once __DIR__ . '/../.etc/util/reflections.php';
 
         $ref = new ReflectionProperty('foo\bar\Test::a');

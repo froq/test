@@ -5,7 +5,7 @@ use froq\datetime\DateTimeZone;
 
 class ZoneTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $zone = new Zone('UTC');
         $this->assertSame('UTC', $zone->getId());
 
@@ -17,13 +17,13 @@ class ZoneTest extends \TestCase
         new Zone('invalid');
     }
 
-    function test_stringCast() {
+    function testStringCast() {
         $zone = new Zone('UTC');
         $this->assertSame('UTC', (string) $zone);
         $this->assertEquals('UTC', $zone); // Stringable.
     }
 
-    function test_getters() {
+    function testGetters() {
         $zone = new Zone('UTC');
         $this->assertSame('UTC', $zone->getId());
         $this->assertSame('UTC', $zone->getName());
@@ -37,7 +37,7 @@ class ZoneTest extends \TestCase
         $this->assertSame('+00:00', $zone->getOffsetCode());
     }
 
-    function test_converters() {
+    function testConverters() {
         $zone = new Zone('UTC');
         $this->assertEquals(new DateTimeZone('UTC'), $zone->toDateTimeZone());
         $this->assertInstanceOf(DateTimeZone::class, $zone->toDateTimeZone());
@@ -49,7 +49,7 @@ class ZoneTest extends \TestCase
         ], $zone->toArray());
     }
 
-    function test_list() {
+    function testList() {
         $zones = Zone::list();
         $this->assertSame('UTC', $zones[0]->getName());
         $this->assertSame(count(\DateTimeZone::listIdentifiers()), count($zones));
@@ -57,7 +57,7 @@ class ZoneTest extends \TestCase
         $this->assertInstanceOf(\ItemList::class, $zones);
     }
 
-    function test_listIds() {
+    function testListIds() {
         $zoneIds = Zone::listIds();
         $this->assertSame('UTC', $zoneIds[0]->getName());
         $this->assertSame(count(\DateTimeZone::listIdentifiers()), count($zoneIds));
@@ -65,12 +65,12 @@ class ZoneTest extends \TestCase
         $this->assertInstanceOf(\ItemList::class, $zoneIds);
     }
 
-    function test_normalizeId() {
+    function testNormalizeId() {
         $this->assertSame('UTC', Zone::normalizeId('UTC'));
         $this->assertSame('Europe/Istanbul', Zone::normalizeId('EUROPE/ISTANBUL'));
     }
 
-    function test_validateId() {
+    function testValidateId() {
         $this->assertTrue(Zone::validateId('UTC'));
         $this->assertTrue(Zone::validateId('Europe/Istanbul'));
 
@@ -80,7 +80,7 @@ class ZoneTest extends \TestCase
         $this->assertFalse(Zone::validateId('invalid'));
     }
 
-    function test_defaultMethods() {
+    function testDefaultMethods() {
         $this->assertSame('UTC', Zone::default());
         $this->assertSame(0, Zone::defaultOffset());
         $this->assertSame('Europe/Istanbul', Zone::default('Europe/Istanbul'));

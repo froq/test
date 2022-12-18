@@ -5,9 +5,9 @@ use froq\reflection\document\CallableDocument;
 
 class ReflectionCallableTest extends \TestCase
 {
-    function test_magicGet() {
-        $ref = new ReflectionCallable(__method__);
-        $this->assertSame('test_magicGet', $ref->name);
+    function testMagicGet() {
+        $ref = new ReflectionCallable(__METHOD__);
+        $this->assertSame(__FUNCTION__, $ref->name);
         $this->assertSame('test\froq\reflection\ReflectionCallableTest', $ref->class);
 
         $this->expectException(\ReflectionException::class);
@@ -15,9 +15,9 @@ class ReflectionCallableTest extends \TestCase
         $ref->foo;
     }
 
-    function test_magicCall() {
-        $ref = new ReflectionCallable(__method__);
-        $this->assertSame('test_magicCall', $ref->getName());
+    function testMagicCall() {
+        $ref = new ReflectionCallable(__METHOD__);
+        $this->assertSame(__FUNCTION__, $ref->getName());
         $this->assertSame('test\froq\reflection\ReflectionCallableTest', $ref->getClass());
 
         $this->expectException(\ReflectionException::class);
@@ -25,19 +25,19 @@ class ReflectionCallableTest extends \TestCase
         $ref->getFoo();
     }
 
-    function test_magicToString() {
-        $ref = new ReflectionCallable(__method__);
+    function testStringCast() {
+        $ref = new ReflectionCallable(__METHOD__);
         $this->assertIsString((string) $ref);
-        $this->assertStringContains('test_magicToString', (string) $ref);
+        $this->assertStringContains(__FUNCTION__, (string) $ref);
     }
 
-    function test_isMethods() {
-        $ref = new ReflectionCallable(__method__);
+    function testIsMethods() {
+        $ref = new ReflectionCallable(__METHOD__);
         $this->assertTrue($ref->isMethod());
         $this->assertFalse($ref->isFunction());
     }
 
-    function test_getters() {
+    function testGetters() {
         $ref = new ReflectionCallable($this, 'theShinyMethod');
         $this->assertSame('theShinyMethod', $ref->getName());
         $this->assertSame(__class__, $ref->getClass());
@@ -47,7 +47,7 @@ class ReflectionCallableTest extends \TestCase
         $this->assertSame('int|float|null', $ref->getReturnType()->getName());
     }
 
-    function test_attributeMethods() {
+    function testAttributeMethods() {
         $ref = new ReflectionCallable($this, 'theShinyMethod');
         $this->assertInstanceOf(\Set::class, $ref->attributes());
         $this->assertCount(3, $ref->attributes());
@@ -68,7 +68,7 @@ class ReflectionCallableTest extends \TestCase
         $this->assertSame(__namespace__, $attr->getNamespace());
     }
 
-    function test_interfaceMethods() {
+    function testInterfaceMethods() {
         $ref = new ReflectionCallable($this, 'theShinyMethod');
         $this->assertInstanceOf(\Set::class, $ref->interfaces());
         $this->assertCount(0, $ref->interfaces());
@@ -79,7 +79,7 @@ class ReflectionCallableTest extends \TestCase
         $this->assertSame([], $ref->getInterfaceNames());
     }
 
-    function test_traitMethods() {
+    function testTraitMethods() {
         $ref = new ReflectionCallable($this, 'theShinyMethod');
         $this->assertInstanceOf(\Set::class, $ref->traits());
         $this->assertCount(0, $ref->traits());
@@ -90,7 +90,7 @@ class ReflectionCallableTest extends \TestCase
         $this->assertSame([], $ref->getTraitNames());
     }
 
-    function test_parameterMethods() {
+    function testParameterMethods() {
         $ref = new ReflectionCallable($this, 'theShinyMethod');
         $this->assertInstanceOf(\Set::class, $ref->parameters());
         $this->assertCount(2, $ref->parameters());
@@ -108,7 +108,7 @@ class ReflectionCallableTest extends \TestCase
         $this->assertSame([null, 0.0], $ref->getParameterValues());
     }
 
-    function test_documentMethods() {
+    function testDocumentMethods() {
         $ref = new ReflectionCallable($this, 'theShinyMethod');
         $this->assertSame('The Shiny Method.', $ref->getDocumentDescription());
 

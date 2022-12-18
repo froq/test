@@ -8,13 +8,13 @@ use froq\reflection\{
 
 class ReflectionTest extends \TestCase
 {
-    function test_getVisibility() {
+    function testGetVisibility() {
         $this->assertSame('public', Reflection::getVisibility(new \ReflectionMethod(CTest::class, 'publicMethod')));
         $this->assertSame('private', Reflection::getVisibility(new \ReflectionMethod(CTest::class, 'privateMethod')));
         $this->assertSame('protected', Reflection::getVisibility(new \ReflectionMethod(CTest::class, 'protectedMethod')));
     }
 
-    function test_reflectMethods() {
+    function testReflectMethods() {
         $this->assertInstanceOf(ReflectionCallable::class, Reflection::reflectCallable('strlen'));
         $this->assertInstanceOf(ReflectionClass::class, Reflection::reflectClass(CTest::class));
         $this->assertInstanceOf(ReflectionClassConstant::class, Reflection::reflectClassConstant(CTest::class, 'NS'));

@@ -4,14 +4,14 @@ use froq\encrypting\oneway\Password;
 
 class PasswordTest extends \TestCase
 {
-    function test_hash() {
+    function testHash() {
         [$pass, $hash] = $this->secrets();
         $pwo = new Password();
 
         $this->assertLength(strlen($hash), $pwo->hash($pass));
     }
 
-    function test_verify() {
+    function testVerify() {
         [$pass, $hash] = $this->secrets();
         $pwo = new Password();
 
@@ -19,7 +19,7 @@ class PasswordTest extends \TestCase
         $this->assertFalse($pwo->verify($pass, 'invalid'));
     }
 
-    function test_options() {
+    function testOptions() {
         $pwo = new Password();
 
         $this->assertSame(PASSWORD_DEFAULT, $pwo->getOption('algo'));

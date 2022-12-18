@@ -4,7 +4,7 @@ use froq\collection\iterator\{GeneratorIterator, GeneratorIteratorException};
 
 class GeneratorIteratorTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $it = new GeneratorIterator(['a', 'b']);
         $this->assertSame(['a', 'b'], $it->toArray());
 
@@ -12,7 +12,7 @@ class GeneratorIteratorTest extends \TestCase
         $this->assertSame(['a', 'b'], $it->toArray());
     }
 
-    function test_setGet() {
+    function testSetGet() {
         $it = new GeneratorIterator();
         $it->setGenerator(fn() => yield 1);
 
@@ -23,7 +23,7 @@ class GeneratorIteratorTest extends \TestCase
         $it->getGenerator();
     }
 
-    function test_apply() {
+    function testApply() {
         $it = new GeneratorIterator(['a', 'b']);
         $it->apply('upper');
         $this->assertSame(['a', 'b'], $it->toArray());
@@ -32,24 +32,24 @@ class GeneratorIteratorTest extends \TestCase
         $this->assertSame(['A', 'B'], $it->toArray());
     }
 
-    function test_each() {
+    function testEach() {
         $it = new GeneratorIterator($array = ['a', 'b']);
         $it->each(function ($value, $key) use ($array) {
             $this->assertSame($array[$key], $value);
         });
     }
 
-    function test_toArray() {
+    function testToArray() {
         $it = new GeneratorIterator(['a', 'b']);
         $this->assertSame(['a', 'b'], $it->toArray());
     }
 
-    function test_toList() {
+    function testToList() {
         $it = new GeneratorIterator(['a' => 1, 'b' => 2]);
         $this->assertSame([1, 2], $it->toList());
     }
 
-    function test_count() {
+    function testCount() {
         $it = new GeneratorIterator([1]);
         $this->assertSame(1, $it->count());
         $this->assertCount(1, $it);

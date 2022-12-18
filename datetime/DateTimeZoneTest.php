@@ -5,7 +5,7 @@ use froq\datetime\zone\{Zone, ZoneId};
 
 class DateTimeZoneTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $dtz = new DateTimeZone('UTC');
         $this->assertInstanceOf(\DateTimeZone::class, $dtz);
         $this->assertInstanceOf(\Stringable::class, $dtz);
@@ -34,13 +34,13 @@ class DateTimeZoneTest extends \TestCase
         }
     }
 
-    function test_stringCast() {
+    function testStringCast() {
         $dtz = new DateTimeZone('UTC');
         $this->assertSame('UTC', (string) $dtz);
         $this->assertEquals('UTC', $dtz); // Stringable.
     }
 
-    function test_getterMethods() {
+    function testGetterMethods() {
         $dtz = new DateTimeZone('Europe/Istanbul');
         $this->assertSame('Europe/Istanbul', $dtz->getId());
         $this->assertSame('+03', $dtz->getAbbr());
@@ -56,19 +56,19 @@ class DateTimeZoneTest extends \TestCase
         $this->assertSame('+03:00', $dtz->getOffsetCode());
     }
 
-    function test_zoneMethods() {
+    function testZoneMethods() {
         $dtz = new DateTimeZone('UTC');
         $this->assertInstanceOf(Zone::class, $dtz->toZone());
         $this->assertInstanceOf(ZoneId::class, $dtz->toZoneId());
     }
 
-    function test_stringMethods() {
+    function testStringMethods() {
         $dtz = new DateTimeZone('UTC');
         $this->assertSame('UTC', $dtz->toString());
         $this->assertSame('"UTC"', json_encode($dtz));
     }
 
-    function test_bridgeMethods() {
+    function testBridgeMethods() {
         $this->assertSame('Europe/Istanbul', DateTimeZone::normalizeId('euroPE/IStaNBUL'));
         $this->assertTrue(DateTimeZone::validateId('Europe/Istanbul'));
         $this->assertFalse(DateTimeZone::validateId('invalid'));

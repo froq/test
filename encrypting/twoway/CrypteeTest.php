@@ -4,7 +4,7 @@ use froq\encrypting\twoway\{Cryptee, TwowayException};
 
 class CrypteeTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         try {
             new Cryptee('');
         } catch (TwowayException $e) {
@@ -12,7 +12,7 @@ class CrypteeTest extends \TestCase
         }
     }
 
-    function test_encrypt() {
+    function testEncrypt() {
         $key = $this->key();
         $cod = new Cryptee($key);
 
@@ -24,7 +24,7 @@ class CrypteeTest extends \TestCase
         $this->assertSame('15f0c24f5c0b', $cod->encrypt('Hello!'));
     }
 
-    function test_decrypt() {
+    function testDecrypt() {
         $key = $this->key();
         $cod = new Cryptee($key);
 

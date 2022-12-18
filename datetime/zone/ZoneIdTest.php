@@ -5,7 +5,7 @@ use froq\datetime\DateTimeZone;
 
 class ZoneIdTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $zoneId = new ZoneId('UTC');
         $this->assertSame('UTC', $zoneId->id);
         $this->assertSame('UTC', $zoneId->name);
@@ -15,13 +15,13 @@ class ZoneIdTest extends \TestCase
         $this->assertSame('Europe / Istanbul', $zoneId->name);
     }
 
-    function test_stringCast() {
+    function testStringCast() {
         $zoneId = new ZoneId('UTC');
         $this->assertSame('UTC', (string) $zoneId);
         $this->assertEquals('UTC', $zoneId); // Stringable.
     }
 
-    function test_getters() {
+    function testGetters() {
         $zoneId = new ZoneId('UTC');
         $this->assertSame('UTC', $zoneId->getId());
         $this->assertSame('UTC', $zoneId->getName());
@@ -31,7 +31,7 @@ class ZoneIdTest extends \TestCase
         $this->assertSame('Europe / Istanbul', $zoneId->getName());
     }
 
-    function test_converters() {
+    function testConverters() {
         $zoneId = new ZoneId('UTC');
         $this->assertEquals(new Zone('UTC'), $zoneId->toZone());
         $this->assertInstanceOf(Zone::class, $zoneId->toZone());

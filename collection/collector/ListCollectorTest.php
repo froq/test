@@ -4,7 +4,7 @@ use froq\collection\collector\ListCollector;
 
 class ListCollectorTest extends \TestCase
 {
-    function test_add() {
+    function testAdd() {
         $col = new ListCollector();
         $this->assertSame([], $col->toArray());
 
@@ -12,7 +12,7 @@ class ListCollectorTest extends \TestCase
         $this->assertSame([1], $col->toArray());
     }
 
-    function test_set() {
+    function testSet() {
         $col = new ListCollector();
         $this->assertSame([], $col->toArray());
 
@@ -23,7 +23,7 @@ class ListCollectorTest extends \TestCase
         $col->set('a', 1);
     }
 
-    function test_get() {
+    function testGet() {
         $col = new ListCollector();
         $this->assertNull($col->get(0));
 
@@ -34,7 +34,7 @@ class ListCollectorTest extends \TestCase
         $col->get('a', 1);
     }
 
-    function test_remove() {
+    function testRemove() {
         $col = new ListCollector();
         $this->assertFalse($col->remove(0));
 
@@ -45,7 +45,7 @@ class ListCollectorTest extends \TestCase
         $col->remove('a');
     }
 
-    function test_removeValue() {
+    function testRemoveValue() {
         $col = new ListCollector();
         $this->assertFalse($col->removeValue(1));
 
@@ -53,7 +53,7 @@ class ListCollectorTest extends \TestCase
         $this->assertTrue($col->removeValue(1));
     }
 
-    function test_replace() {
+    function testReplace() {
         $col = new ListCollector();
         $this->assertFalse($col->replace(0, 2));
 
@@ -64,7 +64,7 @@ class ListCollectorTest extends \TestCase
         $col->replace('a', 2);
     }
 
-    function test_replaceValue() {
+    function testReplaceValue() {
         $col = new ListCollector();
         $this->assertFalse($col->replaceValue(1, 2));
 
@@ -72,7 +72,7 @@ class ListCollectorTest extends \TestCase
         $this->assertTrue($col->replaceValue(1, 2));
     }
 
-    function test_hasMethods() {
+    function testHasMethods() {
         $col = new ListCollector();
         $this->assertFalse($col->has(0));
         $this->assertFalse($col->hasKey(0));

@@ -4,7 +4,7 @@ use froq\reflection\{ReflectionClass, ReflectionInterface};
 
 class ReflectionInterfaceTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $ref = new ReflectionInterface('Throwable');
         $this->assertFalse($ref->isClass());
         $this->assertSame('interface', $ref->getType());

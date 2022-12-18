@@ -4,7 +4,7 @@ use froq\common\object\{Registry, RegistryException};
 
 class RegistryTest extends \TestCase
 {
-    function test_storageMethods() {
+    function testStorageMethods() {
         [$id, $object] = $this->getMock();
 
         $this->assertFalse(Registry::has($id));
@@ -21,7 +21,7 @@ class RegistryTest extends \TestCase
         $this->assertNull(Registry::get($id));
     }
 
-    function test_lockedStates() {
+    function testLockedStates() {
         [$id, $object] = $this->getMock();
 
         Registry::set($id, $object);

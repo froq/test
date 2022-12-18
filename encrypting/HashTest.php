@@ -4,7 +4,7 @@ use froq\encrypting\{Hash, HashException};
 
 class HashTest extends \TestCase
 {
-    function test_make() {
+    function testMake() {
         $input = 'Hello!';
 
         $this->assertLength(8, Hash::make($input, 8));
@@ -17,7 +17,7 @@ class HashTest extends \TestCase
         Hash::make($input, 1);
     }
 
-    function test_makeBy() {
+    function testMakeBy() {
         $input = 'Hello!';
 
         $this->assertLength(8, Hash::makeBy($input, 'fnv1a32'));

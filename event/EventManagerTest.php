@@ -4,7 +4,7 @@ use froq\event\{EventManager, EventManagerException, Event};
 
 class EventManagerTest extends \TestCase
 {
-    function test_events() {
+    function testEvents() {
         $eventManager = new EventManager();
 
         $this->assertFalse($eventManager->has('foo'));
@@ -23,7 +23,7 @@ class EventManagerTest extends \TestCase
         $this->assertCount(2, $eventManager->events());
     }
 
-    function test_fire() {
+    function testFire() {
         $eventManager = new EventManager();
 
         $eventManager->add('foo', function () {});
@@ -38,13 +38,13 @@ class EventManagerTest extends \TestCase
         $eventManager->fire('baz');
     }
 
-    function test_createEvent() {
+    function testCreateEvent() {
         $event = EventManager::createEvent('foo', function () {});
 
         $this->assertInstanceOf(Event::class, $event);
     }
 
-    function test_fireEvent() {
+    function testFireEvent() {
         $event = new Event('foo', function () { return 123; });
 
         $this->assertSame(123, EventManager::fireEvent($event));

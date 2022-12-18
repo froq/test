@@ -4,13 +4,13 @@ use froq\datetime\format\Format;
 
 class FormatTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $format = new Format();
         $this->assertEquals('', $format); // Stringable.
         $this->assertInstanceOf(\Stringable::class, $format);
     }
 
-    function test_patternMethods() {
+    function testPatternMethods() {
         $format = new Format();
         $this->assertEquals('', $format->getPattern());
 
@@ -18,7 +18,7 @@ class FormatTest extends \TestCase
         $this->assertSame('Y-m-d', $format->getPattern());
     }
 
-    function test_stringCast() {
+    function testStringCast() {
         $format = new Format(Format::ISO);
         $this->assertSame(Format::ISO, (string) $format);
         $this->assertEquals(Format::ISO, $format); // Stringable.

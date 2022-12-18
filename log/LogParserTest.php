@@ -4,7 +4,7 @@ use froq\log\{Logger, LogParser};
 
 class LogParserTest extends \TestCase
 {
-    function test_parse() {
+    function testParse() {
         $logger = new Logger(['file' => $this->file()]);
         $logger->log('Test log!');
 

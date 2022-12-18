@@ -4,7 +4,7 @@ use froq\validation\{Rule, ValidationType, ValidationError, ValidationException}
 
 class RuleTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $rule = new Rule('id', ['type' => 'int']);
         $this->assertSame('id', $rule->field);
         $this->assertSame('int', $rule->fieldOptions['type']);
@@ -95,7 +95,7 @@ class RuleTest extends \TestCase
         $this->assertTrue($rule->fieldOptions['drop']);
     }
 
-    function test_okay() {
+    function testOkay() {
         $rule = new Rule('id', ['type' => 'int', 'required', 'unsigned']);
 
         $input = '123';

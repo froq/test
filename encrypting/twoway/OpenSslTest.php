@@ -4,13 +4,7 @@ use froq\encrypting\twoway\{OpenSsl, TwowayException};
 
 class OpenSslTest extends \TestCase
 {
-    function setUp(): void {
-        if (!extension_loaded('openssl')) {
-            $this->markTestSkipped('OpenSSL extension not loaded, skipped test.');
-        }
-    }
-
-    function test_constructor() {
+    function testConstructor() {
         try {
             new OpenSsl('', '');
         } catch (TwowayException $e) {
@@ -24,7 +18,7 @@ class OpenSslTest extends \TestCase
         }
     }
 
-    function test_encrypt() {
+    function testEncrypt() {
         $key = $this->key();
         $cod = new OpenSsl($key);
 
@@ -40,7 +34,7 @@ class OpenSslTest extends \TestCase
         $this->assertMatches('~^[a-f0-9]+$~', $cod->encrypt('Hello!'));
     }
 
-    function test_decrypt() {
+    function testDecrypt() {
         $key = $this->key();
         $cod = new OpenSsl($key);
 

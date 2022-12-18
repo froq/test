@@ -5,7 +5,7 @@ use froq\encoding\decoder\{DecoderError, DecoderException, GZipDecoder, ZLibDeco
 
 class EncDecTest extends \TestCase
 {
-    function test_options() {
+    function testOptions() {
         $encoder = new GZipEncoder(['level' => 9]);
 
         $this->assertSame(-1, $encoder::getDefaultOptions()['level']);
@@ -21,7 +21,7 @@ class EncDecTest extends \TestCase
         $this->assertNull($decoder->getOption('absent'));
     }
 
-    function test_inputErrors() {
+    function testInputErrors() {
         try {
             $encoder = new GZipEncoder(['throwErrors' => true]);
             $encoder->setInput(null)->encode();
@@ -39,7 +39,7 @@ class EncDecTest extends \TestCase
         }
     }
 
-    function test_inputExceptions() {
+    function testInputExceptions() {
         try {
             $encoder = new GZipEncoder();
             $encoder->encode();
@@ -55,7 +55,7 @@ class EncDecTest extends \TestCase
         }
     }
 
-    function test_convert() {
+    function testConvert() {
         $decoded = 'Hello!';
         $encoded = '1f8b0800000000000003f348cdc9c957040056cc2a9d06000000';
 
@@ -70,7 +70,7 @@ class EncDecTest extends \TestCase
         $this->assertNull($error);
     }
 
-    function test_gzip() {
+    function testGzip() {
         $decoded = 'Hello!';
         $encoded = '1f8b0800000000000003f348cdc9c957040056cc2a9d06000000';
 
@@ -89,7 +89,7 @@ class EncDecTest extends \TestCase
         $this->assertSame($decoded, $decoder->getOutput());
     }
 
-    function test_zlib() {
+    function testZlib() {
         $decoded = 'Hello!';
         $encoded = '789cf348cdc9c957040007a20216';
 
@@ -108,7 +108,7 @@ class EncDecTest extends \TestCase
         $this->assertSame($decoded, $decoder->getOutput());
     }
 
-    function test_json() {
+    function testJson() {
         $decoded = (object) [
             'message' => 'Hello!',
             'date' => '2022-05-29'
@@ -148,7 +148,7 @@ class EncDecTest extends \TestCase
         $this->assertEquals($targetObject, $decoder->getOutput());
     }
 
-    function test_xml() {
+    function testXml() {
         $decoded = [
             '@root' => [
                 'test',

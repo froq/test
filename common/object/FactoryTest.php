@@ -4,7 +4,7 @@ use froq\common\object\{Factory, FactoryException};
 
 class FactoryTest extends \TestCase
 {
-    function test_noClassException() {
+    function testNoClassException() {
         try {
             Factory::init('nonexistent');
         } catch (FactoryException $e) {
@@ -18,7 +18,7 @@ class FactoryTest extends \TestCase
         }
     }
 
-    function test_initMethod() {
+    function testInitMethod() {
         $class = 'Error';
         $classArgs = ['code' => 1, 'message' => 'Test!'];
         $object = Factory::init($class, ...$classArgs);
@@ -27,7 +27,7 @@ class FactoryTest extends \TestCase
         $this->assertSame($classArgs['message'], $object->getMessage());
     }
 
-    function test_initOnceMethod() {
+    function testInitOnceMethod() {
         $class = 'Error';
         $classArgs = ['code' => 1, 'message' => 'Test!'];
         $object = Factory::initOnce($class, ...$classArgs);

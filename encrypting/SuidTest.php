@@ -4,13 +4,13 @@ use froq\encrypting\{Suid, SuidException};
 
 class SuidTest extends \TestCase
 {
-    function test_generate() {
+    function testGenerate() {
         $this->assertLength(10, Suid::generate(10));
         $this->assertMatches('~^[a-zA-Z0-9]+$~', Suid::generate(10));
         $this->assertMatches('~^[a-f0-9]+$~', Suid::generate(10, base: 16));
         $this->assertMatches('~^[a-z0-9]+$~', Suid::generate(10, base: 36));
 
-        try { // Let next error.
+        try {
             Suid::generate(0);
         } catch (SuidException $e) {
             $this->assertSame('Argument $length must be greater than 1, 0 given', $e->getMessage());
@@ -23,12 +23,12 @@ class SuidTest extends \TestCase
         }
     }
 
-    function test_generateHexes() {
+    function testGenerateHexes() {
         $this->assertLength(10, Suid::generateHexes(10));
         $this->assertMatches('~^[a-f0-9]+$~', Suid::generateHexes(10));
     }
 
-    function test_generateDigits() {
+    function testGenerateDigits() {
         $this->assertLength(10, Suid::generateDigits(10));
         $this->assertMatches('~^[0-9]+$~', Suid::generateDigits(10));
     }

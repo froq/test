@@ -6,7 +6,7 @@ use froq\common\trait\ThrownableTrait;
 
 class ExceptionTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $e = new Exception();
 
         $this->assertInstanceOf(Thrownable::class, $e);
@@ -14,13 +14,13 @@ class ExceptionTest extends \TestCase
         $this->assertArrayHasKey(ThrownableTrait::class, class_uses($e));
     }
 
-    function test_messageParams() {
+    function testMessageParams() {
         $e = new Exception("Exception: param %s, type %t, quotes %q %Q", ['x', 1, 'a', 'b']);
 
         $this->assertSame('Exception: param x, type int, quotes \'a\' "b"', $e->getMessage());
     }
 
-    function test_magicGet() {
+    function testMagicGet() {
         $e = new Exception('Exception test', code: 1);
 
         $this->assertSame('Exception test', $e->message);
@@ -28,7 +28,7 @@ class ExceptionTest extends \TestCase
         $this->assertNull($e->cause);
     }
 
-    function test_causeMethods() {
+    function testCauseMethods() {
         $e = new Exception();
 
         $this->assertNull($e->getCause());

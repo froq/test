@@ -7,13 +7,13 @@ use froq\util\Objects;
 
 class ReflectionClassTest extends \TestCase
 {
-    function test_getters() {
+    function testGetters() {
         $ref = new ReflectionClass(self::class);
         $this->assertTrue($ref->isClass());
         $this->assertSame('class', $ref->getType());
-        $this->assertSame(__class__, $ref->getName());
-        $this->assertSame(__namespace__, $ref->getNamespace());
-        $this->assertSame(__namespace__, $ref->getDeclaringNamespace()->name);
+        $this->assertSame(__CLASS__, $ref->getName());
+        $this->assertSame(__NAMESPACE__, $ref->getNamespace());
+        $this->assertSame(__NAMESPACE__, $ref->getDeclaringNamespace()->name);
         $this->assertSame([], $ref->getModifierNames());
 
         $ref = new ReflectionClass(\Throwable::class);
@@ -25,7 +25,7 @@ class ReflectionClassTest extends \TestCase
         $this->assertSame([], $ref->getModifierNames());
     }
 
-    function test_parentMethods() {
+    function testParentMethods() {
         $parents = [
             new ReflectionClass('TestCase'),
             new ReflectionClass('PHPUnit\Framework\TestCase'),
@@ -48,7 +48,7 @@ class ReflectionClassTest extends \TestCase
         $this->assertEquals($parents, $ref->getParentClasses());
     }
 
-    function test_attributeMethods() {
+    function testAttributeMethods() {
         $ref = new ReflectionClass($this);
         $this->assertInstanceOf(\Set::class, $ref->attributes());
         $this->assertCount(0, $ref->attributes());
@@ -57,7 +57,7 @@ class ReflectionClassTest extends \TestCase
         $this->assertSame([], $ref->getAttributeNames());
     }
 
-    function test_interfaceMethods() {
+    function testInterfaceMethods() {
         $interfaces = map($interfaceNames = Objects::getInterfaces($this),
             fn($interfaceName) => new ReflectionInterface($interfaceName));
 
@@ -70,7 +70,7 @@ class ReflectionClassTest extends \TestCase
         $this->assertSame($interfaceNames, $ref->getInterfaceNames());
     }
 
-    function test_traitMethods() {
+    function testTraitMethods() {
         $ref = new ReflectionClass($this);
         $this->assertInstanceOf(\Set::class, $ref->traits());
         $this->assertCount(0, $ref->traits());
@@ -79,7 +79,7 @@ class ReflectionClassTest extends \TestCase
         $this->assertSame([], $ref->getTraitNames());
     }
 
-    function test_methodMethods() {
+    function testMethodMethods() {
         $class = new class('tr') extends \Locale {}; // Simpler, for own check.
         $methods = map($methodNames = Objects::getMethodNames($class),
             fn($methodName) => new ReflectionMethod($class, $methodName));
@@ -94,7 +94,7 @@ class ReflectionClassTest extends \TestCase
         $this->assertEquals($methodNames, $ref->getMethodNames());
     }
 
-    function test_constantMethods() {
+    function testConstantMethods() {
         $class = new class('tr') extends \Locale {}; // Simpler, for own check.
         $constants = map($constantNames = Objects::getConstantNames($class),
             fn($constantName) => new ReflectionClassConstant($class, $constantName));
@@ -113,7 +113,7 @@ class ReflectionClassTest extends \TestCase
         $this->assertEquals($constants, $ref->getReflectionConstants());
     }
 
-    function test_propertyMethods() {
+    function testPropertyMethods() {
         $class = new class('tr') extends \Locale {}; // Simpler, for own check.
         $properties = map($propertyNames = Objects::getPropertyNames($class),
             fn($propertyName) => new ReflectionProperty($class, $propertyName));
@@ -144,14 +144,14 @@ class ReflectionClassTest extends \TestCase
         $this->assertSame([1], $ref->getPropertyValues());
     }
 
-    function test_checkerMethods() {
+    function testCheckerMethods() {
         $ref = new ReflectionClass('KeyError');
         $this->assertTrue($ref->implementsInterface('Throwable'));
         $this->assertTrue($ref->usesTrait('froq\common\trait\ThrownableTrait'));
         $this->assertTrue($ref->extendsClass('froq\common\Error'));
     }
 
-    function test_documentMethods() {
+    function testDocumentMethods() {
         require_once __DIR__ . '/../.etc/util/reflections.php';
 
         $ref = new ReflectionClass('foo\bar\Test');

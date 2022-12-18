@@ -4,19 +4,19 @@ use froq\encrypting\Base64;
 
 class Base64Test extends \TestCase
 {
-    function test_encode() {
+    function testEncode() {
         $this->assertSame('SGVsbG8h', Base64::encode('Hello!'));
     }
 
-    function test_decode() {
+    function testDecode() {
         $this->assertSame('Hello!', Base64::decode('SGVsbG8h'));
     }
 
-    function test_encodeUrlSafe() {
+    function testEncodeUrlSafe() {
         $this->assertSame('SGVsbG8sIHdvcmxkIQ', Base64::encodeUrlSafe('Hello, world!'));
     }
 
-    function test_decodeUrlSafe() {
+    function testDecodeUrlSafe() {
         $this->assertSame('Hello, world!', Base64::decodeUrlSafe('SGVsbG8sIHdvcmxkIQ'));
     }
 }

@@ -4,7 +4,7 @@ use froq\datetime\{DateTime, DateTimeException, DateTimeZone, DateTimeZoneExcept
 
 class DateTimeTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $dt = new DateTime();
         $this->assertInstanceOf(\DateTime::class, $dt);
         $this->assertInstanceOf(\Stringable::class, $dt);
@@ -36,12 +36,12 @@ class DateTimeTest extends \TestCase
         }
     }
 
-    function test_stringCast() {
+    function testStringCast() {
         $dt = new DateTime('1990-01-09 23:30:11.123456 Z');
         $this->assertSame('1990-01-09T23:30:11.123456Z', (string) $dt);
     }
 
-    function test_modify() {
+    function testModify() {
         $dt = new DateTime('1990-01-09 23:30:11.506001 +00:00');
         $this->assertSame('1990-01-10T00:30:11+00:00', $dt->modify(3600)->format('c'));
 
@@ -59,7 +59,7 @@ class DateTimeTest extends \TestCase
         $dt->modify('+1 hourzzz');
     }
 
-    function test_timezoneMethods() {
+    function testTimezoneMethods() {
         $dt = new DateTime('', 'Z');
         $this->assertSame('Z', (string) $dt->getTimezone());
         $this->assertSame('UTC', (string) $dt->setTimezone('UTC')->getTimezone());
@@ -70,7 +70,7 @@ class DateTimeTest extends \TestCase
         $this->assertEquals(new DateTimeZone('UTC'), $dt->getTimezone());
     }
 
-    function test_timestampMethods() {
+    function testTimestampMethods() {
         $dt = new DateTime($ts = 1657045544);
         $this->assertSame($ts, $dt->getTimestamp());
         $this->assertSame($ts + 1, $dt->setTimestamp($ts + 1)->getTimestamp());
@@ -80,13 +80,13 @@ class DateTimeTest extends \TestCase
         $this->assertSame(~~($ts * 1000), $dt->getTimestampMillis());
     }
 
-    function test_offsetMethods() {
+    function testOffsetMethods() {
         $dt = new DateTime();
         $this->assertSame(0, $dt->getOffset());
         $this->assertSame('+00:00', $dt->getOffsetCode());
     }
 
-    function test_dateMethods() {
+    function testDateMethods() {
         $dt = new DateTime();
         $dt->setDate('1990-01-09');
         $this->assertSame('1990-01-09', $dt->getDate());
@@ -105,7 +105,7 @@ class DateTimeTest extends \TestCase
         $dt->setDate('1111');
     }
 
-    function test_timeMethods() {
+    function testTimeMethods() {
         $dt = new DateTime();
         $dt->setTime('23:30:11.123456');
         $this->assertSame('23:30', $dt->getTime());
@@ -120,7 +120,7 @@ class DateTimeTest extends \TestCase
         $dt->setTime('1111');
     }
 
-    function test_add() {
+    function testAdd() {
         $dt = new DateTime('1990-01-09 23:30:11');
         $this->assertSame('1990-01-10 00:30:11', $dt->add(3600)->format('Y-m-d H:i:s'));
         $this->assertSame('1990-01-10 01:30:11', $dt->add('1 hour')->format('Y-m-d H:i:s'));
@@ -128,7 +128,7 @@ class DateTimeTest extends \TestCase
         $this->assertSame('1990-01-10 03:30:11', $dt->add(Interval::of(hour: 1))->format('Y-m-d H:i:s'));
     }
 
-    function test_sub() {
+    function testSub() {
         $dt = new DateTime('1990-01-09 23:30:11');
         $this->assertSame('1990-01-09 22:30:11', $dt->sub(3600)->format('Y-m-d H:i:s'));
         $this->assertSame('1990-01-09 21:30:11', $dt->sub('1 hour')->format('Y-m-d H:i:s'));
@@ -136,7 +136,7 @@ class DateTimeTest extends \TestCase
         $this->assertSame('1990-01-09 19:30:11', $dt->sub(Interval::of(hour: 1))->format('Y-m-d H:i:s'));
     }
 
-    function test_diff() {
+    function testDiff() {
         $dt1 = new DateTime('1990-01-09 23:30:11.506001');
         $dt2 = new DateTime('1990-02-19 13:22:45.389718');
 
@@ -160,7 +160,7 @@ class DateTimeTest extends \TestCase
         $this->assertSame(40, $diff->getDays());
     }
 
-    function test_formatMethods() {
+    function testFormatMethods() {
         $dt = new DateTime($when = '1990-01-09 23:30:11');
         $this->assertSame($when, $dt->format('Y-m-d H:i:s'));
         $this->assertSame($when, $dt->formatLocale('%Y-%m-%d %T'));
@@ -179,7 +179,7 @@ class DateTimeTest extends \TestCase
         $this->assertSame('Gestern, ' . $dt->format('H:i'), $dt->formatAgo('de_DE', $intl));
     }
 
-    function test_stringMethods() {
+    function testStringMethods() {
         $dt = new DateTime($when = '1990-01-09T23:30:11.506001+03:00');
 
         $intl = $this->util('intl');
@@ -200,7 +200,7 @@ class DateTimeTest extends \TestCase
         $this->assertSame('"1990-01-09T23:30:11.506001+03:00"', json_encode($dt));
     }
 
-    function test_of() {
+    function testOf() {
         $dt = DateTime::of(1990, 1, 9, 23, 30, 11, 506001, 'UTC');
         $this->assertSame('1990-01-09T23:30:11.506001Z', $dt->toString());
 

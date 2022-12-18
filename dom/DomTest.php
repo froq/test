@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 namespace test\froq\dom;
-use froq\dom\{Dom, DomException, Document, XmlDocument, HtmlDocument};
+use froq\dom\{Dom, DomException, Document, XmlDocument};
 
 class DomTest extends \TestCase
 {
-    function test_encodeMethod() {
+    function testEncodeMethod() {
         $doc = Dom::createXmlDocument();
         $this->assertInstanceOf(XmlDocument::class, $doc);
+        $this->assertInstanceOf(Document::class, $doc);
 
         $doc->setData($this->getMockXmlData());
         $xml = $doc->toString(options: ['indent' => true, 'indentString' => '  ']);
@@ -19,7 +20,7 @@ class DomTest extends \TestCase
         }
     }
 
-    function test_decodeMethod() {
+    function testDecodeMethod() {
         $data = Dom::parseXml($this->getMockXmlString());
         $this->assertIsArray($data);
         $this->assertSame('rss', $data['@xml']['@root']);

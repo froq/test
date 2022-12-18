@@ -4,7 +4,7 @@ use froq\reflection\{ReflectionNamespace, ReflectionClass, ReflectionTrait};
 
 class ReflectionNamespaceTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $ref = new ReflectionNamespace('');
         $this->assertSame('', $ref->name);
 
@@ -16,7 +16,7 @@ class ReflectionNamespaceTest extends \TestCase
         new ReflectionNamespace(' invalid ');
     }
 
-    function test_getters() {
+    function testGetters() {
         $ref = new ReflectionNamespace('');
         $this->assertSame('', $ref->getName());
         $this->assertSame('', $ref->getBasename());
@@ -26,7 +26,7 @@ class ReflectionNamespaceTest extends \TestCase
         $this->assertSame('test', $ref->getBasename());
     }
 
-    function test_classMethods() {
+    function testClassMethods() {
         $ref = new ReflectionNamespace('froq\dom');
         $this->assertTrue($ref->hasClass('DomDocument'));
         $this->assertInstanceOf(ReflectionClass::class, $ref->getClass('DomDocument'));
@@ -34,7 +34,7 @@ class ReflectionNamespaceTest extends \TestCase
         $this->assertEquals(['froq\dom\DomDocument'], slice($ref->getClassNames(), 0, 1));
     }
 
-    function test_interfaceMethods() {
+    function testInterfaceMethods() {
         $ref = new ReflectionNamespace('froq\dom');
         $this->assertFalse($ref->hasInterface('DomDocumentInterface'));
         $this->assertNull($ref->getInterface('DomDocumentInterface'));
@@ -42,7 +42,7 @@ class ReflectionNamespaceTest extends \TestCase
         $this->assertEquals([], $ref->getInterfaceNames());
     }
 
-    function test_traitMethods() {
+    function testTraitMethods() {
         $ref = new ReflectionNamespace('froq\dom');
         $this->assertTrue($ref->hasTrait('NodeTrait'));
         $this->assertInstanceOf(ReflectionTrait::class, $ref->getTrait('NodeTrait'));

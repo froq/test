@@ -4,7 +4,7 @@ use froq\reflection\ReflectionFunction;
 
 class ReflectionFunctionTest extends \TestCase
 {
-    function test_getters() {
+    function testGetters() {
         $ref = new ReflectionFunction('strlen');
         $this->assertSame('strlen', $ref->getName());
         $this->assertSame('int', $ref->getReturnType()->getName());
@@ -13,7 +13,7 @@ class ReflectionFunctionTest extends \TestCase
         $this->assertNull($ref->getDeclaringClass()?->name);
     }
 
-    function test_attributeMethods() {
+    function testAttributeMethods() {
         $ref = new ReflectionFunction('strlen');
         $this->assertInstanceOf(\Set::class, $ref->attributes());
         $this->assertCount(0, $ref->attributes());
@@ -22,7 +22,7 @@ class ReflectionFunctionTest extends \TestCase
         $this->assertSame([], $ref->getAttributeNames());
     }
 
-    function test_parameterMethods() {
+    function testParameterMethods() {
         $ref = new ReflectionFunction('strlen');
         $this->assertInstanceOf(\Set::class, $ref->parameters());
         $this->assertCount(1, $ref->parameters());
@@ -40,7 +40,7 @@ class ReflectionFunctionTest extends \TestCase
         $this->assertSame([null], $ref->getParameterValues());
     }
 
-    function test_documentMethods() {
+    function testDocumentMethods() {
         $ref = new ReflectionFunction('strlen');
         $this->assertNull($ref->getDocument());
         $this->assertNull($ref->getDocumentDescription());

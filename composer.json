@@ -7,6 +7,9 @@
     "authors": [{"name": "Kerem Güneş"}],
     "require": {
         "php": "^8.1",
+        "ext-pdo": "*",
+        "ext-sodium": "*",
+        "ext-openssl": "*",
         "phpunit/phpunit": "^9.5",
         "froq/froq-acl": "^6.0",
         "froq/froq-cache": "^6.0",
@@ -18,7 +21,7 @@
         "froq/froq-encrypting": "^6.0",
         "froq/froq-event": "^6.0",
         "froq/froq-file": "^6.0",
-        "froq/froq-logger": "^6.0",
+        "froq/froq-log": "^6.0",
         "froq/froq-pagination": "^6.0",
         "froq/froq-reflection": "^6.0",
         "froq/froq-session": "^6.0",

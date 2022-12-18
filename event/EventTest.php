@@ -4,13 +4,13 @@ use froq\event\{Event, EventException};
 
 class EventTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $event = new Event('foo', function () {});
 
         $this->assertLength(36, $event->id); // UUID.
         $this->assertSame('foo', $event->name);
     }
-    function test_states() {
+    function testStates() {
         $target = $this;
         $once = true;
         $data = 123;
@@ -32,27 +32,27 @@ class EventTest extends \TestCase
         $event->absentState;
     }
 
-    function test_invoke() {
+    function testInvoke() {
         $event = new Event('foo', fn($e, $arg = null) => $arg, once: false);
 
         $this->assertNull($event());
         $this->assertSame(123, $event(123));
     }
 
-    function test_fire() {
+    function testFire() {
         $event = new Event('foo', fn($e, $arg = null) => $arg, once: false);
 
         $this->assertNull($event->fire());
         $this->assertSame(123, $event->fire(123));
     }
 
-    function test_manager() {
+    function testManager() {
         $event = new Event('foo', fn() => null);
 
         $this->assertNull($event->getManager());
     }
 
-    function test_return() {
+    function testReturn() {
         $event = new Event('foo', fn() => null);
 
         $this->assertNull($event->getReturnValue());
@@ -68,7 +68,7 @@ class EventTest extends \TestCase
         $this->assertSame(123, $event->getReturnValue());
     }
 
-    function test_propagation() {
+    function testPropagation() {
         $event = new Event('foo', function ($e, $arg) {
             $e->stopPropagation();
             return $arg;

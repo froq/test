@@ -4,7 +4,7 @@ use froq\pagination\Paginator;
 
 class PaginatorTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $paginator = new Paginator();
 
         $this->assertSame(1, $paginator->getPage());
@@ -18,7 +18,7 @@ class PaginatorTest extends \TestCase
         $this->assertSame(10, $paginator->getPerPageMax());
     }
 
-    function test_settersGetters() {
+    function testSettersGetters() {
         $paginator = new Paginator();
         $paginator->setPage(2)
                   ->setPerPage(5)
@@ -29,7 +29,7 @@ class PaginatorTest extends \TestCase
         $this->assertSame(10, $paginator->getPerPageMax());
     }
 
-    function test_paginate() {
+    function testPaginate() {
         $paginator = new Paginator();
         $totalRecords = 30;
 
@@ -49,7 +49,7 @@ class PaginatorTest extends \TestCase
         $this->assertSame(30, $paginator->getTotalRecords());
     }
 
-    function test_toArray() {
+    function testToArray() {
         $paginator = new Paginator();
 
         $this->assertEquals([
@@ -67,7 +67,7 @@ class PaginatorTest extends \TestCase
         ], $paginator->toArray());
     }
 
-    function test_toObject() {
+    function testToObject() {
         $paginator = new Paginator();
 
         $this->assertEquals((object) [
@@ -85,7 +85,7 @@ class PaginatorTest extends \TestCase
         ], $paginator->toObject());
     }
 
-    function test_jsonSerialize() {
+    function testJsonSerialize() {
         $paginator = new Paginator();
 
         $this->assertEquals(

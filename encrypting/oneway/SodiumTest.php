@@ -4,20 +4,14 @@ use froq\encrypting\oneway\{Sodium, OnewayException};
 
 class SodiumTest extends \TestCase
 {
-    function setUp(): void {
-        if (!extension_loaded('sodium')) {
-            $this->markTestSkipped('Sodium extension not loaded, skipped test.');
-        }
-    }
-
-    function test_hash() {
+    function testHash() {
         [$pass, $hash] = $this->secrets();
         $pwo = new Sodium();
 
         $this->assertLength(strlen($hash), $pwo->hash($pass));
     }
 
-    function test_verify() {
+    function testVerify() {
         [$pass, $hash] = $this->secrets();
         $pwo = new Sodium();
 
@@ -25,7 +19,7 @@ class SodiumTest extends \TestCase
         $this->assertFalse($pwo->verify($pass, 'invalid'));
     }
 
-    function test_options() {
+    function testOptions() {
         $pwo = new Sodium();
 
         $this->assertSame(Sodium::OPS_LIMIT, $pwo->getOption('opslimit'));

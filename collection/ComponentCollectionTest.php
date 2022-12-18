@@ -4,21 +4,21 @@ use froq\collection\{ComponentCollection, CollectionException};
 
 class ComponentCollectionTest extends \TestCase
 {
-    function test_emptyNamesException() {
+    function testEmptyNamesException() {
         $this->expectException(CollectionException::class);
         $this->expectExceptionMessage('No names given');
 
         new ComponentCollection([]);
     }
 
-    function test_invalidNameException() {
+    function testInvalidNameException() {
         $this->expectException(CollectionException::class);
 
         $col = new ComponentCollection(['x', 'y']);
         $col->get('foo');
     }
 
-    function test_namesAndHasMethods() {
+    function testNamesAndHasMethods() {
         $col = new ComponentCollection(['x', 'y']);
 
         $this->assertEquals(['x', 'y'], $col->names());
@@ -27,7 +27,7 @@ class ComponentCollectionTest extends \TestCase
         $this->assertFalse($col->hasValue('x'));
     }
 
-    function test_accessAndAlterMethods() {
+    function testAccessAndAlterMethods() {
         $col = new ComponentCollection(['x', 'y']);
         $col->set('x', 1)->set('y', null);
 
@@ -52,7 +52,7 @@ class ComponentCollectionTest extends \TestCase
         $this->assertTrue($col->getInt('x') === 123);
     }
 
-    function test_callMagicMethod() {
+    function testMagicCall() {
         $col = new ComponentCollection(['id', 'name']);
         $col->setId(1)->setName('Foo!');
 

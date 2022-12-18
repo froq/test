@@ -4,18 +4,18 @@ use froq\reflection\{ReflectionParameter, ReflectionMethod, ReflectionFunction, 
 
 class ReflectionParameterTest extends \TestCase
 {
-    function test_getters($a = null) {
+    function testGetters($a = null) {
         $fun = function ($a) {};
 
         $ref = new ReflectionParameter($fun, 'a');
-        $this->assertSame(__class__, $ref->getClass());
-        $this->assertSame(__class__, $ref->getDeclaringClass()->name);
+        $this->assertSame(__CLASS__, $ref->getClass());
+        $this->assertSame(__CLASS__, $ref->getDeclaringClass()->name);
         $this->assertNull($ref->getDeclaringMethod()?->name);
         $this->assertNotNull($ref->getDeclaringFunction()?->name);
 
-        $ref = new ReflectionParameter(__method__, 'a');
-        $this->assertSame(__class__, $ref->getClass());
-        $this->assertSame(__class__, $ref->getDeclaringClass()->name);
+        $ref = new ReflectionParameter(__METHOD__, 'a');
+        $this->assertSame(__CLASS__, $ref->getClass());
+        $this->assertSame(__CLASS__, $ref->getDeclaringClass()->name);
         $this->assertInstanceOf(ReflectionMethod::class, $ref->getDeclaringMethod());
         $this->assertInstanceOf(ReflectionMethod::class, $ref->getDeclaringFunction());
 
@@ -26,7 +26,7 @@ class ReflectionParameterTest extends \TestCase
         $this->assertInstanceOf(ReflectionFunction::class, $ref->getDeclaringFunction());
     }
 
-    function test_valueMethods() {
+    function testValueMethods() {
         $fun = function ($a, $b = 0, $c = \PRECISION) {};
 
         $ref = new ReflectionParameter($fun, 'a');
@@ -46,7 +46,7 @@ class ReflectionParameterTest extends \TestCase
         $this->assertNotNull($ref->getDefaultValueConstantName());
     }
 
-    function test_typeMethods() {
+    function testTypeMethods() {
         $fun = function ($a, int $b = 0) {};
 
         $ref = new ReflectionParameter($fun, 'a');

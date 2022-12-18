@@ -6,7 +6,7 @@ use froq\encoding\decoder\{GZipDecoder, ZLibDecoder, JsonDecoder, XmlDecoder};
 
 class CodecTest extends \TestCase
 {
-    function test_properties() {
+    function testProperties() {
         $codec = new GZipCodec();
 
         try {
@@ -38,7 +38,7 @@ class CodecTest extends \TestCase
         }
     }
 
-    function test_options() {
+    function testOptions() {
         $codec = new JsonCodec([
             'encoder' => ['indent' => 2],
             'decoder' => ['assoc' => true],
@@ -48,7 +48,7 @@ class CodecTest extends \TestCase
         $this->assertSame(true, $codec->decoder->getOption('assoc'));
     }
 
-    function test_gzip() {
+    function testGzip() {
         $codec = new GZipCodec();
         $data = 'Hello!';
         $magic = "\x1F\x8B"; // Constant.
@@ -65,7 +65,7 @@ class CodecTest extends \TestCase
         $this->assertStringStartsWith($magic, $encoded);
     }
 
-    function test_zlib() {
+    function testZlib() {
         $codec = new ZLibCodec();
         $data = 'Hello!';
         $magic = "\x78\x9C"; // Default.
@@ -82,7 +82,7 @@ class CodecTest extends \TestCase
         $this->assertStringStartsWith($magic, $encoded);
     }
 
-    function test_json() {
+    function testJson() {
         $codec = new JsonCodec();
         $data = (object) [
             'message' => 'Hello!',
@@ -100,7 +100,7 @@ class CodecTest extends \TestCase
         $this->assertInstanceOf(JsonDecoder::class, $codec->decoder);
     }
 
-    function test_xml() {
+    function testXml() {
         $codec = new XmlCodec();
         $data = [
             '@root' => [

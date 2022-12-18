@@ -4,7 +4,7 @@ use froq\datetime\{UtcDateTime, DateTime, DateTimeZone};
 
 class UtcDateTimeTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $dt = new UtcDateTime();
         $this->assertInstanceOf(\DateTime::class, $dt);
         $this->assertInstanceOf(\Stringable::class, $dt);

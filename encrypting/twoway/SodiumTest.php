@@ -4,13 +4,7 @@ use froq\encrypting\twoway\{Sodium, TwowayException};
 
 class SodiumTest extends \TestCase
 {
-    function setUp(): void {
-        if (!extension_loaded('sodium')) {
-            $this->markTestSkipped('Sodium extension not loaded, skipped test.');
-        }
-    }
-
-    function test_constructor() {
+    function testConstructor() {
         try {
             new Sodium('', '');
         } catch (TwowayException $e) {
@@ -24,7 +18,7 @@ class SodiumTest extends \TestCase
         }
     }
 
-    function test_encrypt() {
+    function testEncrypt() {
         [$key, $nonce] = $this->secrets();
         $cod = new Sodium($key, $nonce);
 
@@ -36,7 +30,7 @@ class SodiumTest extends \TestCase
         $this->assertSame('7c762cdc3e08118221fdd0e1c0e50198b957cad7fa47', $cod->encrypt('Hello!'));
     }
 
-    function test_decrypt() {
+    function testDecrypt() {
         [$key, $nonce] = $this->secrets();
         $cod = new Sodium($key, $nonce);
 

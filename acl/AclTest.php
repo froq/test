@@ -4,11 +4,11 @@ use froq\acl\Acl;
 
 class AclTest extends \TestCase
 {
-    function test_nullUser() {
+    function testNullUser() {
         $this->assertNull((new Acl)->getUser());
     }
 
-    function test_nullRules() {
+    function testNullRules() {
         $this->assertNull((new Acl)->getRules());
     }
 }

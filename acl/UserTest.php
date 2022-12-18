@@ -4,22 +4,22 @@ use froq\acl\{Acl, User};
 
 class UserTest extends \TestCase
 {
-    function test_nullUser() {
+    function testNullUser() {
         $this->assertNull((new Acl)->getUser());
         $this->assertNotNull((new Acl(new User))->getUser());
     }
 
-    function test_userId() {
+    function testUserId() {
         $this->assertSame(1, (new User(1))->getId());
         $this->assertSame(null, (new User(null))->getId());
     }
 
-    function test_userIsLoggedIn() {
+    function testUserIsLoggedIn() {
         $this->assertTrue((new User(1, 'Doe John'))->isLoggedIn());
         $this->assertFalse((new User(null, 'Foe John'))->isLoggedIn());
     }
 
-    function test_userHasAccessTo() {
+    function testUserHasAccessTo() {
         $user1 = new User(1, 'Doe');
         $user2 = new User(2, 'Foe');
 
@@ -30,7 +30,7 @@ class UserTest extends \TestCase
         $this->assertFalse($user2->hasAccessTo('/posts'));
     }
 
-    function test_userCanRead() {
+    function testUserCanRead() {
         $user1 = new User(1, 'Doe');
         $user2 = new User(2, 'Foe');
 
@@ -41,7 +41,7 @@ class UserTest extends \TestCase
         $this->assertFalse($user2->canRead('/posts'));
     }
 
-    function test_userCanWrite() {
+    function testUserCanWrite() {
         $user1 = new User(1, 'Doe');
         $user2 = new User(2, 'Foe');
 
@@ -52,7 +52,7 @@ class UserTest extends \TestCase
         $this->assertFalse($user2->canWrite('/posts'));
     }
 
-    function test_userCanReadAndWrite() {
+    function testUserCanReadAndWrite() {
         $user1 = new User(1, 'Doe');
         $user2 = new User(2, 'Foe');
 

@@ -4,7 +4,7 @@ use froq\validation\{Validation, ValidationError};
 
 class ValidationTest extends \TestCase
 {
-    function test_required() {
+    function testRequired() {
         $validation = new Validation(['id' => ['type' => 'int', 'required']]);
 
         $data = ['id' => 123];
@@ -17,7 +17,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'id' is required, none given.", $validation->errors()['id']['message']);
     }
 
-    function test_errors() {
+    function testErrors() {
         $validation = new Validation(['id' => ['type' => 'int', 'required']], options: ['throwErrors' => true]);
 
         $data = ['id' => 123];
@@ -34,7 +34,7 @@ class ValidationTest extends \TestCase
         }
     }
 
-    function test_arrayValidation() {
+    function testArrayValidation() {
         $validation = new Validation(['tags' => ['type' => 'array']]);
 
         $data = ['tags' => ['foo']];
@@ -47,7 +47,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'tags' value must be array, string given.", $validation->errors()['tags']['message']);
     }
 
-    function test_boolValidation() {
+    function testBoolValidation() {
         $validation = new Validation(['is_deleted' => ['type' => 'bool']]);
 
         $data = ['is_deleted' => true];
@@ -60,7 +60,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'is_deleted' value must be true or false, string given.", $validation->errors()['is_deleted']['message']);
     }
 
-    function test_callbackValidation() {
+    function testCallbackValidation() {
         $validation = new Validation(['id' => ['type' => 'int', 'spec' => (
             static function ($value, $data, &$error) {
                 if ($value < 0) {
@@ -80,7 +80,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Invalid ID value.", $validation->errors()['id']['message']);
     }
 
-    function test_datetimeValidation() {
+    function testDatetimeValidation() {
         $validation = new Validation(['date' => ['type' => 'date']]);
 
         $data = ['date' => '2022-01-01'];
@@ -137,7 +137,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'created_at' value did not match with given pattern.", $validation2->errors()['created_at']['message']);
     }
 
-    function test_emailValidation() {
+    function testEmailValidation() {
         $validation = new Validation(['email' => ['type' => 'email']]);
 
         $data = ['email' => 'foo@bar.com'];
@@ -150,7 +150,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'email' value is not a valid email address.", $validation->errors()['email']['message']);
     }
 
-    function test_enumValidation() {
+    function testEnumValidation() {
         $validation = new Validation(['types' => ['type' => 'enum', 'spec' => ['foo', 'bar']]]);
 
         $data = ['types' => 'foo'];
@@ -163,7 +163,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'types' value must be one of these options: foo, bar.", $validation->errors()['types']['message']);
     }
 
-    function test_jsonValidation() {
+    function testJsonValidation() {
         $validation = new Validation(['tech' => ['type' => 'json']]);
 
         $data = ['tech' => '{"os":"linux"}'];
@@ -198,7 +198,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'tech' value is not a valid JSON object.", $validation2->errors()['tech']['message']);
     }
 
-    function test_numberValidation() {
+    function testNumberValidation() {
         $validation = new Validation(['no' => ['type' => 'number', /* int, float or numeric. */]]);
 
         $data = ['no' => 5];
@@ -230,7 +230,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'no' value must be maximum 10.", $validation2->errors()['no']['message']);
     }
 
-    function test_stringValidation() {
+    function testStringValidation() {
         $validation = new Validation(['name' => ['type' => 'string']]);
 
         $data = ['name' => 'Kerem'];
@@ -262,7 +262,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'name' value length must be maximum 10.", $validation2->errors()['name']['message']);
     }
 
-    function test_epochValidation() {
+    function testEpochValidation() {
         $validation = new Validation(['timestamp' => ['type' => 'epoch']]);
 
         $data = ['timestamp' => time()];
@@ -275,7 +275,7 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'timestamp' value is not a valid epoch.", $validation->errors()['timestamp']['message']);
     }
 
-    function test_urlValidation() {
+    function testUrlValidation() {
         $validation = new Validation(['link' => ['type' => 'url']]);
 
         $data = ['link' => 'http://foo.com'];
@@ -300,7 +300,7 @@ class ValidationTest extends \TestCase
         $this->assertNull($validation2->errors());
     }
 
-    function test_uuidValidation() {
+    function testUuidValidation() {
         $validation = new Validation(['uniq_id' => ['type' => 'uuid']]);
 
         $data = ['uniq_id' => 'e94ec453-f593-43ae-a50c-1fdb17842acd'];

@@ -4,7 +4,7 @@ use froq\common\object\{Enum, EnumException};
 
 class EnumTest extends \TestCase
 {
-    function test_valueMethods() {
+    function testValueMethods() {
         $enum = $this->getMock();
 
         $enum->value(Colors::BLACK);
@@ -14,7 +14,7 @@ class EnumTest extends \TestCase
         $this->assertSame(Colors::WHITE, $enum->getValue());
     }
 
-    function test_arrayMethods() {
+    function testArrayMethods() {
         $enum = $this->getMock();
         $consts = ['BLACK' => Colors::BLACK, 'WHITE' => Colors::WHITE,
                    'GREEN' => Colors::GREEN];
@@ -30,7 +30,7 @@ class EnumTest extends \TestCase
         $this->assertSame(array_values($consts), Colors::values());
     }
 
-    function test_checkerMethods() {
+    function testCheckerMethods() {
         $this->assertTrue(Colors::validName('BLACK'));
         $this->assertFalse(Colors::validName('black'));
         $this->assertTrue(Colors::validName('black', case: 'upper'));
@@ -39,7 +39,7 @@ class EnumTest extends \TestCase
         $this->assertFalse(Colors::validValue(10));
     }
 
-    function test_getterMethods() {
+    function testGetterMethods() {
         $this->assertSame('BLACK', Colors::nameOf(Colors::BLACK));
         $this->assertSame(null, Colors::nameOf('NONE'));
 
@@ -48,7 +48,7 @@ class EnumTest extends \TestCase
         $this->assertSame(Colors::BLACK, Colors::valueOf('black', case: 'upper'));
     }
 
-    function test_callMagicMethod() {
+    function testMagicCall() {
         $enum = $this->getMock(Colors::BLACK);
 
         $this->assertTrue($enum->isBlack());

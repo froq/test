@@ -4,7 +4,7 @@ use froq\datetime\locale\{Locale, LocaleException};
 
 class LocaleTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $locale = new Locale('en', 'US', 'UTF-8');
         $this->assertSame('en_US.UTF-8', (string) $locale);
         $this->assertSame('en', $locale->language);
@@ -27,7 +27,7 @@ class LocaleTest extends \TestCase
         }
     }
 
-    function test_from() {
+    function testFrom() {
         $locale = Locale::from('en_US.UTF-8');
         $this->assertSame('en_US.UTF-8', (string) $locale);
         $this->assertInstanceOf(Locale::class, $locale);
@@ -39,7 +39,7 @@ class LocaleTest extends \TestCase
         }
     }
 
-    function test_fromTag() {
+    function testFromTag() {
         $locale = Locale::fromTag('en-US', 'UTF-8');
         $this->assertSame('en_US.UTF-8', (string) $locale);
         $this->assertInstanceOf(Locale::class, $locale);
@@ -51,7 +51,7 @@ class LocaleTest extends \TestCase
         }
     }
 
-    function test_defaultMethods() {
+    function testDefaultMethods() {
         $this->assertSame('en_US', Locale::setDefault('en_US'));
         $this->assertSame('en_US', Locale::getDefault());
     }

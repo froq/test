@@ -4,7 +4,7 @@ use froq\encrypting\{Base, BaseException};
 
 class BaseTest extends \TestCase
 {
-    function test_encode() {
+    function testEncode() {
         $input = 'Hello!';
         $base62Output = 'mBps3ubT';
         $base36Output = 's7rxvhd0h';
@@ -26,7 +26,7 @@ class BaseTest extends \TestCase
         }
     }
 
-    function test_decode() {
+    function testDecode() {
         $output = 'Hello!';
         $base62Input = 'mBps3ubT';
         $base36Input = 's7rxvhd0h';
@@ -54,14 +54,14 @@ class BaseTest extends \TestCase
         }
     }
 
-    function test_convertions() {
+    function testConvertions() {
         $num = 123456; $hex = '1e240';
 
         $this->assertSame($hex, Base::toBase($num, 16));
         $this->assertSame($num, Base::fromBase($hex, 16));
     }
 
-    function test_characters() {
+    function testCharacters() {
         $this->assertSame('0123456789', Base::chars(10));
         $this->assertSame(Base::BASE10_CHARS, Base::chars(10));
 

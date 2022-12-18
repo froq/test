@@ -4,7 +4,7 @@ use froq\datetime\{Epoch, EpochException, DateTime};
 
 class EpochTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $epoch = new Epoch(); // Default=now.
         $this->assertSame(time(), $epoch->getTime());
 
@@ -42,19 +42,19 @@ class EpochTest extends \TestCase
         }
     }
 
-    function test_accessMethods() {
+    function testAccessMethods() {
         $epoch = new Epoch();
         $this->assertSame($time = time(), $epoch->getTime());
         $this->assertSame($time, $epoch->setTime($time)->getTime());
     }
 
-    function test_formatMethods() {
+    function testFormatMethods() {
         $epoch = new Epoch();
         $this->assertSame(date('YmdHis', $epoch->getTime()), $epoch->format('YmdHis'));
         $this->assertSame(gmdate('YmdHis', $epoch->getTime()), $epoch->formatUtc('YmdHis'));
     }
 
-    function test_ofMethods() {
+    function testOfMethods() {
         $when = '1990-01-09 23:30:11 +00:00';
         $time = 631927811;
 
@@ -62,7 +62,7 @@ class EpochTest extends \TestCase
         $this->assertSame($time, Epoch::ofUtc(1990, 1, 9, 23, 30, 11));
     }
 
-    function test_convert() {
+    function testConvert() {
         $when = '1990-01-09 23:30:11.506001 +00:00';
         $time = 631927811;
 
@@ -72,7 +72,7 @@ class EpochTest extends \TestCase
         $this->assertNull(Epoch::convert('invalid'));
     }
 
-    function test_now() {
+    function testNow() {
         $this->assertSame(time(), Epoch::now());
     }
 }

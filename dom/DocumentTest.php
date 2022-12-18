@@ -4,7 +4,7 @@ use froq\dom\{DomException, DomDocument, DomElement, DomElementList, DomNodeList
 
 class DocumentTest extends \TestCase
 {
-    function test_loaderMethods() {
+    function testLoaderMethods() {
         $doc = new DomDocument();
         $doc->loadSource('xml', $source = $this->getMockSource());
 
@@ -30,7 +30,7 @@ class DocumentTest extends \TestCase
         }
     }
 
-    function test_findMethods() {
+    function testFindMethods() {
         $doc = new DomDocument();
         $doc->loadSource('xml', $this->getMockSource());
 
@@ -65,7 +65,7 @@ class DocumentTest extends \TestCase
         $this->assertNull($doc->findByAttribute('custom', 'none'));
     }
 
-    function test_utilMethods() {
+    function testUtilMethods() {
         $doc = new DomDocument();
         $doc->loadSource('xml', $this->getMockSource());
 

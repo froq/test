@@ -4,7 +4,7 @@ use froq\collection\collector\MapCollector;
 
 class MapCollectorTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $col = new MapCollector([1, 2]);
         $this->assertSame([1, 2], $col->toArray());
 
@@ -12,7 +12,7 @@ class MapCollectorTest extends \TestCase
         $this->assertSame([1, 2], $col->toArray());
     }
 
-    function test_set() {
+    function testSet() {
         $col = new MapCollector();
         $this->assertSame([], $col->toArray());
 
@@ -23,7 +23,7 @@ class MapCollectorTest extends \TestCase
         $col->set(0, 1);
     }
 
-    function test_get() {
+    function testGet() {
         $col = new MapCollector();
         $this->assertNull($col->get('a'));
 
@@ -34,7 +34,7 @@ class MapCollectorTest extends \TestCase
         $col->get(0, 1);
     }
 
-    function test_remove() {
+    function testRemove() {
         $col = new MapCollector();
         $this->assertFalse($col->remove('a'));
 
@@ -45,7 +45,7 @@ class MapCollectorTest extends \TestCase
         $col->remove(0);
     }
 
-    function test_removeValue() {
+    function testRemoveValue() {
         $col = new MapCollector();
         $this->assertFalse($col->removeValue(1));
 
@@ -53,7 +53,7 @@ class MapCollectorTest extends \TestCase
         $this->assertTrue($col->removeValue(1));
     }
 
-    function test_replace() {
+    function testReplace() {
         $col = new MapCollector();
         $this->assertFalse($col->replace('a', 2));
 
@@ -64,7 +64,7 @@ class MapCollectorTest extends \TestCase
         $col->replace(1, 2);
     }
 
-    function test_replaceValue() {
+    function testReplaceValue() {
         $col = new MapCollector();
         $this->assertFalse($col->replaceValue(1, 2));
 
@@ -72,7 +72,7 @@ class MapCollectorTest extends \TestCase
         $this->assertTrue($col->replaceValue(1, 2));
     }
 
-    function test_hasMethods() {
+    function testHasMethods() {
         $col = new MapCollector();
         $this->assertFalse($col->has('a'));
         $this->assertFalse($col->hasKey('a'));

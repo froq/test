@@ -5,7 +5,7 @@ use froq\reflection\document\{CallableDocument, MethodDocument};
 
 class ReflectionMethodTest extends \TestCase
 {
-    function test_getters() {
+    function testGetters() {
         $ref = new ReflectionMethod($this, 'theShinyMethod');
         $this->assertSame('theShinyMethod', $ref->getName());
         $this->assertSame(__class__, $ref->getClass());
@@ -15,7 +15,7 @@ class ReflectionMethodTest extends \TestCase
         $this->assertSame('int|float|null', $ref->getReturnType()->getName());
     }
 
-    function test_attributeMethods() {
+    function testAttributeMethods() {
         $ref = new ReflectionMethod($this, 'theShinyMethod');
         $this->assertInstanceOf(\Set::class, $ref->attributes());
         $this->assertCount(3, $ref->attributes());
@@ -27,7 +27,7 @@ class ReflectionMethodTest extends \TestCase
             $ref->getAttributeNames());
     }
 
-    function test_interfaceMethods() {
+    function testInterfaceMethods() {
         $ref = new ReflectionMethod($this, 'theShinyMethod');
         $this->assertInstanceOf(\Set::class, $ref->interfaces());
         $this->assertCount(0, $ref->interfaces());
@@ -38,7 +38,7 @@ class ReflectionMethodTest extends \TestCase
         $this->assertSame([], $ref->getInterfaceNames());
     }
 
-    function test_traitMethods() {
+    function testTraitMethods() {
         $ref = new ReflectionMethod($this, 'theShinyMethod');
         $this->assertInstanceOf(\Set::class, $ref->traits());
         $this->assertCount(0, $ref->traits());
@@ -49,7 +49,7 @@ class ReflectionMethodTest extends \TestCase
         $this->assertSame([], $ref->getTraitNames());
     }
 
-    function test_parameterMethods() {
+    function testParameterMethods() {
         $ref = new ReflectionMethod($this, 'theShinyMethod');
         $this->assertInstanceOf(\Set::class, $ref->parameters());
         $this->assertCount(2, $ref->parameters());
@@ -67,7 +67,7 @@ class ReflectionMethodTest extends \TestCase
         $this->assertSame([null, 0.0], $ref->getParameterValues());
     }
 
-    function test_documentMethods() {
+    function testDocumentMethods() {
         $ref = new ReflectionMethod($this, 'theShinyMethod');
         $this->assertSame('The Shiny Method.', $ref->getDocumentDescription());
 

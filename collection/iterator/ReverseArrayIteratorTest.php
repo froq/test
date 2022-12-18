@@ -4,7 +4,7 @@ use froq\collection\iterator\ReverseArrayIterator;
 
 class ReverseArrayIteratorTest extends \TestCase
 {
-    function test_constructor() {
+    function testConstructor() {
         $it = new ReverseArrayIterator();
         $this->assertSame([], $it->toArray());
 

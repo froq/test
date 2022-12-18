@@ -4,18 +4,18 @@ use froq\collection\{Collection, CollectionException};
 
 class CollectionTest extends \TestCase
 {
-    function test_empty() {
+    function testEmpty() {
         $col = new Collection();
 
         $this->assertTrue($col->isEmpty());
     }
-    function test_notEmpty() {
+    function testNotEmpty() {
         $col = new Collection(['x' => 123]);
 
         $this->assertTrue($col->isNotEmpty());
     }
 
-    function test_count() {
+    function testCount() {
         $col = new Collection(['x' => 123]);
 
         $this->assertSame(1, $col->count());
@@ -23,7 +23,7 @@ class CollectionTest extends \TestCase
         $this->assertCount(1, $col);
     }
 
-    function test_alteringMethods() {
+    function testAlterMethods() {
         $col = new Collection();
 
         $col->set('x', 123);
@@ -66,7 +66,7 @@ class CollectionTest extends \TestCase
         $this->assertSame(['z' => 3, 'y' => 2], $col->reverse()->toArray());
     }
 
-    function test_accessingMethods() {
+    function testAccessMethods() {
         $col = new Collection(['x' => 1, 'y' => 2, 'z' => '3', 'w' => null]);
 
         $this->assertEquals(1, $col['x']);
@@ -85,7 +85,7 @@ class CollectionTest extends \TestCase
         $this->assertTrue($col->hasValue(null));
     }
 
-    function test_searchingMethods() {
+    function testSearchMethods() {
         $col = new Collection(['x' => 1, 'y' => 2, 'z' => '3', 'w' => null, 2]);
 
         $this->assertEquals('y', $col->indexOf(2));
@@ -108,7 +108,7 @@ class CollectionTest extends \TestCase
         $this->assertEquals(0, $col->lastKey());
     }
 
-    function test_calculatingMethods() {
+    function testCalculateMethods() {
         $col = new Collection(['x' => 1, 'y' => 2, 'z' => 3]);
 
         $this->assertEquals(1, $col->min());
@@ -119,7 +119,7 @@ class CollectionTest extends \TestCase
         $this->assertEquals($col->average(), $col->avg()); // Alias.
     }
 
-    function test_convertingMethods() {
+    function testConvertMethods() {
         $array  = ['x' => 1, 'y' => 2, 'z' => 3];
         $object = (object) $array;
         $json   = json_encode($array);
@@ -144,7 +144,7 @@ class CollectionTest extends \TestCase
         $this->assertEquals($json, json_encode($col));
     }
 
-    function test_loopingMethods() {
+    function testLoopMethods() {
         $col = new Collection(['x' => 1, 'y' => 2, 'z' => 3]);
 
         $sum = $col->copy()
@@ -166,7 +166,7 @@ class CollectionTest extends \TestCase
         $this->assertEquals([2, 3, 4], $aggregated->toArray());
     }
 
-    function test_sortingMethods() {
+    function testSortMethods() {
         $col = new Collection(['z' => 3, 'x' => 1, 'y' => 2]);
         $asc = [1, 2, 3]; $desc = [3, 2, 1];
 
@@ -179,7 +179,7 @@ class CollectionTest extends \TestCase
         $this->assertEquals(['x', 'y', 'z'], $col->sortKey()->keys());
     }
 
-    function test_utilityMethods() {
+    function testUtilityMethods() {
         $col = new Collection($data = [1, 2, '2', 'foo' => null, 0]);
 
         $this->assertEquals([1, 2, '2', 0], $col->copy()->refine()->values());
