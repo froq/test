@@ -4,11 +4,11 @@ use froq\file\glob\{DirectoryGlob, Glob};
 
 class DirectoryGlobTest extends \TestCase
 {
-    function setUp(): void {
+    function before() {
         $this->util = $this->util('file');
     }
 
-    function test_constructor() {
+    function testConstructor() {
         $base = $this->util->dirMake();
         $this->util->dirMakeIn($base, 'dir', 3);
         $this->util->fileMakeIn($base, 'file', 5);

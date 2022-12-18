@@ -1,24 +1,20 @@
 <?php declare(strict_types=1);
 namespace test\froq\file\mime;
-use froq\file\mime\{Mime, MimeException};
+use froq\file\mime\Mime;
 
 class MimeTest extends \TestCase
 {
-    function test_getType() {
-        $this->assertSame('text/x-php', Mime::getType(__file__));
-        $this->assertSame('directory', Mime::getType(__dir__));
-
-        $this->expectException(MimeException::class);
-        $this->expectExceptionMessage('No file exists [file: absent-file]');
-        Mime::getType('absent-file', errorCheck: true);
+    function testGetType() {
+        $this->assertSame('directory', Mime::getType(__DIR__));
+        $this->assertSame('text/x-php', Mime::getType(__FILE__));
     }
 
-    function test_getTypeByExtension() {
+    function testGetTypeByExtension() {
         $this->assertSame('application/x-httpd-php', Mime::getTypeByExtension('php'));
         $this->assertNull(Mime::getTypeByExtension('invalid'));
     }
 
-    function test_getExtensionByType() {
+    function testGetExtensionByType() {
         $this->assertSame('php', Mime::getExtensionByType('application/x-httpd-php'));
         $this->assertSame('php', Mime::getExtensionByType('text/x-php'));
         $this->assertNull(Mime::getExtensionByType('invalid'));

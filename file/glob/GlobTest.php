@@ -4,17 +4,17 @@ use froq\file\glob\{Glob, GlobException};
 
 class GlobTest extends \TestCase
 {
-    function setUp(): void {
+    function before() {
         $this->util = $this->util('file');
     }
 
-    function test_constructor() {
+    function testConstructor() {
         $this->expectException(GlobException::class);
         $this->expectExceptionMessageMatches('~null bytes~');
         new Glob("null-\0-byte-filename");
     }
 
-    function test_get() {
+    function testGet() {
         [$base, $dirs, $files] = $this->generate(3, 5);
         [$first, $last] = [first($dirs), last($files)];
 
@@ -27,7 +27,7 @@ class GlobTest extends \TestCase
         $this->assertSame($last, $glob->getLast()->getPathName());
     }
 
-    public function test_each()
+    public function testEach()
     {
         [$base, $dirs] = $this->generate(3);
 
@@ -39,7 +39,7 @@ class GlobTest extends \TestCase
         });
     }
 
-    function test_filter() {
+    function testFilter() {
         [$base, $dirs, $files] = $this->generate(3, 1);
 
         $glob = new Glob($base . '/*');
@@ -52,7 +52,7 @@ class GlobTest extends \TestCase
         $this->assertCount(1, $glob2);
     }
 
-    function test_map() {
+    function testMap() {
         [$base, $dirs] = $this->generate(3);
 
         $glob = new Glob($base . '/*');
@@ -63,7 +63,7 @@ class GlobTest extends \TestCase
         }
     }
 
-    function test_reduce() {
+    function testReduce() {
         [$base, $dirs] = $this->generate(3);
 
         $glob = new Glob($base . '/*');
@@ -72,7 +72,7 @@ class GlobTest extends \TestCase
         $this->assertSame($dirs, $paths);
     }
 
-    function test_reverse() {
+    function testReverse() {
         [$base, $dirs] = $this->generate(3);
 
         $glob = new Glob($base . '/*');
@@ -81,7 +81,7 @@ class GlobTest extends \TestCase
         $this->assertSame(array_reverse($dirs), $paths);
     }
 
-    function test_sort() {
+    function testSort() {
         [$base, $dirs] = $this->generate(3);
 
         $glob = new Glob($base . '/*');
@@ -90,7 +90,7 @@ class GlobTest extends \TestCase
         $this->assertSame(array_sort($dirs, fn() => 1), $paths);
     }
 
-    function test_sortSpecial() {
+    function testSortSpecial() {
         [$base] = $this->generate(3, 2);
 
         $glob = new Glob($base . '/*');
@@ -103,7 +103,7 @@ class GlobTest extends \TestCase
         $this->assertTrue($glob->get(0)->isFile());
     }
 
-    function test_toArray() {
+    function testToArray() {
         [$base, $dirs] = $this->generate(3);
 
         $glob = new Glob($base . '/*');
@@ -112,7 +112,7 @@ class GlobTest extends \TestCase
         $this->assertSame($dirs, $paths);
     }
 
-    function test_toXArray() {
+    function testToXArray() {
         [$base, $dirs] = $this->generate(3);
 
         $glob = new Glob($base . '/*');
@@ -121,7 +121,7 @@ class GlobTest extends \TestCase
         $this->assertEquals(new \XArray($dirs), $paths);
     }
 
-    function test_count() {
+    function testCount() {
         [$base] = $this->generate(3);
 
         $glob = new Glob($base . '/*');
@@ -131,7 +131,7 @@ class GlobTest extends \TestCase
         $this->assertSame(3, $glob->count());
     }
 
-    function test_iteratorGetters() {
+    function testIteratorGetters() {
         [$base] = $this->generate();
 
         $glob = new Glob($base . '/*');
@@ -140,7 +140,7 @@ class GlobTest extends \TestCase
         $this->assertInstanceOf(\ArrayIterator::class, $glob->getArrayIterator());
     }
 
-    function test_arrayAccess() {
+    function testArrayAccess() {
         [$base, $dirs] = $this->generate(1);
 
         $glob = new Glob($base . '/*');

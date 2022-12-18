@@ -4,11 +4,11 @@ use froq\file\{Finder, FinderException};
 
 class FinderTest extends \TestCase
 {
-    function setUp(): void {
+    function before() {
         $this->util = $this->util('file');
     }
 
-    function test_root() {
+    function testRoot() {
         $dir = tmp();
         $finder = new Finder();
 
@@ -19,7 +19,7 @@ class FinderTest extends \TestCase
         $this->assertSame($dir, $finder->getRoot());
     }
 
-    function test_find() {
+    function testFind() {
         $finder = new Finder($dir = $this->util->dirMake());
         $pattern = '~.*~';
 
@@ -41,7 +41,7 @@ class FinderTest extends \TestCase
         $this->assertSame($count, iterator_count($iter));
     }
 
-    function test_findAll() {
+    function testFindAll() {
         $finder = new Finder($dir = $this->util->dirMake());
         $pattern = '~.*~';
 
@@ -63,7 +63,7 @@ class FinderTest extends \TestCase
         $this->assertSame($count, iterator_count($iter));
     }
 
-    function test_glob() {
+    function testGlob() {
         $finder = new Finder($dir = $this->util->dirMake());
         $pattern = '*';
 
@@ -85,7 +85,7 @@ class FinderTest extends \TestCase
         $this->assertSame($count, count($iter));
     }
 
-    function test_xglob() {
+    function testXglob() {
         $finder = new Finder($dir = $this->util->dirMake());
         $pattern = '*';
 

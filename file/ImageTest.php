@@ -1,133 +1,35 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
-use froq\file\{Image, ImageException};
-use froq\file\upload\ImageSource;
+use froq\file\{Image, ImageException, File, Path, error};
 
 class ImageTest extends \TestCase
 {
-    function setUp(): void {
+    function before() {
         $this->util = $this->util('file');
     }
 
-    function test_settersGetters() {
-        $file = $this->util->imageMake();
-        $directory = dirname($file);
-        $image = new Image();
-        $image->setFile($file)
-              ->setName('test')
-              ->setExtension('png')
-              ->setDirectory($directory);
-
-        $this->assertSame($file, $image->getFile());
-        $this->assertSame('test', $image->getName());
-        $this->assertSame('png', $image->getExtension());
-        $this->assertSame($directory, $image->getDirectory());
-    }
-
-    function test_source() {
+    function testConstructor() {
         $image = new Image($this->util->imageMake());
 
-        $this->assertInstanceOf(ImageSource::class, $image->source());
-        $this->assertInstanceOf(ImageSource::class, $image->source);
+        $this->assertInstanceOf(File::class, $image);
+        $this->assertInstanceOf(Path::class, $image);
 
-        $this->expectException(ImageException::class);
-        $this->expectExceptionMessage('No source file given yet');
-        (new Image)->source();
+        try {
+            new Image("null-byte-\0");
+        } catch (ImageException $e) {
+            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
+            $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
+        }
+
+        try {
+            new Image("");
+        } catch (ImageException $e) {
+            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
+            $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
+        }
     }
 
-    function test_save() {
-        $image = new Image($file = $this->util->imageMake());
-        $image->setName('test-save.png')
-              ->setDirectory(dirname($file));
-
-        $this->assertSame($image->save(), $image->source->getTarget());
-
-        $this->expectException(ImageException::class);
-        $this->expectExceptionMessage("Cannot overwrite on existing file '{$image->source->getTarget()}'");
-        $image->save();
-    }
-
-    function test_move() {
-        $image = new Image($file = $this->util->imageMake());
-        $image->setName('test-move.png')
-              ->setDirectory(dirname($file));
-
-        $this->assertSame($image->move(), $image->source->getTarget());
-
-        $this->expectException(ImageException::class);
-        $this->expectExceptionMessage("Cannot overwrite on existing file '{$image->source->getTarget()}'");
-        $image->move();
-    }
-
-    function test_resample() {
-        $image = new Image($this->util->imageMake());
-        $image->resample();
-
-        $this->assertSame([200, 200], $image->source->getDimensions());
-        $this->assertSame([200, 200], $image->source->getNewDimensions());
-    }
-
-    function test_resize() {
-        $image = new Image($this->util->imageMake());
-        $image->resize(50, 50);
-
-        $this->assertSame([50, 50], $image->source->getDimensions());
-        $this->assertSame([50, 50], $image->source->getNewDimensions());
-    }
-
-    function test_resizeThumbnail() {
-        $image = new Image($this->util->imageMake());
-        $image->resizeThumbnail(50, null);
-
-        $this->assertSame([50, 50], $image->source->getDimensions());
-        $this->assertSame([50, 50], $image->source->getNewDimensions());
-    }
-
-    function test_crop() {
-        $image = new Image($this->util->imageMake());
-        $image->crop(50, 50);
-
-        $this->assertSame([50, 50], $image->source->getDimensions());
-        $this->assertSame([50, 50], $image->source->getNewDimensions());
-    }
-
-    function test_cropThumbnail() {
-        $image = new Image($this->util->imageMake());
-        $image->cropThumbnail(50, 50);
-
-        $this->assertSame([50, 50], $image->source->getDimensions());
-        $this->assertSame([50, 50], $image->source->getNewDimensions());
-    }
-
-    function test_chop() {
-        $image = new Image($this->util->imageMake());
-        $image->chop(50, 50, 0, 0);
-
-        $this->assertSame([50, 50], $image->source->getDimensions());
-        $this->assertSame([50, 50], $image->source->getNewDimensions());
-    }
-
-    function test_rotate() {
-        $image = new Image($this->util->imageMake());
-        $image->rotate(45);
-
-        $this->assertSame([283, 283], $image->source->getDimensions());
-        $this->assertSame([283, 283], $image->source->getNewDimensions());
-    }
-
-    function test_size() {
-        $image = new Image($this->util->imageMake());
-
-        $this->assertSame(20541, $image->size());
-    }
-
-    function test_mime() {
-        $image = new Image($this->util->imageMake());
-
-        $this->assertSame('image/png', $image->mime());
-    }
-
-    function test_info() {
+    function testInfo() {
         $image = new Image($this->util->imageMake());
 
         $this->assertSame([
@@ -138,24 +40,21 @@ class ImageTest extends \TestCase
         ], $image->info());
     }
 
-    function test_toString() {
-        $image = new Image($file = $this->util->imageMake());
-        $image->setDirectory(dirname($file));
+    function testDims() {
+        $image = new Image($this->util->imageMake());
 
-        $this->assertStringEqualsFile($image->save(), $image->toString());
+        $this->assertSame([
+            0 => 200, 1 => 200
+        ], $image->dims());
     }
 
-    function test_toBase64() {
-        $image = new Image($this->util->imageMake());
-        $image->resample();
+    function testFromString() {
+        $image = Image::fromString(file_read($this->util->imageMake()));
 
-        $this->assertSame(base64_encode($image->toString()), $image->toBase64());
-    }
+        $this->assertInstanceOf(Image::class, $image);
 
-    function test_toDataUrl() {
-        $image = new Image($this->util->imageMake());
-        $image->resample();
-
-        $this->assertSame('data:image/png;base64,' . base64_encode($image->toString()), $image->toDataUrl());
+        $this->expectException(ImageException::class);
+        $this->expectExceptionMessage('Data is not in a recognized format');
+        $image = Image::fromString('abc');
     }
 }
