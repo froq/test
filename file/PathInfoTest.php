@@ -48,7 +48,7 @@ class PathInfoTest extends \TestCase
         $dir = dirname($path);
         $this->assertSame($dir, $info->getDirectory());
         $this->assertSame(dirname($dir), $info->getRootDirectory());
-        $this->assertSame(dirname($dir), $info->getParentDirectory());
+        $this->assertSame($dir, $info->getParentDirectory());
 
         $this->assertEquals(new PathInfo($dir), $info->getDirectoryInfo());
         $this->assertEquals(new PathInfo($dir), $info->getDirInfo());

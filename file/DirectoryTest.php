@@ -81,7 +81,7 @@ class DirectoryTest extends \TestCase
 
         $this->assertEquals(new Directory(dirname($path, substr_count($path, DIRECTORY_SEPARATOR) - 1)),
             $dir->getRootDirectory());
-        $this->assertEquals(new Directory(dirname($path, 2)),
+        $this->assertEquals(new Directory(dirname($path, 1)),
             $dir->getParentDirectory());
     }
 
