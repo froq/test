@@ -4,7 +4,7 @@ use froq\file\{Finder, FinderException};
 
 class FinderTest extends \TestCase
 {
-    function before() {
+    function init() {
         $this->util = $this->util('file');
     }
 

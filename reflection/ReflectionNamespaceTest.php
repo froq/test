@@ -8,8 +8,8 @@ class ReflectionNamespaceTest extends \TestCase
         $ref = new ReflectionNamespace('');
         $this->assertSame('', $ref->name);
 
-        $ref = new ReflectionNamespace(__namespace__);
-        $this->assertSame(__namespace__, $ref->name);
+        $ref = new ReflectionNamespace(__NAMESPACE__);
+        $this->assertSame(__NAMESPACE__, $ref->name);
 
         $this->expectException(\ReflectionException::class);
         $this->expectExceptionMessage('Invalid namespace: " invalid "');
@@ -21,7 +21,7 @@ class ReflectionNamespaceTest extends \TestCase
         $this->assertSame('', $ref->getName());
         $this->assertSame('', $ref->getBasename());
 
-        $ref = new ReflectionNamespace(__namespace__);
+        $ref = new ReflectionNamespace(__NAMESPACE__);
         $this->assertSame('test\froq\reflection', $ref->getName());
         $this->assertSame('test', $ref->getBasename());
     }

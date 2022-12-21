@@ -35,7 +35,7 @@ trait TTest {
 }
 
 interface ITest {
-    const NS = __namespace__;
+    const NS = __NAMESPACE__;
 }
 
 class CTest implements ITest {

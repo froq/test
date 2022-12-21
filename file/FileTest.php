@@ -4,7 +4,7 @@ use froq\file\{File, FileException, Path, PathInfo, Directory, error};
 
 class FileTest extends \TestCase
 {
-    function before() {
+    function init() {
         $this->util = $this->util('file');
     }
 

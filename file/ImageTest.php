@@ -4,7 +4,7 @@ use froq\file\{Image, ImageException, File, Path, error};
 
 class ImageTest extends \TestCase
 {
-    function before() {
+    function init() {
         $this->util = $this->util('file');
     }
 

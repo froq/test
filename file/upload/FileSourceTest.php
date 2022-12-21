@@ -5,7 +5,7 @@ use froq\file\FileException;
 
 class FileSourceTest extends \TestCase
 {
-    function before() {
+    function init() {
         $this->util = $this->util('file');
     }
 

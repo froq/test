@@ -90,7 +90,7 @@ return new class() {
      * Return froq image.
      */
     function image(): string {
-        return realpath(__dir__ . '/../img/froq.png');
+        return realpath(__DIR__ . '/../img/froq.png');
     }
 
     /**

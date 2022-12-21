@@ -4,7 +4,7 @@ use froq\file\glob\{Glob, GlobException};
 
 class GlobTest extends \TestCase
 {
-    function before() {
+    function init() {
         $this->util = $this->util('file');
     }
 

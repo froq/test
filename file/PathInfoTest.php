@@ -4,7 +4,7 @@ use froq\file\{PathInfo, PathInfoException, error};
 
 class PathInfoTest extends \TestCase
 {
-    function before() {
+    function init() {
         $this->util = $this->util('file');
     }
 

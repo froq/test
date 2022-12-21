@@ -4,7 +4,7 @@ use froq\file\glob\{DirectoryGlob, Glob};
 
 class DirectoryGlobTest extends \TestCase
 {
-    function before() {
+    function init() {
         $this->util = $this->util('file');
     }
 

@@ -26,7 +26,7 @@ class SessionTest extends \TestCase
             'savePath' => tmp() . '/froq-session',
             'saveHandler' => [
                 'foo\bar\SessionHandler',
-                __dir__ . '/../.etc/util/session-handler.php'
+                __DIR__ . '/../.etc/util/session-handler.php'
             ],
             'cookie' => [
                 'lifetime' => 30, 'path' => '/', 'domain' => 'foo.tld',
