@@ -58,23 +58,6 @@ class IntervalTest extends \TestCase
         $this->assertSame(false, $interval->getDays()); // No diff call.
     }
 
-    function testOfDate() {
-        $interval = Interval::ofDate(
-            '0 year + 1 month + 9 day + '.
-            '13 hour + 52 minute + 33 second'
-        );
-
-        $this->assertSame(0, $interval->getYear());
-        $this->assertSame(1, $interval->getMonth());
-        $this->assertSame(9, $interval->getDay());
-        $this->assertSame(13, $interval->getHour());
-        $this->assertSame(52, $interval->getMinute());
-        $this->assertSame(33, $interval->getSecond());
-        $this->assertSame(0, $interval->getMicrosecond());
-        $this->assertSame(0.0, $interval->getFraction());
-        $this->assertSame(false, $interval->getDays()); // No diff call.
-    }
-
     function testToArray() {
         $interval = Interval::of(
             year: 0, month: 1, day: 9,
