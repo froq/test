@@ -23,15 +23,14 @@ class ReflectionClassConstantTest extends \TestCase
         $this->assertSame([], $ref->getAttributeNames());
     }
 
-    // @todo: 8.2 / Trait constants.
-    // function testTraitMethods() {
-    //     $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
-    //     $this->assertInstanceOf(\Set::class, $ref->traits());
-    //     $this->assertCount(0, $ref->traits());
-    //     $this->assertNull($ref->getTrait('Foo'));
-    //     $this->assertSame([], $ref->getTraits());
-    //     $this->assertSame([], $ref->getTraitNames());
-    // }
+    function testTraitMethods() {
+        $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
+        $this->assertInstanceOf(\Set::class, $ref->traits());
+        $this->assertCount(0, $ref->traits());
+        $this->assertNull($ref->getTrait('Foo'));
+        $this->assertSame([], $ref->getTraits());
+        $this->assertSame([], $ref->getTraitNames());
+    }
 
     function testInterfaceMethods() {
         $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
