@@ -5,7 +5,7 @@ use froq\session\{Session, SessionException};
 class SessionTest extends \TestCase
 {
     function testDefaultOptions() {
-        $session =@ new Session();
+        @ $session = new Session();
         $this->assertSame('SID', $session->option('name'));
         $this->assertNull($session->option('hash'));
         $this->assertFalse($session->option('hashUpper'));
@@ -34,7 +34,7 @@ class SessionTest extends \TestCase
             ]
         ];
 
-        $session =@ new Session($options);
+        @ $session = new Session($options);
         $this->assertSame($options['name'], $session->option('name'));
         $this->assertSame(40, $session->option('hash'));
         $this->assertTrue($session->option('hashUpper'));
@@ -51,7 +51,7 @@ class SessionTest extends \TestCase
     // Skipped all other header related stuff beause of:
     // Headers already sent at vendor/phpunit/phpunit/src/Util/Printer.php:104.
     // function testStart() {
-    //     $session =@ new Session($options);
+    //     @ $session = new Session($options);
     //     $this->assertTrue($session->start());
     // }
 }
