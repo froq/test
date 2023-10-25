@@ -55,11 +55,11 @@ class EpochTest extends \TestCase
     }
 
     function testOfMethods() {
-        $when = '1990-01-09 23:30:11 +00:00';
-        $time = 631927811;
+        $epoch1 = new Epoch('1990-01-09 23:30:11 +00:00');
+        $epoch2 = new Epoch(631927811);
 
-        $this->assertSame($time, Epoch::of(1990, 1, 9, 23, 30, 11));
-        $this->assertSame($time, Epoch::ofUtc(1990, 1, 9, 23, 30, 11));
+        $this->assertEquals($epoch1, Epoch::of(1990, 1, 9, 23, 30, 11));
+        $this->assertEquals($epoch2, Epoch::ofUtc(1990, 1, 9, 23, 30, 11));
     }
 
     function testConvert() {
