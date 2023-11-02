@@ -229,6 +229,13 @@ class FileTest extends \TestCase
         $this->assertEquals(new Directory(dirname($path)), $file->getDirectory());
     }
 
+    function testFromTemp() {
+        $file = File::fromTemp();
+
+        $this->assertInstanceOf(File::class, $file);
+        $this->assertFileExists($file->getPath());
+    }
+
     function testFromString() {
         $file = File::fromString('abc');
 
