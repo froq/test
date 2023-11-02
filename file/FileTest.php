@@ -272,7 +272,7 @@ class FileTest extends \TestCase
 
         chmod($path, 0);
 
-        $this->assertTrue($file->okay(read: true));
+        $this->assertFalse($file->okay(read: true));
         $this->assertFalse($file->okay(write: true));
         $this->assertFalse($file->okay(execute: true));
     }
