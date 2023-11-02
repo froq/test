@@ -262,6 +262,21 @@ class FileTest extends \TestCase
         $this->assertFalse($file->exists());
     }
 
+    function testOkay() {
+        $path = $this->util->fileMake();
+        $file = new File($path);
+
+        $this->assertTrue($file->okay(read: true));
+        $this->assertTrue($file->okay(write: true));
+        $this->assertTrue($file->okay(execute: true));
+
+        chmod($path, 0);
+
+        $this->assertTrue($file->okay(read: true));
+        $this->assertFalse($file->okay(write: true));
+        $this->assertFalse($file->okay(execute: true));
+    }
+
     function testModeTouch() {
         $file = new File($this->util->fileMake());
 
