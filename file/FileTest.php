@@ -234,6 +234,21 @@ class FileTest extends \TestCase
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertFileExists($file->getPath());
+
+        $file->close(); // Removes temp file.
+        $this->assertFileNotExists($file->getPath());
+
+        try {
+            $file->delete();
+        } catch (FileException $e) {
+            $this->assertSame('No such file or directory', $e->getMessage());
+            $this->assertSame(error\NoFileError::class, $e->getCause()->getClass());
+        }
+
+        $file = File::fromTemp(autodrop: false);
+
+        $file->close(); // No removal.
+        $this->assertFileExists($file->getPath());
     }
 
     function testFromString() {
