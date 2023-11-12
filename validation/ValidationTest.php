@@ -13,8 +13,9 @@ class ValidationTest extends \TestCase
 
         $data = ['id' => null];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::REQUIRED, $validation->errors()['id']['code']);
-        $this->assertSame("Field 'id' is required, none given.", $validation->errors()['id']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::REQUIRED, $errors['id']['code']);
+        $this->assertSame("Field 'id' is required, none given.", $errors['id']['message']);
     }
 
     function testErrors() {
@@ -43,8 +44,9 @@ class ValidationTest extends \TestCase
 
         $data = ['tags' => 'foo'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::TYPE, $validation->errors()['tags']['code']);
-        $this->assertSame("Field 'tags' value must be array, string given.", $validation->errors()['tags']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::TYPE, $errors['tags']['code']);
+        $this->assertSame("Field 'tags' value must be array, string given.", $errors['tags']['message']);
     }
 
     function testBoolValidation() {
@@ -56,8 +58,9 @@ class ValidationTest extends \TestCase
 
         $data = ['is_deleted' => 'foo'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::TYPE, $validation->errors()['is_deleted']['code']);
-        $this->assertSame("Field 'is_deleted' value must be true or false, string given.", $validation->errors()['is_deleted']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::TYPE, $errors['is_deleted']['code']);
+        $this->assertSame("Field 'is_deleted' value must be true or false, string given.", $errors['is_deleted']['message']);
     }
 
     function testCallbackValidation() {
@@ -76,8 +79,9 @@ class ValidationTest extends \TestCase
 
         $data = ['id' => -123];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::CALLBACK, $validation->errors()['id']['code']);
-        $this->assertSame("Invalid ID value.", $validation->errors()['id']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::CALLBACK, $errors['id']['code']);
+        $this->assertSame("Invalid ID value.", $errors['id']['message']);
     }
 
     function testDatetimeValidation() {
@@ -89,8 +93,9 @@ class ValidationTest extends \TestCase
 
         $data = ['date' => 'invalid'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation->errors()['date']['code']);
-        $this->assertSame("Field 'date' value is not a valid date.", $validation->errors()['date']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['date']['code']);
+        $this->assertSame("Field 'date' value is not a valid date.", $errors['date']['message']);
 
         $validation = new Validation(['time' => ['type' => 'time']]);
 
@@ -100,8 +105,9 @@ class ValidationTest extends \TestCase
 
         $data = ['time' => 'invalid'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation->errors()['time']['code']);
-        $this->assertSame("Field 'time' value is not a valid time.", $validation->errors()['time']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['time']['code']);
+        $this->assertSame("Field 'time' value is not a valid time.", $errors['time']['message']);
 
         $validation = new Validation(['datetime' => ['type' => 'datetime']]);
 
@@ -111,8 +117,9 @@ class ValidationTest extends \TestCase
 
         $data = ['datetime' => 'invalid'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation->errors()['datetime']['code']);
-        $this->assertSame("Field 'datetime' value is not a valid datetime.", $validation->errors()['datetime']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['datetime']['code']);
+        $this->assertSame("Field 'datetime' value is not a valid datetime.", $errors['datetime']['message']);
 
         // With specs.
         $validation1 = new Validation(['created_at' => ['type' => 'datetime', 'spec' => 'Y/m/d H:i']]);
@@ -124,8 +131,9 @@ class ValidationTest extends \TestCase
 
         $data = ['created_at' => 'invalid'];
         $this->assertFalse($validation1->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation1->errors()['created_at']['code']);
-        $this->assertSame("Field 'created_at' value is not a valid datetime.", $validation1->errors()['created_at']['message']);
+        $this->assertNotNull($errors = $validation1->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['created_at']['code']);
+        $this->assertSame("Field 'created_at' value is not a valid datetime.", $errors['created_at']['message']);
 
         $data = ['created_at' => '22/01/01 20:22'];
         $this->assertTrue($validation2->validate($data));
@@ -133,8 +141,9 @@ class ValidationTest extends \TestCase
 
         $data = ['created_at' => 'invalid'];
         $this->assertFalse($validation2->validate($data));
-        $this->assertSame(ValidationError::NOT_MATCH, $validation2->errors()['created_at']['code']);
-        $this->assertSame("Field 'created_at' value did not match with given pattern.", $validation2->errors()['created_at']['message']);
+        $this->assertNotNull($errors = $validation2->errors());
+        $this->assertSame(ValidationError::NOT_MATCH, $errors['created_at']['code']);
+        $this->assertSame("Field 'created_at' value did not match with given pattern.", $errors['created_at']['message']);
     }
 
     function testEmailValidation() {
@@ -146,8 +155,9 @@ class ValidationTest extends \TestCase
 
         $data = ['email' => 'invalid'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::EMAIL, $validation->errors()['email']['code']);
-        $this->assertSame("Field 'email' value is not a valid email address.", $validation->errors()['email']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::EMAIL, $errors['email']['code']);
+        $this->assertSame("Field 'email' value is not a valid email address.", $errors['email']['message']);
     }
 
     function testEnumValidation() {
@@ -159,8 +169,9 @@ class ValidationTest extends \TestCase
 
         $data = ['types' => 'invalid'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::ENUM, $validation->errors()['types']['code']);
-        $this->assertSame("Field 'types' value must be one of these options: foo, bar.", $validation->errors()['types']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::ENUM, $errors['types']['code']);
+        $this->assertSame("Field 'types' value must be one of these options: foo, bar.", $errors['types']['message']);
     }
 
     function testJsonValidation() {
@@ -172,8 +183,9 @@ class ValidationTest extends \TestCase
 
         $data = ['tech' => 'invalid'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation->errors()['tech']['code']);
-        $this->assertSame("Field 'tech' value is not a valid JSON input.", $validation->errors()['tech']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['tech']['code']);
+        $this->assertSame("Field 'tech' value is not a valid JSON input.", $errors['tech']['message']);
 
         // With specs.
         $validation1 = new Validation(['tech' => ['type' => 'json', 'spec' => 'array']]);
@@ -185,8 +197,9 @@ class ValidationTest extends \TestCase
 
         $data = ['tech' => 'invalid'];
         $this->assertFalse($validation1->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation1->errors()['tech']['code']);
-        $this->assertSame("Field 'tech' value is not a valid JSON array.", $validation1->errors()['tech']['message']);
+        $this->assertNotNull($errors = $validation1->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['tech']['code']);
+        $this->assertSame("Field 'tech' value is not a valid JSON array.", $errors['tech']['message']);
 
         $data = ['tech' => '{"os":"linux"}'];
         $this->assertTrue($validation2->validate($data));
@@ -194,8 +207,9 @@ class ValidationTest extends \TestCase
 
         $data = ['tech' => 'invalid'];
         $this->assertFalse($validation2->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation2->errors()['tech']['code']);
-        $this->assertSame("Field 'tech' value is not a valid JSON object.", $validation2->errors()['tech']['message']);
+        $this->assertNotNull($errors = $validation2->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['tech']['code']);
+        $this->assertSame("Field 'tech' value is not a valid JSON object.", $errors['tech']['message']);
     }
 
     function testNumberValidation() {
@@ -207,8 +221,9 @@ class ValidationTest extends \TestCase
 
         $data = ['no' => 'invalid'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::TYPE, $validation->errors()['no']['code']);
-        $this->assertSame("Field 'no' value must be number, string given.", $validation->errors()['no']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::TYPE, $errors['no']['code']);
+        $this->assertSame("Field 'no' value must be number, string given.", $errors['no']['message']);
 
         // With options.
         $validation1 = new Validation(['no' => ['type' => 'number', 'range' => [1, 10]]]);
@@ -216,18 +231,21 @@ class ValidationTest extends \TestCase
 
         $data = ['no' => 123];
         $this->assertFalse($validation1->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation1->errors()['no']['code']);
-        $this->assertSame("Field 'no' value must be between 1 and 10.", $validation1->errors()['no']['message']);
+        $this->assertNotNull($errors = $validation1->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['no']['code']);
+        $this->assertSame("Field 'no' value must be between 1 and 10.", $errors['no']['message']);
 
         $data = ['no' => 0];
         $this->assertFalse($validation2->validate($data));
-        $this->assertSame(ValidationError::MIN_VALUE, $validation2->errors()['no']['code']);
-        $this->assertSame("Field 'no' value must be minimum 1.", $validation2->errors()['no']['message']);
+        $this->assertNotNull($errors = $validation2->errors());
+        $this->assertSame(ValidationError::MIN_VALUE, $errors['no']['code']);
+        $this->assertSame("Field 'no' value must be minimum 1.", $errors['no']['message']);
 
         $data = ['no' => 11];
         $this->assertFalse($validation2->validate($data));
-        $this->assertSame(ValidationError::MAX_VALUE, $validation2->errors()['no']['code']);
-        $this->assertSame("Field 'no' value must be maximum 10.", $validation2->errors()['no']['message']);
+        $this->assertNotNull($errors = $validation2->errors());
+        $this->assertSame(ValidationError::MAX_VALUE, $errors['no']['code']);
+        $this->assertSame("Field 'no' value must be maximum 10.", $errors['no']['message']);
     }
 
     function testStringValidation() {
@@ -239,8 +257,9 @@ class ValidationTest extends \TestCase
 
         $data = ['name' => 123];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::TYPE, $validation->errors()['name']['code']);
-        $this->assertSame("Field 'name' value must be string, int given.", $validation->errors()['name']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::TYPE, $errors['name']['code']);
+        $this->assertSame("Field 'name' value must be string, int given.", $errors['name']['message']);
 
         // With options.
         $validation1 = new Validation(['name' => ['type' => 'string', 'spec' => '~^\w+$~']]);
@@ -248,18 +267,21 @@ class ValidationTest extends \TestCase
 
         $data = ['name' => 'Kerem..'];
         $this->assertFalse($validation1->validate($data));
-        $this->assertSame(ValidationError::NOT_MATCH, $validation1->errors()['name']['code']);
-        $this->assertSame("Field 'name' value did not match with given pattern.", $validation1->errors()['name']['message']);
+        $this->assertNotNull($errors = $validation1->errors());
+        $this->assertSame(ValidationError::NOT_MATCH, $errors['name']['code']);
+        $this->assertSame("Field 'name' value did not match with given pattern.", $errors['name']['message']);
 
         $data = ['name' => 'Ker'];
         $this->assertFalse($validation2->validate($data));
-        $this->assertSame(ValidationError::MIN_LENGTH, $validation2->errors()['name']['code']);
-        $this->assertSame("Field 'name' value length must be minimum 5.", $validation2->errors()['name']['message']);
+        $this->assertNotNull($errors = $validation2->errors());
+        $this->assertSame(ValidationError::MIN_LENGTH, $errors['name']['code']);
+        $this->assertSame("Field 'name' value length must be minimum 5.", $errors['name']['message']);
 
         $data = ['name' => 'Kerem Kerem Kerem'];
         $this->assertFalse($validation2->validate($data));
-        $this->assertSame(ValidationError::MAX_LENGTH, $validation2->errors()['name']['code']);
-        $this->assertSame("Field 'name' value length must be maximum 10.", $validation2->errors()['name']['message']);
+        $this->assertNotNull($errors = $validation2->errors());
+        $this->assertSame(ValidationError::MAX_LENGTH, $errors['name']['code']);
+        $this->assertSame("Field 'name' value length must be maximum 10.", $errors['name']['message']);
     }
 
     function testEpochValidation() {
@@ -271,8 +293,9 @@ class ValidationTest extends \TestCase
 
         $data = ['timestamp' => 123];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation->errors()['timestamp']['code']);
-        $this->assertSame("Field 'timestamp' value is not a valid epoch.", $validation->errors()['timestamp']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['timestamp']['code']);
+        $this->assertSame("Field 'timestamp' value is not a valid epoch.", $errors['timestamp']['message']);
     }
 
     function testUrlValidation() {
@@ -284,8 +307,9 @@ class ValidationTest extends \TestCase
 
         $data = ['link' => 'foo.com'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation->errors()['link']['code']);
-        $this->assertSame("Field 'link' value is not a valid URL.", $validation->errors()['link']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['link']['code']);
+        $this->assertSame("Field 'link' value is not a valid URL.", $errors['link']['message']);
 
         // With options.
         $validation1 = new Validation(['link' => ['type' => 'url', 'spec' => '~(\w+://)?\w+\.\w+~']]);
@@ -309,13 +333,15 @@ class ValidationTest extends \TestCase
 
         $data = ['uniq_id' => 'invalid'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation->errors()['uniq_id']['code']);
-        $this->assertSame("Field 'uniq_id' value is not a valid UUID.", $validation->errors()['uniq_id']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['uniq_id']['code']);
+        $this->assertSame("Field 'uniq_id' value is not a valid UUID.", $errors['uniq_id']['message']);
 
         $data = ['uniq_id' => '00000000-0000-0000-0000-000000000000'];
         $this->assertFalse($validation->validate($data));
-        $this->assertSame(ValidationError::NOT_VALID, $validation->errors()['uniq_id']['code']);
-        $this->assertSame("Field 'uniq_id' value is not a valid UUID, null UUID given.", $validation->errors()['uniq_id']['message']);
+        $this->assertNotNull($errors = $validation->errors());
+        $this->assertSame(ValidationError::NOT_VALID, $errors['uniq_id']['code']);
+        $this->assertSame("Field 'uniq_id' value is not a valid UUID, null UUID given.", $errors['uniq_id']['message']);
 
         // With options.
         $validation1 = new Validation(['uniq_id' => ['type' => 'uuid', 'strict' => false]]);
