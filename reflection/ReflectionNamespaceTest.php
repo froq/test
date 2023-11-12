@@ -19,11 +19,11 @@ class ReflectionNamespaceTest extends \TestCase
     function testGetters() {
         $ref = new ReflectionNamespace('');
         $this->assertSame('', $ref->getName());
-        $this->assertSame('', $ref->getBasename());
+        $this->assertSame('', $ref->getBaseName());
 
         $ref = new ReflectionNamespace(__NAMESPACE__);
         $this->assertSame('test\froq\reflection', $ref->getName());
-        $this->assertSame('test', $ref->getBasename());
+        $this->assertSame('test', $ref->getBaseName());
     }
 
     function testClassMethods() {
