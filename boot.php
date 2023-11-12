@@ -95,20 +95,20 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
         }
     }
 
-    function assertLength(int $length, string $string, string $message = ''): void
+    static function assertLength(int $length, string $string, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             strlen($string) === $length,
             'Failed asserting that length of `%s`, `%d` is identical to `%d`.',
             [$string, strlen($string), $length], $message
         );
     }
 
-    // function assertEqual(mixed $expected, mixed $actual, string $message = ''): void
+    // static function assertEqual(mixed $expected, mixed $actual, string $message = ''): void
     // {
     //     $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __FILE__;
     //     try {
-    //         $this->assertEquals($expected, $actual, $message);
+    //         self::assertEquals($expected, $actual, $message);
     //     } catch (\Throwable $error) {
     //         throw $error;
     //         array_delete($GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'], __FILE__);
@@ -116,11 +116,11 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
     //     self::okay();
     // }
 
-    // function assertNotEqual(mixed $expected, mixed $actual, string $message = ''): void
+    // static function assertNotEqual(mixed $expected, mixed $actual, string $message = ''): void
     // {
     //     $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'][] = __FILE__;
     //     try {
-    //         $this->assertNotEquals($expected, $actual, $message);
+    //         self::assertNotEquals($expected, $actual, $message);
     //     } catch (\Throwable $error) {
     //         throw $error;
     //         array_delete($GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'], __FILE__);
@@ -128,72 +128,72 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
     //     self::okay();
     // }
 
-    function assertStringContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
+    static function assertStringContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             str_has($haystack, $needle, $icase) === true,
             'Failed asserting that string `%s` contains `%s`',
             [$haystack, $needle], $message
         );
     }
 
-    function assertStringNotContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
+    static function assertStringNotContains(string $needle, string $haystack, bool $icase = false, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             str_has($haystack, $needle, $icase) === false,
             'Failed asserting that string `%s` not contains `%s`',
             [$haystack, $needle], $message
         );
     }
 
-    function assertMatches(string $pattern, string $subject, string $message = ''): void
+    static function assertMatches(string $pattern, string $subject, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             preg_test($pattern, $subject) === true,
             'Failed asserting that subject `%s` matches pattern `%s`.',
             [$subject, $pattern], $message
         );
     }
 
-    function assertNotMatches(string $pattern, string $subject, string $message = ''): void
+    static function assertNotMatches(string $pattern, string $subject, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             preg_test($pattern, $subject) === false,
             'Failed asserting that subject `%s` not matches pattern `%s`.',
             [$subject, $pattern], $message
         );
     }
 
-    function assertTypeOf(string $type, mixed $input, string $message = ''): void
+    static function assertTypeOf(string $type, mixed $input, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             is_type_of($input, $type) === true,
             'Failed asserting that `%t` is type of `%s`',
             [$input, $type], $message
         );
     }
 
-    function assertNotTypeOf(string $type, mixed $input, string $message = ''): void
+    static function assertNotTypeOf(string $type, mixed $input, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             is_type_of($input, $type) === false,
             'Failed asserting that `%t` is not type of `%s`',
             [$input, $type], $message
         );
     }
 
-    function assertSubclassOf(string|object $class, string|object $subclass, string $message = ''): void
+    static function assertSubclassOf(string|object $class, string|object $subclass, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             is_subclass_of($subclass = get_class_name($subclass), $class = get_class_name($class)) === true,
             'Failed asserting that `%s` is subclass of `%s`',
             [$subclass, $class], $message
         );
     }
 
-    function assertNotSubclassOf(string|object $class, string|object $subclass, string $message = ''): void
+    static function assertNotSubclassOf(string|object $class, string|object $subclass, string $message = ''): void
     {
-        $this->assert(
+        self::assert(
             is_subclass_of($subclass = get_class_name($subclass), $class = get_class_name($class)) === false,
             'Failed asserting that `%s` is not subclass of `%s`',
             [$subclass, $class], $message
