@@ -67,10 +67,9 @@ class LoggerTest extends \TestCase
     }
 
     function testLogError() {
-        $logger = new Logger(['file' => $this->file(), 'level' => LogLevel::ERROR|LogLevel::WARN]);
+        $logger = new Logger(['file' => $this->file(), 'level' => LogLevel::ERROR]);
 
         $this->assertTrue($logger->logError('Test log!'));
-        $this->assertTrue($logger->logWarn('Test log!'));
         $this->assertFalse($logger->logDebug('Test log!'));
 
         unlink($logger->getFile());
@@ -99,6 +98,16 @@ class LoggerTest extends \TestCase
 
         $this->assertTrue($logger->logDebug('Test log!'));
         $this->assertFalse($logger->logInfo('Test log!'));
+
+        unlink($logger->getFile());
+    }
+
+    function testMultiLevelLog() {
+        $logger = new Logger(['file' => $this->file(), 'level' => LogLevel::ERROR|LogLevel::WARN]);
+
+        $this->assertTrue($logger->logError('Test log!'));
+        $this->assertTrue($logger->logWarn('Test log!'));
+        $this->assertFalse($logger->logDebug('Test log!'));
 
         unlink($logger->getFile());
     }
