@@ -1,7 +1,7 @@
 {
     "name": "froq/test",
     "homepage": "http://github.com/froq/test",
-    "description": "Froq! Test.",
+    "description": "Tests of Froq! components.",
     "keywords": ["froq", "test"],
     "license": "Apache-2.0",
     "authors": [{"name": "Kerem Güneş"}],
