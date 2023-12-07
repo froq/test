@@ -7,7 +7,8 @@ class GeneratorTest extends \TestCase
 {
     function testGenerateToken() {
         $this->assertLength(Token::LENGTH, Generator::generateToken());
-        $this->assertLength(32, Generator::generateToken(32));
+        $this->assertLength(32, $token = Generator::generateToken(32));
+        $this->assertTrue(ctype_xdigit($token));
 
         try {
             Generator::generateToken(10);
@@ -20,12 +21,28 @@ class GeneratorTest extends \TestCase
 
     function testGenerateSalt() {
         $this->assertLength(Suid::SALT_LENGTH, Generator::generateSalt());
-        $this->assertLength(10, Generator::generateSalt(10));
+        $this->assertLength(10, $salt = Generator::generateSalt(10));
+        $this->assertMatches('~^[a-zA-Z0-9]+$~', $salt);
+
+        try {
+            Generator::generateSalt(0);
+        } catch (GeneratorException $e) {
+            $this->assertStringContains('Argument $length must be greater than 1', $e->getMessage());
+            $this->assertInstanceOf(SuidException::class, $e->getCause());
+        }
     }
 
     function testGenerateNonce() {
         $this->assertLength(Suid::NONCE_LENGTH, Generator::generateNonce());
-        $this->assertLength(20, Generator::generateNonce(20));
+        $this->assertLength(20, $nonce = Generator::generateNonce(20));
+        $this->assertMatches('~^[a-f0-9]+$~', $nonce);
+
+        try {
+            Generator::generateNonce(0);
+        } catch (GeneratorException $e) {
+            $this->assertStringContains('Argument $length must be greater than 1', $e->getMessage());
+            $this->assertInstanceOf(SuidException::class, $e->getCause());
+        }
     }
 
     function testGenerateUuid() {
