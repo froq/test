@@ -1,28 +1,31 @@
 <?php declare(strict_types=1);
 namespace test\froq\encrypting;
-use froq\encrypting\{Generator, GeneratorException, HashException};
+use froq\encrypting\{Generator, GeneratorException, HashException,
+    Suid, SuidException, Token, TokenException};
 
 class GeneratorTest extends \TestCase
 {
+    function testGenerateToken() {
+        $this->assertLength(Token::LENGTH, Generator::generateToken());
+        $this->assertLength(32, Generator::generateToken(32));
+
+        try {
+            Generator::generateToken(10);
+        } catch (GeneratorException $e) {
+            $this->assertStringContains('Invalid length', $e->getMessage());
+            $this->assertInstanceOf(TokenException::class, $e->getCause());
+            $this->assertInstanceOf(HashException::class, $e->getCause()->getCause());
+        }
+    }
+
     function testGenerateSalt() {
-        $this->assertLength(40, Generator::generateSalt());
+        $this->assertLength(Suid::SALT_LENGTH, Generator::generateSalt());
         $this->assertLength(10, Generator::generateSalt(10));
     }
 
     function testGenerateNonce() {
-        $this->assertLength(16, Generator::generateNonce());
+        $this->assertLength(Suid::NONCE_LENGTH, Generator::generateNonce());
         $this->assertLength(20, Generator::generateNonce(20));
-    }
-
-    function testGenerateToken() {
-        $this->assertLength(32, Generator::generateToken());
-        $this->assertLength(40, Generator::generateToken(40));
-
-        try {
-            Generator::generateToken(10);
-        } catch (HashException $e) {
-            $this->assertStringContains('Invalid length', $e->getMessage());
-        }
     }
 
     function testGenerateUuid() {
@@ -39,7 +42,7 @@ class GeneratorTest extends \TestCase
         $this->assertLength(20, Generator::generateSerial());
         $this->assertLength(30, Generator::generateSerial(30));
 
-        $time = date('U'); $date = date('Ymd');
+        [$time, $date] = [date('U'), date('Ymd')];
 
         $this->assertStringStartsWith($time, Generator::generateSerial(dated: false));
         $this->assertStringStartsNotWith($time, Generator::generateSerial(dated: true));
@@ -126,7 +129,7 @@ class GeneratorTest extends \TestCase
     }
 
     function testGeneratePassword() {
-        $this->assertLength(8, Generator::generatePassword());
+        $this->assertLength(16, Generator::generatePassword());
         $this->assertLength(12, Generator::generatePassword(12));
     }
 
