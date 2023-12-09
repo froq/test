@@ -10,16 +10,16 @@ class PathInfoTest extends \TestCase
 
     function testConstructor() {
         try {
-            new PathInfo("null-byte-\0");
+            new PathInfo("");
         } catch (PathInfoException $e) {
-            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
+            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
 
         try {
-            new PathInfo("");
+            new PathInfo("null-byte-\0");
         } catch (PathInfoException $e) {
-            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
+            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
     }

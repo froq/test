@@ -15,16 +15,16 @@ class ImageTest extends \TestCase
         $this->assertInstanceOf(Path::class, $image);
 
         try {
-            new Image("null-byte-\0");
+            new Image("");
         } catch (ImageException $e) {
-            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
+            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
 
         try {
-            new Image("");
+            new Image("null-byte-\0");
         } catch (ImageException $e) {
-            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
+            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
     }

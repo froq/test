@@ -9,21 +9,30 @@ class FileTest extends \TestCase
     }
 
     function testConstructor() {
-        $file = new File($this->util->imageMake());
+        $file = new File($path = $this->util->imageMake());
 
         $this->assertInstanceOf(Path::class, $file);
+        $this->assertInstanceOf(PathInfo::class, $file->getPathInfo());
+        $this->assertSame($path, $file->getPath());
 
-        try {
-            new File("null-byte-\0");
-        } catch (FileException $e) {
-            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
-            $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
-        }
+        // Temporary files.
+        $file = new File('', ['temp' => true, 'tempdrop' => true]);
+
+        $this->assertFileExists($file->getPath());
+        $file->close(); // Removes temp file.
+        $this->assertFileNotExists($file->getPath());
 
         try {
             new File("");
         } catch (FileException $e) {
             $this->assertSame('Invalid path: Path is empty', $e->getMessage());
+            $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
+        }
+
+        try {
+            new File("null-byte-\0");
+        } catch (FileException $e) {
+            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
     }
@@ -233,8 +242,8 @@ class FileTest extends \TestCase
         $file = File::fromTemp();
 
         $this->assertInstanceOf(File::class, $file);
-        $this->assertFileExists($file->getPath());
 
+        $this->assertFileExists($file->getPath());
         $file->close(); // Removes temp file.
         $this->assertFileNotExists($file->getPath());
 
@@ -246,9 +255,11 @@ class FileTest extends \TestCase
         }
 
         $file = File::fromTemp(autodrop: false);
-
         $file->close(); // No removal.
+
         $this->assertFileExists($file->getPath());
+        $this->assertTrue($file->delete());
+        $this->assertFileNotExists($file->getPath());
     }
 
     function testFromString() {

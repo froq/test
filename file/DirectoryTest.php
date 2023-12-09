@@ -14,16 +14,16 @@ class DirectoryTest extends \TestCase
         $this->assertInstanceOf(Path::class, $dir);
 
         try {
-            new Directory("null-byte-\0");
+            new Directory("");
         } catch (DirectoryException $e) {
-            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
+            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
 
         try {
-            new Directory("");
+            new Directory("null-byte-\0");
         } catch (DirectoryException $e) {
-            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
+            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
     }

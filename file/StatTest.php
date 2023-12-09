@@ -6,16 +6,16 @@ class StatTest extends \TestCase
 {
     function testConstructor() {
         try {
-            new Stat("null-byte-\0");
+            new Stat("");
         } catch (StatException $e) {
-            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
+            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
 
         try {
-            new Stat("");
+            new Stat("null-byte-\0");
         } catch (StatException $e) {
-            $this->assertSame('Invalid path: Path is empty', $e->getMessage());
+            $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
     }
