@@ -182,10 +182,37 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
         );
     }
 
+    static function assertClassOf(string|object|array $class, string|object $subclass, string $message = ''): void
+    {
+        self::assert(
+            is_class_of(
+                $subclass = get_class_name($subclass),
+                ...($class = is_array($class) ? $class : [$class])
+            ) === true,
+            'Failed asserting that `%s` is class of `%A`.',
+            [$subclass, $class], $message
+        );
+    }
+
+    static function assertNotClassOf(string|object|array $class, string|object $subclass, string $message = ''): void
+    {
+        self::assert(
+            is_class_of(
+                $subclass = get_class_name($subclass),
+                ...($class = is_array($class) ? $class : [$class])
+            ) === false,
+            'Failed asserting that `%s` is class of `%A`.',
+            [$subclass, $class], $message
+        );
+    }
+
     static function assertSubclassOf(string|object $class, string|object $subclass, string $message = ''): void
     {
         self::assert(
-            is_subclass_of($subclass = get_class_name($subclass), $class = get_class_name($class)) === true,
+            is_subclass_of(
+                $subclass = get_class_name($subclass),
+                $class = get_class_name($class)
+            ) === true,
             'Failed asserting that `%s` is subclass of `%s`',
             [$subclass, $class], $message
         );
@@ -194,7 +221,10 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
     static function assertNotSubclassOf(string|object $class, string|object $subclass, string $message = ''): void
     {
         self::assert(
-            is_subclass_of($subclass = get_class_name($subclass), $class = get_class_name($class)) === false,
+            is_subclass_of(
+                $subclass = get_class_name($subclass),
+                $class = get_class_name($class)
+            ) === false,
             'Failed asserting that `%s` is not subclass of `%s`',
             [$subclass, $class], $message
         );
