@@ -235,6 +235,7 @@ class FileTest extends \TestCase
             $this->assertSame($lines[$i], $line);
         }
 
+        $this->assertInstanceOf(\IteratorAggregate::class, $file);
         $this->assertInstanceOf(\Generator::class, $file->getIterator());
     }
 

@@ -69,7 +69,7 @@ class DirectoryTest extends \TestCase
         $this->assertSame(0, $dir->count());
 
         foreach (range(1, 3) as $i) {
-            $dirs[] = $this->util->fileMakeIn($dir->getPath() .'/'. $i);
+            $dirs[] = $this->util->fileMakeIn($dir->path .'/'. $i);
         }
 
         $this->assertSame(count($dirs), $dir->count());
@@ -79,7 +79,7 @@ class DirectoryTest extends \TestCase
         $dir->close();
 
         foreach (range('a', 'c') as $c) {
-            $files[] = $this->util->fileMakeIn($dir->getPath() .'/'. $c);
+            $files[] = $this->util->fileMakeIn($dir->path .'/'. $c);
         }
 
         $this->assertSame(dirname($files[0]), $dir->read(fn($entry) => $entry == 'a')[0]);
@@ -142,6 +142,7 @@ class DirectoryTest extends \TestCase
             $this->assertFileExists($path);
         }
 
+        $this->assertInstanceOf(\IteratorAggregate::class, $dir);
         $this->assertInstanceOf(\ArrayIterator::class, $dir->getIterator());
     }
 
