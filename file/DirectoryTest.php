@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
-use froq\file\{Directory, DirectoryException, Path, PathInfo, File, error};
+use froq\file\{Directory, DirectoryException, Path, PathInfo, PathObject,
+    File, Stat, error};
 
 class DirectoryTest extends \TestCase
 {
@@ -9,9 +10,11 @@ class DirectoryTest extends \TestCase
     }
 
     function testConstructor() {
-        $dir = new Directory($this->util->dirMake());
+        $dir = new Directory($path = $this->util->dirMake());
 
-        $this->assertInstanceOf(Path::class, $dir);
+        $this->assertInstanceOf(PathObject::class, $dir);
+        $this->assertInstanceOf(Path::class, $dir->path);
+        $this->assertSame($path, $dir->path->name);
 
         try {
             new Directory("");
@@ -41,14 +44,21 @@ class DirectoryTest extends \TestCase
         try {
             new Directory('absent-dir', ['open' => true]);
         } catch (DirectoryException $e) {
-            $this->assertStringContains('No such file', $e->getMessage());
+            $this->assertSame('Failed to open directory: No such file or directory', $e->getMessage());
             $this->assertSame(error\NoFileError::class, $e->getCause()->getClass());
         }
 
         try {
             new Directory(__FILE__, ['open' => true]);
         } catch (DirectoryException $e) {
-            $this->assertStringContains('Cannot open a file', $e->getMessage());
+            $this->assertSame('Cannot use a file as a directory', $e->getMessage());
+            $this->assertSame(error\NotADirectoryError::class, $e->getCause()->getClass());
+        }
+
+        try {
+            new Directory(__FILE__);
+        } catch (DirectoryException $e) {
+            $this->assertSame('Cannot use a file as a directory', $e->getMessage());
             $this->assertSame(error\NotADirectoryError::class, $e->getCause()->getClass());
         }
     }
@@ -77,12 +87,14 @@ class DirectoryTest extends \TestCase
 
     function testDirectoryGetters() {
         $path = __DIR__;
+        $pathDir = dirname($path);
+        $rootPathDir = dirname($path, substr_count($path, DIRECTORY_SEPARATOR) - 1);
+        $parentPathDir = dirname($path, 1);
         $dir = new Directory($path);
 
-        $this->assertEquals(new Directory(dirname($path, substr_count($path, DIRECTORY_SEPARATOR) - 1)),
-            $dir->getRootDirectory());
-        $this->assertEquals(new Directory(dirname($path, 1)),
-            $dir->getParentDirectory());
+        $this->assertEquals(new Directory($pathDir), $dir->getDirectory());
+        $this->assertEquals(new Directory($rootPathDir), $dir->getRootDirectory());
+        $this->assertEquals(new Directory($parentPathDir), $dir->getParentDirectory());
     }
 
     function testDirectoryMethods() {
@@ -127,24 +139,35 @@ class DirectoryTest extends \TestCase
         $dir = new Directory(__DIR__);
 
         foreach ($dir as $path) {
-            $this->assertTrue(file_exists($path));
+            $this->assertFileExists($path);
         }
 
         $this->assertInstanceOf(\ArrayIterator::class, $dir->getIterator());
     }
 
-    /** Inherit Methods */
+    // /** Inherit Methods */
 
     function testGetPath() {
-        $dir = new Directory(__DIR__);
+        $path = __DIR__;
+        $dir = new Directory($path);
 
-        $this->assertSame(__DIR__, $dir->getPath());
+        $this->assertSame($path, $dir->path->name);
+        $this->assertSame($path, $dir->getPath()->getName());
+        $this->assertEquals(new Path($path), $dir->getPath());
     }
 
     function testGetPathInfo() {
-        $dir = new Directory(__DIR__);
+        $path = __DIR__;
+        $dir = new Directory($path);
 
-        $this->assertEquals(new PathInfo(__DIR__), $dir->getPathInfo());
+        $this->assertEquals(new PathInfo($path), $dir->getPathInfo());
+    }
+
+    function testGetStat() {
+        $path = __DIR__;
+        $file = new Directory($path);
+
+        $this->assertEquals(new Stat($path), $file->getStat());
     }
 
     function testExists() {
@@ -156,6 +179,21 @@ class DirectoryTest extends \TestCase
         rmdir($path);
 
         $this->assertFalse($dir->exists());
+    }
+
+    function testOkay() {
+        $path = $this->util->dirMake();
+        $file = new Directory($path);
+
+        $this->assertTrue($file->okay(read: true));
+        $this->assertTrue($file->okay(write: true));
+        $this->assertTrue($file->okay(execute: true));
+
+        chmod($path, 0);
+
+        $this->assertFalse($file->okay(read: true));
+        $this->assertFalse($file->okay(write: true));
+        $this->assertFalse($file->okay(execute: true));
     }
 
     function testModeTouch() {

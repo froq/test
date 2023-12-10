@@ -9,7 +9,7 @@ class FinderTest extends \TestCase
     }
 
     function testRoot() {
-        $dir = tmp();
+        $dir = '/';
         $finder = new Finder();
 
         $this->assertNull($finder->getRoot());

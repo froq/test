@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
-use froq\file\{FileSystem, FileSystemException, Stat, PathInfo, Directory, File};
+use froq\file\{FileSystem, FileSystemException,
+    Stat, StatException, Path, PathException, PathInfo, PathInfoException,
+    Directory, DirectoryException, File, FileException, error};
 
 class FileSystemTest extends \TestCase
 {
@@ -10,18 +12,85 @@ class FileSystemTest extends \TestCase
 
     function testGetStat() {
         $this->assertInstanceOf(Stat::class, FileSystem::getStat(__DIR__));
+
+        try {
+            FileSystem::getStat("");
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(StatException::class, $e->getCause());
+            $this->assertInstanceOf(error\InvalidPathError::class, $e->getCause()->getCause());
+        }
+    }
+
+    function testGetPath() {
+        $this->assertInstanceOf(Path::class, FileSystem::getPath(__DIR__));
+
+        try {
+            FileSystem::getPath("");
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(PathException::class, $e->getCause());
+            $this->assertInstanceOf(error\InvalidPathError::class, $e->getCause()->getCause());
+        }
     }
 
     function testGetPathInfo() {
         $this->assertInstanceOf(PathInfo::class, FileSystem::getPathInfo(__DIR__));
+
+        try {
+            FileSystem::getPathInfo("");
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(PathInfoException::class, $e->getCause());
+            $this->assertInstanceOf(error\InvalidPathError::class, $e->getCause()->getCause());
+        }
     }
 
     function testOpenDirectory() {
         $this->assertInstanceOf(Directory::class, FileSystem::openDirectory(__DIR__));
+
+        try {
+            FileSystem::openDirectory("");
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(DirectoryException::class, $e->getCause());
+            $this->assertInstanceOf(error\InvalidPathError::class, $e->getCause()->getCause());
+        }
+
+        try {
+            FileSystem::openDirectory("absent-file");
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(DirectoryException::class, $e->getCause());
+            $this->assertInstanceOf(error\NoFileError::class, $e->getCause()->getCause());
+        }
+
+        try {
+            FileSystem::openDirectory(__FILE__);
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(DirectoryException::class, $e->getCause());
+            $this->assertInstanceOf(error\NotADirectoryError::class, $e->getCause()->getCause());
+        }
     }
 
     function testOpenFile() {
         $this->assertInstanceOf(File::class, FileSystem::openFile(__FILE__));
+
+        try {
+            FileSystem::openFile("");
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(FileException::class, $e->getCause());
+            $this->assertInstanceOf(error\InvalidPathError::class, $e->getCause()->getCause());
+        }
+
+        try {
+            FileSystem::openFile("absent-file");
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(FileException::class, $e->getCause());
+            $this->assertInstanceOf(error\NoFileError::class, $e->getCause()->getCause());
+        }
+
+        try {
+            FileSystem::openFile(__DIR__);
+        } catch (FileSystemException $e) {
+            $this->assertInstanceOf(FileException::class, $e->getCause());
+            $this->assertInstanceOf(error\NotAFileError::class, $e->getCause()->getCause());
+        }
     }
 
     function testMakeDirectory() {

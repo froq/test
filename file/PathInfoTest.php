@@ -9,6 +9,12 @@ class PathInfoTest extends \TestCase
     }
 
     function testConstructor() {
+        $path = __FILE__;
+        $info = new PathInfo($path);
+
+        $this->assertSame($path, $info->path);
+        $this->assertSame(get_path_info($path), $info->info);
+
         try {
             new PathInfo("");
         } catch (PathInfoException $e) {
@@ -25,9 +31,10 @@ class PathInfoTest extends \TestCase
     }
 
     function testStringCast() {
-        $info = new PathInfo(__FILE__);
+        $path = __FILE__;
+        $info = new PathInfo($path);
 
-        $this->assertSame(__FILE__, (string) $info);
+        $this->assertSame($path, (string) $info);
     }
 
     function testGetters() {
@@ -55,22 +62,24 @@ class PathInfoTest extends \TestCase
     }
 
     function testInfoGetters() {
-        $info = new PathInfo(__FILE__);
+        $path = __FILE__;
+        $info = new PathInfo($path);
 
         $this->assertSame('text/x-php', $info->getMime());
         $this->assertSame('file', $info->getType());
         $this->assertSame('php', $info->getExtension());
-        $this->assertSame(dirname(__FILE__), $info->getDirname());
-        $this->assertSame(basename(__FILE__), $info->getBasename());
-        $this->assertSame(filename(__FILE__), $info->getFilename());
-        $this->assertSame(__FILE__, $info->getRealPath());
+        $this->assertSame(dirname($path), $info->getDirname());
+        $this->assertSame(basename($path), $info->getBasename());
+        $this->assertSame(filename($path), $info->getFilename());
+        $this->assertSame(realpath($path), $info->getRealPath());
 
         $this->assertNull($info->getLinkTarget());
         $this->assertIsInt($info->getLinkInfo());
     }
 
     function testStatMethods() {
-        $info = new PathInfo(__FILE__);
+        $path = __FILE__;
+        $info = new PathInfo($path);
 
         $this->assertIsArray($info->getStat());
         $this->assertIsInt($info->getStat()['size']);
@@ -80,16 +89,16 @@ class PathInfoTest extends \TestCase
         $this->assertNull($info->getStat());
         $this->assertNull(@$info->getStat()['size']);
 
-        $info = new PathInfo(__FILE__);
+        $info = new PathInfo($path);
 
-        $this->assertSame(filesize(__FILE__), $info->getSize());
-        $this->assertSame(filectime(__FILE__), $info->getCTime());
-        $this->assertSame(fileatime(__FILE__), $info->getATime());
-        $this->assertSame(filemtime(__FILE__), $info->getMTime());
-        $this->assertSame(fileinode(__FILE__), $info->getInode());
-        $this->assertSame(filegroup(__FILE__), $info->getGroup());
-        $this->assertSame(fileowner(__FILE__), $info->getOwner());
-        $this->assertSame(fileperms(__FILE__), $info->getPerms());
+        $this->assertSame(filesize($path), $info->getSize());
+        $this->assertSame(filectime($path), $info->getCTime());
+        $this->assertSame(fileatime($path), $info->getATime());
+        $this->assertSame(filemtime($path), $info->getMTime());
+        $this->assertSame(fileinode($path), $info->getInode());
+        $this->assertSame(filegroup($path), $info->getGroup());
+        $this->assertSame(fileowner($path), $info->getOwner());
+        $this->assertSame(fileperms($path), $info->getPerms());
     }
 
     function testCheckMethods() {
@@ -118,5 +127,20 @@ class PathInfoTest extends \TestCase
         $this->assertFalse($info->isAvailableFor('execute'));
 
         unlink($path);
+    }
+
+    function testArrayAccess() {
+        $path = __FILE__;
+        $info = new PathInfo($path);
+
+        $this->assertInstanceOf(\ArrayAccess::class, $info);
+
+        $this->assertSame($path, $info['path']);
+        $this->assertSame('file', $info['type']);
+        $this->assertSame('php', $info['extension']);
+        $this->assertSame(dirname($path), $info['dirname']);
+        $this->assertSame(basename($path), $info['basename']);
+        $this->assertSame(filename($path), $info['filename']);
+        $this->assertSame(realpath($path), $info['realpath']);
     }
 }

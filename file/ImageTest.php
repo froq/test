@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
-use froq\file\{Image, ImageException, File, Path, error};
+use froq\file\{Image, ImageException, File, Path, PathObject, error};
 
 class ImageTest extends \TestCase
 {
@@ -9,10 +9,11 @@ class ImageTest extends \TestCase
     }
 
     function testConstructor() {
-        $image = new Image($this->util->imageMake());
+        $image = new Image($path = $this->util->imageMake());
 
         $this->assertInstanceOf(File::class, $image);
-        $this->assertInstanceOf(Path::class, $image);
+        $this->assertInstanceOf(PathObject::class, $image);
+        $this->assertSame($path, $image->path->name);
 
         try {
             new Image("");

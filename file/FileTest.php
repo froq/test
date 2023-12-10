@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
-use froq\file\{File, FileException, Path, PathInfo, Directory, error};
+use froq\file\{File, FileException, Path, PathInfo, PathObject,
+    Directory, Stat, error};
 
 class FileTest extends \TestCase
 {
@@ -11,16 +12,16 @@ class FileTest extends \TestCase
     function testConstructor() {
         $file = new File($path = $this->util->imageMake());
 
-        $this->assertInstanceOf(Path::class, $file);
-        $this->assertInstanceOf(PathInfo::class, $file->getPathInfo());
-        $this->assertSame($path, $file->getPath());
+        $this->assertInstanceOf(PathObject::class, $file);
+        $this->assertInstanceOf(Path::class, $file->path);
+        $this->assertSame($path, $file->path->name);
 
         // Temporary files.
         $file = new File('', ['temp' => true, 'tempdrop' => true]);
 
-        $this->assertFileExists($file->getPath());
+        $this->assertFileExists($file->path->name);
         $file->close(); // Removes temp file.
-        $this->assertFileNotExists($file->getPath());
+        $this->assertFileNotExists($file->path->name);
 
         try {
             new File("");
@@ -63,14 +64,20 @@ class FileTest extends \TestCase
         try {
             new File('absent-file', ['open' => 'r']);
         } catch (FileException $e) {
-            $this->assertStringContains('No such file', $e->getMessage());
+            $this->assertSame('Failed to open stream: No such file or directory', $e->getMessage());
             $this->assertSame(error\NoFileError::class, $e->getCause()->getClass());
         }
 
         try {
-            new File(__DIR__, ['open' => 'r']);
+            new File(__FILE__, ['open' => 'z']);
         } catch (FileException $e) {
-            $this->assertStringContains('Cannot open a directory', $e->getMessage());
+            $this->assertSame("Failed to open stream: 'z' is not a valid mode", $e->getMessage());
+        }
+
+        try {
+            new File(__DIR__);
+        } catch (FileException $e) {
+            $this->assertSame('Cannot use a directory as a file', $e->getMessage());
             $this->assertSame(error\NotAFileError::class, $e->getCause()->getClass());
         }
     }
@@ -243,9 +250,9 @@ class FileTest extends \TestCase
 
         $this->assertInstanceOf(File::class, $file);
 
-        $this->assertFileExists($file->getPath());
+        $this->assertFileExists($file->path->name);
         $file->close(); // Removes temp file.
-        $this->assertFileNotExists($file->getPath());
+        $this->assertFileNotExists($file->path->name);
 
         try {
             $file->delete();
@@ -257,9 +264,9 @@ class FileTest extends \TestCase
         $file = File::fromTemp(autodrop: false);
         $file->close(); // No removal.
 
-        $this->assertFileExists($file->getPath());
+        $this->assertFileExists($file->path->name);
         $this->assertTrue($file->delete());
-        $this->assertFileNotExists($file->getPath());
+        $this->assertFileNotExists($file->path->name);
     }
 
     function testFromString() {
@@ -271,17 +278,30 @@ class FileTest extends \TestCase
     /** Inherit Methods */
 
     function testGetPath() {
-        $path = $this->util->fileMake();
+        $path = __FILE__;
         $file = new File($path);
 
-        $this->assertSame($path, $file->getPath());
+        $this->assertSame($path, $file->path->name);
+        $this->assertSame($path, $file->getPath()->getName());
+        $this->assertEquals(new Path($path), $file->getPath());
     }
 
     function testGetPathInfo() {
-        $path = $this->util->fileMake();
+        $path = __FILE__;
         $file = new File($path);
 
         $this->assertEquals(new PathInfo($path), $file->getPathInfo());
+    }
+
+    function testGetStat() {
+        $path = __FILE__;
+        $file = new File($path);
+
+        $this->assertEquals(new Stat($path), $file->getStat());
+
+        $file = new File('absent-file');
+
+        $this->assertNull($file->getStat());
     }
 
     function testExists() {

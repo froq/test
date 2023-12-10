@@ -5,6 +5,12 @@ use froq\file\{Stat, StatException, error};
 class StatTest extends \TestCase
 {
     function testConstructor() {
+        $path = __FILE__;
+        $stat = new Stat($path);
+
+        $this->assertSame($path, $stat->path);
+        $this->assertSame(stat($path), $stat->info);
+
         try {
             new Stat("");
         } catch (StatException $e) {
@@ -18,30 +24,40 @@ class StatTest extends \TestCase
             $this->assertSame('Invalid path: Path contains NULL-bytes', $e->getMessage());
             $this->assertSame(error\InvalidPathError::class, $e->getCause()->getClass());
         }
+
+        try {
+            new Stat("absent-file");
+        } catch (StatException $e) {
+            $this->assertSame('Failed to open stat: No such file or directory', $e->getMessage());
+            $this->assertSame(error\NoFileError::class, $e->getCause()->getClass());
+        }
     }
 
     function testGetters() {
-        $stat = new Stat(__FILE__);
+        $path = __FILE__;
+        $stat = new Stat($path);
 
-        $this->assertSame(__FILE__, $stat->getPath());
-        $this->assertSame(stat(__FILE__), $stat->getInfo());
+        $this->assertSame($path, $stat->getPath());
+        $this->assertSame(stat($path), $stat->getInfo());
     }
 
     function testStatMethods() {
-        $stat = new Stat(__FILE__);
+        $path = __FILE__;
+        $stat = new Stat($path);
 
-        $this->assertSame(filesize(__FILE__), $stat->getSize());
-        $this->assertSame(filectime(__FILE__), $stat->getCTime());
-        $this->assertSame(fileatime(__FILE__), $stat->getATime());
-        $this->assertSame(filemtime(__FILE__), $stat->getMTime());
-        $this->assertSame(fileinode(__FILE__), $stat->getInode());
-        $this->assertSame(filegroup(__FILE__), $stat->getGroup());
-        $this->assertSame(fileowner(__FILE__), $stat->getOwner());
-        $this->assertSame(fileperms(__FILE__), $stat->getPerms());
+        $this->assertSame(filesize($path), $stat->getSize());
+        $this->assertSame(filectime($path), $stat->getCTime());
+        $this->assertSame(fileatime($path), $stat->getATime());
+        $this->assertSame(filemtime($path), $stat->getMTime());
+        $this->assertSame(fileinode($path), $stat->getInode());
+        $this->assertSame(filegroup($path), $stat->getGroup());
+        $this->assertSame(fileowner($path), $stat->getOwner());
+        $this->assertSame(fileperms($path), $stat->getPerms());
     }
 
     function testCheckMethods() {
-        $stat = new Stat(__FILE__);
+        $path = __FILE__;
+        $stat = new Stat($path);
 
         $this->assertFalse($stat->isDirectory());
         $this->assertFalse($stat->isDir());
@@ -51,5 +67,24 @@ class StatTest extends \TestCase
         $this->assertTrue($stat->isReadable());
         $this->assertTrue($stat->isWritable());
         $this->assertFalse($stat->isExecutable());
+    }
+
+
+
+    function testArrayAccess() {
+        $path = __FILE__;
+        $stat = new Stat($path);
+
+        $this->assertInstanceOf(\ArrayAccess::class, $stat);
+
+        $this->assertSame(filesize($path), $stat['size']);
+        $this->assertSame(filectime($path), $stat['ctime']);
+        $this->assertSame(fileatime($path), $stat['atime']);
+        $this->assertSame(filemtime($path), $stat['mtime']);
+        $this->assertSame(fileinode($path), $stat['ino']);
+        $this->assertSame(filegroup($path), $stat['gid']);
+        $this->assertSame(fileowner($path), $stat['uid']);
+        $this->assertSame(fileperms($path), $stat['mode']);
+        $this->assertSame(-1, $stat['invalid-field']);
     }
 }
