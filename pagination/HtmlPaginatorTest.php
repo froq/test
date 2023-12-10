@@ -4,6 +4,12 @@ use froq\pagination\{Paginator, HtmlPaginator};
 
 class HtmlPaginatorTest extends \TestCase
 {
+    function testConstructor() {
+        $paginator = new HtmlPaginator();
+
+        $this->assertSubclassOf(Paginator::class, $paginator);
+    }
+
     function testGenerateLinks() {
         $paginator = new HtmlPaginator();
         $paginator->paginate(10);
