@@ -242,6 +242,91 @@ abstract class TestCase extends PHPUnit\Framework\TestCase
 
     // function assertDirectoryNotExists() {}
 
+    static function assertClassExists(string $class, string $message = ''): void
+    {
+        self::assert(
+            class_exists($class) === true,
+            'Failed asserting that class `%s` exists.',
+            [$class], $message
+        );
+    }
+    static function assertClassNotExists(string $class, string $message = ''): void
+    {
+        self::assert(
+            class_exists($class) === false,
+            'Failed asserting that class `%s` not exists.',
+            [$class], $message
+        );
+    }
+
+    static function assertClassMethodExists(string $class, string $method, string $message = ''): void
+    {
+        self::assert(
+            method_exists($class, $method) === true,
+            'Failed asserting that class method `%s::%s` exists.',
+            [$class, $method], $message
+        );
+    }
+    static function assertClassMethodNotExists(string $class, string $method, string $message = ''): void
+    {
+        self::assert(
+            method_exists($class, $method) === false,
+            'Failed asserting that class method `%s::%s` not exists.',
+            [$class, $method], $message
+        );
+    }
+
+    static function assertClassConstantExists(string $class, string $constant, string $message = ''): void
+    {
+        self::assert(
+            constant_exists($class, $constant) === true,
+            'Failed asserting that class constant `%s::%s` exists.',
+            [$class, $constant], $message
+        );
+    }
+    static function assertClassConstantNotExists(string $class, string $constant, string $message = ''): void
+    {
+        self::assert(
+            constant_exists($class, $constant) === false,
+            'Failed asserting that class constant `%s::%s` not exists.',
+            [$class, $constant], $message
+        );
+    }
+
+    static function assertClassPropertyExists(string $class, string $property, string $message = ''): void
+    {
+        self::assert(
+            property_exists($class, $property) === true,
+            'Failed asserting that class property `%s::%s` exists.',
+            [$class, $property], $message
+        );
+    }
+    static function assertClassPropertyNotExists(string $class, string $property, string $message = ''): void
+    {
+        self::assert(
+            property_exists($class, $property) === false,
+            'Failed asserting that class property `%s::%s` not exists.',
+            [$class, $property], $message
+        );
+    }
+
+    static function assertFunctionExists(string $function, string $message = ''): void
+    {
+        self::assert(
+            function_exists($function) === true,
+            'Failed asserting that function `%s` exists.',
+            [$function], $message
+        );
+    }
+    static function assertFunctionNotExists(string $function, string $message = ''): void
+    {
+        self::assert(
+            function_exists($function) === false,
+            'Failed asserting that function `%s` not exists.',
+            [$function], $message
+        );
+    }
+
     static function assert(bool $assertion, string $format, array $formatArgs, string $message): void
     {
         if (!$assertion) {
