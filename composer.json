@@ -25,7 +25,8 @@
         "froq/froq-pagination": "^7.0",
         "froq/froq-reflection": "^7.0",
         "froq/froq-session": "^7.0",
-        "froq/froq-validation": "^7.0"
+        "froq/froq-validation": "^7.0",
+        "froq/froq-util": "^7.0"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --verbose --colors --bootstrap=./boot.php",
