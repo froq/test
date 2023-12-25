@@ -131,7 +131,8 @@ class FileSystemTest extends \TestCase
 
     function testReadFile() {
         $path = $this->util->fileMake();
-        $this->assertIsString(FileSystem::readFile($path));
+        $this->assertSame('', FileSystem::readFile($path));
+        $this->assertLength(0, FileSystem::readFile($path));
 
         $this->expectException(FileSystemException::class);
         $this->expectExceptionMessage('No such file');
@@ -140,12 +141,15 @@ class FileSystemTest extends \TestCase
 
     function testWriteFile() {
         $path = $this->util->fileMake();
-        $this->assertIsInt(FileSystem::writeFile($path, 'abc'));
-    }
+        $this->assertSame(3, FileSystem::writeFile($path, 'abc'));
+        $this->assertSame(0, FileSystem::writeFile($path, ''));
 
-    function testAppendFile() {
-        $path = $this->util->fileMake();
-        $this->assertIsInt(FileSystem::appendFile($path, 'abc'));
+        // With append option.
+        $this->assertSame(3, FileSystem::writeFile($path, 'abc', append: true));
+        $this->assertSame(3, FileSystem::writeFile($path, 'def', append: true));
+
+        // Validate length.
+        $this->assertLength(2 * 3, file_read($path));
     }
 
     function testSplitPaths() {
