@@ -19,18 +19,38 @@ class ArrayIteratorTest extends \TestCase
         $it = new ArrayIterator([1, 2, 0]);
         $it->sort();
         $this->assertSame([0, 1, 2], $it->toArray());
+
+        $it = new ArrayIterator([1, 2, 0]);
+        $it->sort(key: true);
+        $this->assertSame([1, 2, 0], $it->toArray());
     }
 
-    function testSlice() {
-        $it = new ArrayIterator([1, 2, 0]);
-        $it->slice(1, 1);
-        $this->assertSame([2], $it->toArray());
+    function testFilter() {
+        $it = new ArrayIterator([1, 2, null]);
+        $it->filter();
+        $this->assertSame([1, 2], $it->toArray());
+
+        $it = new ArrayIterator([1, 2, '0', null]);
+        $it->filter(fn($v) => is_scalar($v));
+        $this->assertSame([1, 2, '0'], $it->toArray());
     }
 
-    function testReverse() {
+    function testMap() {
         $it = new ArrayIterator([1, 2, 0]);
-        $it->reverse();
-        $this->assertSame([0, 2, 1], $it->toArray());
+        $it->map(fn($v) => $v * 2);
+        $this->assertSame([2, 4, 0], $it->toArray());
+    }
+
+    function testReduce() {
+        $it = new ArrayIterator([1, 2, 0]);
+        $ret = $it->reduce(0, fn($r, $v) => $r += $v);
+        $this->assertSame(3, $ret);
+    }
+
+    function testKeysValues() {
+        $it = new ArrayIterator([1, 2, 0]);
+        $this->assertSame([0, 1, 2], $it->keys());
+        $this->assertSame([1, 2, 0], $it->values());
     }
 
     function testAppend() {
