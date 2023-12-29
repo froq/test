@@ -262,7 +262,7 @@ class FileTest extends \TestCase
             $this->assertSame(error\NoFileError::class, $e->getCause()->getClass());
         }
 
-        $file = File::fromTemp(autodrop: false);
+        $file = File::fromTemp(drop: false);
         $file->close(); // No removal.
 
         $this->assertFileExists($file->path->name);
