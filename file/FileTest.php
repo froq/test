@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
-use froq\file\{File, FileException, Path, PathInfo, PathObject,
-    Directory, Stat, error};
+use froq\file\{File, FileException, Path, PathInfo, PathObject, Directory, Stat,
+    error, upload};
 
 class FileTest extends \TestCase
 {
@@ -15,6 +15,9 @@ class FileTest extends \TestCase
         $this->assertInstanceOf(PathObject::class, $file);
         $this->assertInstanceOf(Path::class, $file->path);
         $this->assertSame($path, $file->path->name);
+
+        // Argument types (string|Path).
+        $this->assertEquals(new File($path), new File(new Path($path)));
 
         // Temporary files.
         $file = new File('', ['temp' => true, 'tempdrop' => true]);
@@ -268,6 +271,12 @@ class FileTest extends \TestCase
         $this->assertFileExists($file->path->name);
         $this->assertTrue($file->delete());
         $this->assertFileNotExists($file->path->name);
+    }
+
+    function testToSource() {
+        $file = new File($this->util->fileMake());
+
+        $this->assertInstanceOf(upload\FileSource::class, $file->toSource());
     }
 
     function testFromString() {

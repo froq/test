@@ -11,7 +11,7 @@ class UtcDateTimeZoneTest extends \TestCase
         $this->assertInstanceOf(\Stringable::class, $dtz);
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $dtz = new UtcDateTimeZone();
         $this->assertSame('UTC', (string) $dtz);
         $this->assertEquals('UTC', $dtz); // Stringable.

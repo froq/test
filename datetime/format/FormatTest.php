@@ -18,7 +18,7 @@ class FormatTest extends \TestCase
         $this->assertSame('Y-m-d', $format->getPattern());
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $format = new Format(Format::ISO);
         $this->assertSame(Format::ISO, (string) $format);
         $this->assertEquals(Format::ISO, $format); // Stringable.

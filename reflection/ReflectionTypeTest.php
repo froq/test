@@ -30,7 +30,7 @@ class ReflectionTypeTest extends \TestCase
         $ref->foo;
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $ref = new ReflectionType('?int');
         $this->assertIsString((string) $ref);
         $this->assertStringContains('int|null', (string) $ref);

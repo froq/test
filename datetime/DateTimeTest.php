@@ -36,7 +36,7 @@ class DateTimeTest extends \TestCase
         }
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $dt = new DateTime('1990-01-09 23:30:11.123456 Z');
         $this->assertSame('1990-01-09T23:30:11.123456Z', (string) $dt);
     }

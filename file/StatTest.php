@@ -8,8 +8,8 @@ class StatTest extends \TestCase
         $path = __FILE__;
         $stat = new Stat($path);
 
-        $this->assertSame($path, $stat->path);
-        $this->assertSame(stat($path), $stat->info);
+        $this->assertSame($path, $stat->getPath());
+        $this->assertSame(stat($path), $stat->getInfo());
 
         try {
             new Stat("");
@@ -53,6 +53,12 @@ class StatTest extends \TestCase
         $this->assertSame(filegroup($path), $stat->getGroup());
         $this->assertSame(fileowner($path), $stat->getOwner());
         $this->assertSame(fileperms($path), $stat->getPerms());
+
+        $this->assertSame([
+            'read' => true,
+            'write' => true,
+            'execute' => false
+        ], $stat->getPermsInfo());
     }
 
     function testCheckMethods() {
@@ -68,8 +74,6 @@ class StatTest extends \TestCase
         $this->assertTrue($stat->isWritable());
         $this->assertFalse($stat->isExecutable());
     }
-
-
 
     function testArrayAccess() {
         $path = __FILE__;

@@ -25,7 +25,7 @@ class ReflectionCallableTest extends \TestCase
         $ref->getFoo();
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $ref = new ReflectionCallable(__METHOD__);
         $this->assertIsString((string) $ref);
         $this->assertStringContains(__FUNCTION__, (string) $ref);

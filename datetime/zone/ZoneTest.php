@@ -17,7 +17,7 @@ class ZoneTest extends \TestCase
         new Zone('invalid');
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $zone = new Zone('UTC');
         $this->assertSame('UTC', (string) $zone);
         $this->assertEquals('UTC', $zone); // Stringable.

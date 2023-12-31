@@ -30,11 +30,30 @@ class PathInfoTest extends \TestCase
         }
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $path = __FILE__;
         $info = new PathInfo($path);
 
         $this->assertSame($path, (string) $info);
+    }
+
+    function testMagicGet() {
+        $path = __FILE__;
+        $info = new PathInfo($path);
+
+        $this->assertSame($path, $info->path);
+        $this->assertSame('file', $info->type);
+        $this->assertSame('php', $info->extension);
+
+        foreach (['realPath', 'dirName', 'fileName', 'baseName'] as $key) {
+            $func = $lkey = lower($key);
+            $value = $func($path);
+            $this->assertSame($value, $info->$key);
+            $this->assertSame($value, $info->$lkey);
+        }
+
+        $this->expectException(PathInfoException::class);
+        $info->absentInfoKey;
     }
 
     function testGetters() {
@@ -99,6 +118,12 @@ class PathInfoTest extends \TestCase
         $this->assertSame(filegroup($path), $info->getGroup());
         $this->assertSame(fileowner($path), $info->getOwner());
         $this->assertSame(fileperms($path), $info->getPerms());
+
+        $this->assertSame([
+            'read' => true,
+            'write' => true,
+            'execute' => false
+        ], $info->getPermsInfo());
     }
 
     function testCheckMethods() {
@@ -138,9 +163,15 @@ class PathInfoTest extends \TestCase
         $this->assertSame($path, $info['path']);
         $this->assertSame('file', $info['type']);
         $this->assertSame('php', $info['extension']);
-        $this->assertSame(dirname($path), $info['dirname']);
-        $this->assertSame(basename($path), $info['basename']);
-        $this->assertSame(filename($path), $info['filename']);
-        $this->assertSame(realpath($path), $info['realpath']);
+
+        foreach (['realPath', 'dirName', 'fileName', 'baseName'] as $key) {
+            $func = $lkey = lower($key);
+            $value = $func($path);
+            $this->assertSame($value, $info->$key);
+            $this->assertSame($value, $info->$lkey);
+        }
+
+        $this->expectException(PathInfoException::class);
+        $info['absent-info-key'];
     }
 }

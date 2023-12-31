@@ -34,7 +34,7 @@ class DateTimeZoneTest extends \TestCase
         }
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $dtz = new DateTimeZone('UTC');
         $this->assertSame('UTC', (string) $dtz);
         $this->assertEquals('UTC', $dtz); // Stringable.

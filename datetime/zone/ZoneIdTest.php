@@ -15,7 +15,7 @@ class ZoneIdTest extends \TestCase
         $this->assertSame('Europe / Istanbul', $zoneId->name);
     }
 
-    function testStringCast() {
+    function testMagicString() {
         $zoneId = new ZoneId('UTC');
         $this->assertSame('UTC', (string) $zoneId);
         $this->assertEquals('UTC', $zoneId); // Stringable.

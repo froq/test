@@ -16,6 +16,9 @@ class DirectoryTest extends \TestCase
         $this->assertInstanceOf(Path::class, $dir->path);
         $this->assertSame($path, $dir->path->name);
 
+        // Argument types (string|Path).
+        $this->assertEquals(new Directory($path), new Directory(new Path($path)));
+
         try {
             new Directory("");
         } catch (DirectoryException $e) {
@@ -122,6 +125,24 @@ class DirectoryTest extends \TestCase
         $this->assertTrue($dir->hasFiles());
         $this->assertEquals($files, $dir->getFiles());
         $this->assertEquals($paths, (array) $dir->getFileNames());
+    }
+
+    function testGlob() {
+        $dir = new Directory(__DIR__);
+
+        $this->assertInstanceOf(\GlobIterator::class, $dir->glob('*'));
+    }
+
+    function testFind() {
+        $dir = new Directory(__DIR__);
+
+        $this->assertInstanceOf(\RegexIterator::class, $dir->find('~.*~'));
+    }
+
+    function testFindAll() {
+        $dir = new Directory(__DIR__);
+
+        $this->assertInstanceOf(\RegexIterator::class, $dir->find('~.*~'));
     }
 
     function testCount() {

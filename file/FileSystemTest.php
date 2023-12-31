@@ -45,6 +45,7 @@ class FileSystemTest extends \TestCase
 
     function testOpenDirectory() {
         $this->assertInstanceOf(Directory::class, FileSystem::openDirectory(__DIR__));
+        $this->assertInstanceOf(Directory::class, FileSystem::openDirectory(new Path(__DIR__)));
 
         try {
             FileSystem::openDirectory("");
@@ -70,6 +71,7 @@ class FileSystemTest extends \TestCase
 
     function testOpenFile() {
         $this->assertInstanceOf(File::class, FileSystem::openFile(__FILE__));
+        $this->assertInstanceOf(File::class, FileSystem::openFile(new Path(__FILE__)));
 
         try {
             FileSystem::openFile("");
@@ -152,14 +154,29 @@ class FileSystemTest extends \TestCase
         $this->assertLength(2 * 3, file_read($path));
     }
 
+    function testGetPathTree() {
+        $path = '/tmp/froq';
+
+        $this->assertSame(['/', '/tmp', '/tmp/froq'], FileSystem::getPathTree($path));
+        $this->assertEquals([new Path('/'), new Path('/tmp'), new Path('/tmp/froq')],
+            FileSystem::getPathTree($path, convert: true));
+    }
+
+    function testCountPaths() {
+        $this->assertSame(2, FileSystem::countPaths('/tmp'));
+        $this->assertSame(-1, FileSystem::countPaths(''));
+    }
+
     function testSplitPaths() {
-        $path = join(DIRECTORY_SEPARATOR, $paths = ['a', 'b', 'c']);
+        $path = join(DIRECTORY_SEPARATOR, $paths = ['', 'a', 'b', 'c']);
+
         $this->assertSame($paths, FileSystem::splitPaths($path));
     }
 
     function testJoinPaths() {
-        $paths = split(DIRECTORY_SEPARATOR, $path = join(DIRECTORY_SEPARATOR, ['a', 'b', 'c']));
-        $this->assertSame($path, FileSystem::joinPaths(...$paths));
+        $paths = split(DIRECTORY_SEPARATOR, $path = DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, ['a', 'b', 'c']));
+
+        $this->assertSame($path, FileSystem::joinPaths($paths));
     }
 
     function testResolvePath() {
