@@ -10,7 +10,7 @@ class FileTest extends \TestCase
     }
 
     function testConstructor() {
-        $file = new File($path = $this->util->imageMake());
+        $file = new File($path = $this->util->fileMake());
 
         $this->assertInstanceOf(PathObject::class, $file);
         $this->assertInstanceOf(Path::class, $file->path);
@@ -285,6 +285,16 @@ class FileTest extends \TestCase
         $this->assertInstanceOf(File::class, $file);
     }
 
+    function testFromFileString() {
+        $file = File::fromFileString($this->util->fileMake('', 'Test!'));
+
+        $this->assertInstanceOf(File::class, $file);
+
+        $this->expectException(FileException::class);
+        $this->expectExceptionMessage('No such file');
+        $file = File::fromFileString('absent-file');
+    }
+
     /** Inherit Methods */
 
     function testGetPath() {
@@ -338,6 +348,33 @@ class FileTest extends \TestCase
         $this->assertFalse($file->okay(read: true));
         $this->assertFalse($file->okay(write: true));
         $this->assertFalse($file->okay(execute: true));
+    }
+
+    function testPermMethods() {
+        $path = $this->util->fileMake();
+        $file = new File($path);
+
+        $this->assertTrue($file->isReadable());
+        $this->assertTrue($file->isWritable());
+        $this->assertTrue($file->isExecutable());
+
+        chmod($path, 0);
+
+        $this->assertFalse($file->isReadable());
+        $this->assertFalse($file->isWritable());
+        $this->assertFalse($file->isExecutable());
+    }
+
+    function testCheckMethods() {
+        $file = new File($this->util->fileMake());
+
+        $this->assertTrue($file->isTemporary());
+        $this->assertFalse($file->isHidden());
+
+        $file = new File('/.test');
+
+        $this->assertFalse($file->isTemporary());
+        $this->assertTrue($file->isHidden());
     }
 
     function testModeTouch() {

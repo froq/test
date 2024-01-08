@@ -70,4 +70,14 @@ class ImageTest extends \TestCase
         $this->expectExceptionMessage('Data is not in a recognized format');
         $image = Image::fromString('abc');
     }
+
+    function testFromFileString() {
+        $image = Image::fromFileString($this->util->imageMake());
+
+        $this->assertInstanceOf(Image::class, $image);
+
+        $this->expectException(ImageException::class);
+        $this->expectExceptionMessage('No such file');
+        $image = Image::fromFileString('absent-file');
+    }
 }
