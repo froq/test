@@ -42,10 +42,12 @@ class CacheTest extends \TestCase
         $this->assertFalse($cache->agent->has($key));
 
         $cache->agent->set($key, $value);
+
         $this->assertTrue($cache->agent->has($key));
         $this->assertSame($value, $cache->agent->get($key));
 
         $cache->agent->delete($key);
+
         $this->assertFalse($cache->agent->has($key));
         $this->assertNull($cache->agent->get($key));
 
@@ -59,10 +61,12 @@ class CacheTest extends \TestCase
         $this->assertFalse($cache->has($key));
 
         $cache->set($key, $value);
+
         $this->assertTrue($cache->has($key));
         $this->assertSame($value, $cache->get($key));
 
         $cache->delete($key);
+
         $this->assertFalse($cache->has($key));
         $this->assertNull($cache->get($key));
 
@@ -78,10 +82,12 @@ class CacheTest extends \TestCase
         $this->assertFalse($cache->has($keys));
 
         $cache->set($items);
+
         $this->assertTrue($cache->has($keys));
         $this->assertSame($values, $cache->get($keys));
 
         $cache->delete($keys);
+
         $this->assertFalse($cache->has($keys));
         $this->assertSame([null, null], $cache->get($keys));
 

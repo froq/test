@@ -25,28 +25,30 @@ class CacheFactoryTest extends \TestCase
         }
     }
 
-    function testCache() {
+    function testInit() {
         $cache = CacheFactory::init('test', $this->options());
 
         $this->assertInstanceOf(Cache::class, $cache);
     }
 
-    function testCacheAgent() {
+    function testInitAgent() {
         $agent = CacheFactory::initAgent('test', $this->options());
 
         $this->assertInstanceOf(File::class, $agent);
         $this->assertInstanceOf(AgentInterface::class, $agent);
     }
 
-    function testAbsentCacheInstanceException() {
-        $this->expectException(CacheException::class);
+    function testGetInstance() {
+        $this->assertNull(CacheFactory::getInstance('none', silent: true));
 
+        $this->expectException(CacheException::class);
         CacheFactory::getInstance('none');
     }
 
-    function testAbsentCacheAgentInstanceException() {
-        $this->expectException(CacheException::class);
+    function testGetAgentInstance() {
+        $this->assertNull(CacheFactory::getAgentInstance('none', silent: true));
 
+        $this->expectException(CacheException::class);
         CacheFactory::getAgentInstance('none');
     }
 
