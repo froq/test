@@ -286,7 +286,7 @@ class FileTest extends \TestCase
     }
 
     function testFromFileString() {
-        $file = File::fromFileString($this->util->fileMake('', 'Test!'));
+        $file = File::fromFileString($this->util->fileMake());
 
         $this->assertInstanceOf(File::class, $file);
 
