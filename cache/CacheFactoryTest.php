@@ -39,14 +39,14 @@ class CacheFactoryTest extends \TestCase
     }
 
     function testGetInstance() {
-        $this->assertNull(CacheFactory::getInstance('none', silent: true));
+        $this->assertNull(CacheFactory::getInstance('none', throw: false));
 
         $this->expectException(CacheException::class);
         CacheFactory::getInstance('none');
     }
 
     function testGetAgentInstance() {
-        $this->assertNull(CacheFactory::getAgentInstance('none', silent: true));
+        $this->assertNull(CacheFactory::getAgentInstance('none', throw: false));
 
         $this->expectException(CacheException::class);
         CacheFactory::getAgentInstance('none');
