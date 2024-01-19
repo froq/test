@@ -131,7 +131,7 @@ class FileTest extends \TestCase
     function testLockUnlock() {
         $file = new File($this->util->fileMake(), ['open' => 'w+']);
 
-        $this->assertTrue($file->lock(LOCK_EX));
+        $this->assertTrue($file->lock());
         $this->assertTrue($file->unlock());
     }
 
@@ -277,6 +277,7 @@ class FileTest extends \TestCase
         $file = new File($this->util->fileMake());
 
         $this->assertInstanceOf(upload\FileSource::class, $file->toSource());
+        $this->assertInstanceOf(upload\FileSource::class, $file->toFileSource());
     }
 
     function testFromString() {

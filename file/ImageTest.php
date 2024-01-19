@@ -59,6 +59,7 @@ class ImageTest extends \TestCase
         $image = new Image($this->util->fileMake());
 
         $this->assertInstanceOf(upload\ImageSource::class, $image->toSource());
+        $this->assertInstanceOf(upload\ImageSource::class, $image->toImageSource());
     }
 
     function testFromString() {
