@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\datetime\format;
 use froq\datetime\{DateTime, UtcDateTime};
-use froq\datetime\format\{Formatter, FormatException, Format};
+use froq\datetime\format\{Formatter, FormatterException, Format};
 use froq\datetime\locale\{Locale, Intl};
 
 class FormatterTest extends \TestCase
@@ -118,14 +118,14 @@ class FormatterTest extends \TestCase
         try {
             $formatter = new Formatter();
             $formatter->format($when);
-        } catch (FormatException $e) {
+        } catch (FormatterException $e) {
             $this->assertStringContains('No format yet', $e->getMessage());
         }
 
         try {
             $formatter = new Formatter();
             $formatter->format($when, '%O');
-        } catch (FormatException $e) {
+        } catch (FormatterException $e) {
             $this->assertStringContains('Invalid format', $e->getMessage());
         }
     }
