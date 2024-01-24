@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\cache;
-use froq\cache\{Cache, CacheFactory, CacheException};
-use froq\cache\agent\{AgentInterface, File};
+use froq\cache\{Cache, CacheFactory, CacheAgent, CacheException, agent};
 
 class CacheFactoryTest extends \TestCase
 {
@@ -34,8 +33,8 @@ class CacheFactoryTest extends \TestCase
     function testInitAgent() {
         $agent = CacheFactory::initAgent('test', $this->options());
 
-        $this->assertInstanceOf(File::class, $agent);
-        $this->assertInstanceOf(AgentInterface::class, $agent);
+        $this->assertInstanceOf(agent\File::class, $agent);
+        $this->assertInstanceOf(agent\AgentInterface::class, $agent);
     }
 
     function testGetInstance() {
@@ -54,7 +53,7 @@ class CacheFactoryTest extends \TestCase
 
     private function options() {
         return [
-            'agent' => CacheFactory::AGENT_FILE,
+            'agent' => CacheAgent::FILE,
             'directory' => tmp() . '/froq-cache',
         ];
     }
