@@ -37,14 +37,14 @@ class ReflectionClassTest extends \TestCase
         $this->assertCount(3, $ref->parents());
         $this->assertTrue($ref->hasParent());
         $this->assertEquals($parents[0], $ref->getParent());
-        $this->assertEquals($parents[2], $ref->getParent(baseOnly: true));
+        $this->assertEquals($parents[2], $ref->getParent(top: true));
         $this->assertEquals($parents, $ref->getParents());
         $this->assertSame(['TestCase', 'PHPUnit\Framework\TestCase', 'PHPUnit\Framework\Assert'],
             $ref->getParentNames());
         $this->assertSame('TestCase', $ref->getParentName());
-        $this->assertSame('PHPUnit\Framework\Assert', $ref->getParentName(baseOnly: true));
+        $this->assertSame('PHPUnit\Framework\Assert', $ref->getParentName(top: true));
         $this->assertEquals($parents[0], $ref->getParentClass());
-        $this->assertEquals($parents[2], $ref->getParentClass(baseOnly: true));
+        $this->assertEquals($parents[2], $ref->getParentClass(top: true));
         $this->assertEquals($parents, $ref->getParentClasses());
     }
 
