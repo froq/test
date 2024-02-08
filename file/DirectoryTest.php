@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
-use froq\file\{Directory, DirectoryException, Path, PathInfo, PathObject,
-    File, Stat, error};
+use froq\file\{Directory, DirectoryList, DirectoryException, Path, PathList, PathInfo, PathObject,
+    File, FileList, Stat, error};
 
 class DirectoryTest extends \TestCase
 {
@@ -103,28 +103,60 @@ class DirectoryTest extends \TestCase
     function testDirectoryMethods() {
         $path = $this->util->dirMake();
         $paths = $this->util->dirMakeIn($path, count: 3);
-        $dirs = new \ArrayIterator(map($paths, fn($p) => new Directory($p)));
+        $dirs = new DirectoryList(map($paths, fn($p) => new Directory($p)));
         $dir = new Directory($path);
 
         $this->assertTrue($dir->hasDirectories());
         $this->assertEquals($dirs, $dir->getDirectories());
-        $this->assertEquals($paths, (array) $dir->getDirectoryNames());
+        $this->assertEquals($paths, $dir->getDirectoryNames()->toArray());
+
+        $basename = basename($paths[0]);
+
+        $this->assertTrue($dir->hasChild($basename));
+        $this->assertEquals($dirs[0], $dir->getChild($basename));
+        $this->assertInstanceOf(Directory::class, $dir->getChild($basename));
 
         // Aliases.
         $this->assertTrue($dir->hasChildren());
         $this->assertCount(3, $dir->getChildren());
-        $this->assertEquals($paths, (array) $dir->getChildrenNames());
+        $this->assertEquals($paths, $dir->getChildrenNames()->toArray());
     }
 
     function testFileMethods() {
         $path = $this->util->dirMake();
         $paths = $this->util->fileMakeIn($path, count: 3);
-        $files = new \ArrayIterator(map($paths, fn($p) => new File($p)));
+        $files = new FileList(map($paths, fn($p) => new File($p)));
         $dir = new Directory($path);
 
         $this->assertTrue($dir->hasFiles());
         $this->assertEquals($files, $dir->getFiles());
-        $this->assertEquals($paths, (array) $dir->getFileNames());
+        $this->assertEquals($paths, $dir->getFileNames()->toArray());
+
+        $basename = basename($paths[0]);
+
+        $this->assertTrue($dir->hasFile($basename));
+        $this->assertEquals($files[0], $dir->getFile($basename));
+        $this->assertInstanceOf(File::class, $dir->getFile($basename));
+    }
+
+    function testSubPathMethods() {
+        $dir = new Directory(__DIR__);
+
+        $this->assertTrue($dir->hasSubPath('upload'));
+        $this->assertInstanceOf(Path::class, $dir->getSubPath('upload'));
+    }
+
+    function testParentMethods() {
+        $dir = new Directory(__DIR__);
+
+        $this->assertTrue($dir->hasParent());
+        $this->assertInstanceOf(Directory::class, $dir->getDirectory());
+    }
+
+    function testList() {
+        $dir = new Directory(__DIR__);
+
+        $this->assertInstanceOf(PathList::class, $dir->list());
     }
 
     function testGlob() {
@@ -164,7 +196,7 @@ class DirectoryTest extends \TestCase
         }
 
         $this->assertInstanceOf(\IteratorAggregate::class, $dir);
-        $this->assertInstanceOf(\ArrayIterator::class, $dir->getIterator());
+        $this->assertInstanceOf(DirectoryList::class, $dir->getIterator());
     }
 
     // /** Inherit Methods */

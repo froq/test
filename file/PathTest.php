@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
-use froq\file\{Path, PathException, PathInfo, Directory, File, error};
+use froq\file\{Path, PathException, PathInfo, PathList, Directory, File, error};
 
 class PathTest extends \TestCase
 {
@@ -40,10 +40,13 @@ class PathTest extends \TestCase
     function testGetters() {
         $name = '/tmp/froq';
         $path = new Path($name);
+        $paths = ['/', '/tmp', '/tmp/froq'];
+        $pathos = [new Path('/'), new Path('/tmp'), new Path('/tmp/froq')];
 
         $this->assertSame($name, $path->getName());
-        $this->assertSame(['/', '/tmp', '/tmp/froq'], $path->getTree());
-        $this->assertEquals([new Path('/'), new Path('/tmp'), new Path('/tmp/froq')], $path->getTree(true));
+        $this->assertSame($paths, $path->getTree());
+        $this->assertEquals($pathos, $path->getTree(true));
+        $this->assertEquals(new PathList($pathos), new PathList($path->getTreeList()));
     }
 
     function testSplit() {
@@ -105,6 +108,7 @@ class PathTest extends \TestCase
     function testOf() {
         $path = Path::of('/', 'tmp');
 
+        $this->assertEquals('/tmp', $path);
         $this->assertInstanceOf(Path::class, $path);
     }
 }

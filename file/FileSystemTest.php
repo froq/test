@@ -179,6 +179,12 @@ class FileSystemTest extends \TestCase
         $this->assertSame($path, FileSystem::joinPaths($paths));
     }
 
+    function testJoinPath() {
+        $paths = split(DIRECTORY_SEPARATOR, $path = DIRECTORY_SEPARATOR . join(DIRECTORY_SEPARATOR, ['a', 'b', 'c']));
+
+        $this->assertSame($path, FileSystem::joinPath(...$paths));
+    }
+
     function testResolvePath() {
         $this->assertSame(getcwd(), FileSystem::resolvePath('.'));
         $this->assertNull(FileSystem::resolvePath('.' . DIRECTORY_SEPARATOR . 'absent-path'));
