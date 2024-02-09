@@ -45,7 +45,7 @@ class FileTest extends \TestCase
         $file = new File($this->util->imageMake());
 
         $this->assertNull($file->getLine());
-        $this->assertSame(1, $file->setLine(1)->getLine());
+        $this->assertSame([1, null], $file->setLine(1)->getLine());
 
         $this->assertSame('image/png', $file->getMime());
         $this->assertSame('image/jpeg', $file->setMime('image/jpeg')->getMime());
@@ -222,6 +222,20 @@ class FileTest extends \TestCase
         $this->assertSame('abc', $file->toString());
         $this->assertSame('YWJj', $file->toBase64());
         $this->assertSame('data:text/plain;base64,YWJj', $file->toDataUrl());
+    }
+
+    function testCount() {
+        $file = new File($this->util->fileMake());
+        $file->open('r+');
+
+        foreach (range(1, 3) as $i) {
+            $line = 'abc' . rand();
+            $file->writeLine($line);
+        }
+
+        $this->assertInstanceOf(\Countable::class, $file);
+        $this->assertCount(3, $file);
+        $this->assertSame(3, $file->count());
     }
 
     function testGetIterator() {
