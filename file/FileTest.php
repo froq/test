@@ -205,14 +205,11 @@ class FileTest extends \TestCase
     }
 
     function testDelete() {
-        $file = new File($this->util->fileMake());
+        $file1 = new File($this->util->fileMake());
+        $file2 = new File('absent-file');
 
-        $this->assertTrue($file->delete());
-
-        $this->expectException(FileException::class);
-        $this->expectExceptionMessageMatches('~No such file~');
-        $file = new File('absent-file');
-        $file->delete();
+        $this->assertTrue($file1->delete());
+        $this->assertFalse($file2->delete());
     }
 
     function testConverters() {
