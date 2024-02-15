@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\datetime;
-use froq\datetime\{DateTime, DateTimeException, DateTimeZone, DateTimeZoneException, Interval};
+use froq\datetime\{DateTime, DateTimeException, DateTimeZone, DateTimeZoneException,
+    Timestamp, Interval};
 
 class DateTimeTest extends \TestCase
 {
@@ -198,6 +199,15 @@ class DateTimeTest extends \TestCase
         $this->assertSame('Tue, 09 Jan 1990 20:30:11 GMT', $dt->toHttpString());
         $this->assertSame('Tue, 09 Jan 1990 20:30:11 GMT', $dt->toHttpCookieString());
         $this->assertSame('"1990-01-09T23:30:11.506001+03:00"', json_encode($dt));
+    }
+
+    function testToFromTimestamp() {
+        $dt = new DateTime();
+        $this->assertInstanceOf(Timestamp::class, $dt->toTimestamp());
+
+        $this->assertInstanceOf(DateTime::class, DateTime::fromTimestamp(time()));
+        $this->assertInstanceOf(DateTime::class, DateTime::fromTimestamp(utime()));
+        $this->assertInstanceOf(DateTime::class, DateTime::fromTimestamp(new Timestamp()));
     }
 
     function testOf() {

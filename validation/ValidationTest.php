@@ -284,8 +284,8 @@ class ValidationTest extends \TestCase
         $this->assertSame("Field 'name' value length must be maximum 10.", $errors['name']['message']);
     }
 
-    function testEpochValidation() {
-        $validation = new Validation(['timestamp' => ['type' => 'epoch']]);
+    function testTimestampValidation() {
+        $validation = new Validation(['timestamp' => ['type' => 'timestamp']]);
 
         $data = ['timestamp' => time()];
         $this->assertTrue($validation->validate($data));
@@ -295,7 +295,7 @@ class ValidationTest extends \TestCase
         $this->assertFalse($validation->validate($data));
         $this->assertNotNull($errors = $validation->errors());
         $this->assertSame(ValidationError::NOT_VALID, $errors['timestamp']['code']);
-        $this->assertSame("Field 'timestamp' value is not a valid epoch.", $errors['timestamp']['message']);
+        $this->assertSame("Field 'timestamp' value is not a valid timestamp.", $errors['timestamp']['message']);
     }
 
     function testUrlValidation() {
