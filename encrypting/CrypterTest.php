@@ -4,37 +4,33 @@ use froq\encrypting\{Crypter, CryptException};
 
 class CrypterTest extends \TestCase
 {
-    function testEncrypt() {
-        [$pp, $iv] = $this->secrets();
-        $crypter = new Crypter($pp, $iv);
+    const PASSPHRASE = 'IzARZtq./mU}H|D&y~^Z5~Lr_y}i:Y:-q*Vr]n5-}0ydXcu31\0Nu?[Q';
 
-        $this->assertSame('Z1xhQCgs', $crypter->encrypt('Hello!'));
-        $this->assertSame('7K5Z19tyLT5', $crypter->encrypt('Hello!', encode: true));
+    function testEncrypt() {
+        $crypter = new Crypter(self::PASSPHRASE);
+
+        $this->assertSame('cPpE8Rn0', $crypter->encrypt('Hello!'));
+        $this->assertSame('8wE7W4vb5oQ', $crypter->encrypt('Hello!', encode: true));
 
         try {
-            $crypter = new Crypter(pp: '123', iv: '');
+            $crypter = new Crypter('');
             $crypter->encrypt('input');
         } catch (CryptException $e) {
-            $this->assertStringContains('Argument $iv length must be 16', $e->getMessage());
+            $this->assertStringContains('Argument $passphrase length must be 56', $e->getMessage());
         }
     }
 
     function testDecrypt() {
-        [$pp, $iv] = $this->secrets();
-        $crypter = new Crypter($pp, $iv);
+        $crypter = new Crypter(self::PASSPHRASE);
 
-        $this->assertSame('Hello!', $crypter->decrypt('Z1xhQCgs'));
-        $this->assertSame('Hello!', $crypter->decrypt('7K5Z19tyLT5', decode: true));
+        $this->assertSame('Hello!', $crypter->decrypt('cPpE8Rn0'));
+        $this->assertSame('Hello!', $crypter->decrypt('8wE7W4vb5oQ', decode: true));
 
         try {
-            $crypter = new Crypter(pp: '123', iv: '');
+            $crypter = new Crypter('');
             $crypter->decrypt('input');
         } catch (CryptException $e) {
-            $this->assertStringContains('Argument $iv length must be 16', $e->getMessage());
+            $this->assertStringContains('Argument $passphrase length must be 56', $e->getMessage());
         }
-    }
-
-    private function secrets() {
-        return ['password', 'TdBpoo3XjZcbe9zR'];
     }
 }
