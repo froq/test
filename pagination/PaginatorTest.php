@@ -33,11 +33,15 @@ class PaginatorTest extends \TestCase
         $paginator = new Paginator();
         $totalRecords = 30;
 
+        $this->assertFalse($paginator->hasPages());
+
         $paginator->setPage(1)->paginate($totalRecords);
 
+        $this->assertTrue($paginator->hasPages());
         $this->assertSame(1, $paginator->getPage());
         $this->assertSame(null, $paginator->getPrevPage());
         $this->assertSame(2, $paginator->getNextPage());
+        $this->assertSame(3, $paginator->getLastPage());
 
         $paginator->setPage(2)->paginate($totalRecords);
 
