@@ -4,27 +4,49 @@ use froq\encrypting\{Crypt, CryptException};
 
 class CryptTest extends \TestCase
 {
-    const PASSPHRASE = 'IzARZtq./mU}H|D&y~^Z5~Lr_y}i:Y:-q*Vr]n5-}0ydXcu31\0Nu?[Q';
+    const SECRET = 'IzARZtq./mU}H|D&y~^Z5~Lr_y}i:Y:-q*Vr]n5-}0ydXcu31\0Nu?[Q';
 
     function testEncrypt() {
-        $this->assertSame('cPpE8Rn0', Crypt::encrypt('Hello!', self::PASSPHRASE));
-        $this->assertSame('8wE7W4vb5oQ', Crypt::encrypt('Hello!', self::PASSPHRASE, encode: true));
+        $crypt = new Crypt(self::SECRET);
+        $this->assertSame('cPpE8Rn0', $crypt->encrypt('Hello!'));
+
+        $crypt = new Crypt(self::SECRET, encdec: true);
+        $this->assertSame('8wE7W4vb5oQ', $crypt->encrypt('Hello!'));
 
         try {
-            Crypt::encrypt('input', passphrase: '');
+            $crypt = new Crypt('s3cr3t');
+            $crypt->encrypt('input');
         } catch (CryptException $e) {
-            $this->assertStringContains('Argument $passphrase length must be 56', $e->getMessage());
+            $this->assertSame('Argument $secret length must be 56 [given length: 6]', $e->getMessage());
+        }
+
+        try {
+            $crypt = new Crypt(self::SECRET, encdec: 1);
+            $crypt->encrypt('input');
+        } catch (CryptException $e) {
+            $this->assertSame('Argument $encdec must be between 2-62, 1 given', $e->getMessage());
         }
     }
 
     function testDecrypt() {
-        $this->assertSame('Hello!', Crypt::decrypt('cPpE8Rn0', self::PASSPHRASE));
-        $this->assertSame('Hello!', Crypt::decrypt('8wE7W4vb5oQ', self::PASSPHRASE, decode: true));
+        $crypt = new Crypt(self::SECRET);
+        $this->assertSame('Hello!', $crypt->decrypt('cPpE8Rn0'));
+
+        $crypt = new Crypt(self::SECRET, encdec: true);
+        $this->assertSame('Hello!', $crypt->decrypt('8wE7W4vb5oQ'));
 
         try {
-            Crypt::decrypt('input', passphrase: '');
+            $crypt = new Crypt('s3cr3t');
+            $crypt->decrypt('input');
         } catch (CryptException $e) {
-            $this->assertStringContains('Argument $passphrase length must be 56', $e->getMessage());
+            $this->assertSame('Argument $secret length must be 56 [given length: 6]', $e->getMessage());
+        }
+
+        try {
+            $crypt = new Crypt(self::SECRET, encdec: 1);
+            $crypt->decrypt('input');
+        } catch (CryptException $e) {
+            $this->assertSame('Argument $encdec must be between 2-62, 1 given', $e->getMessage());
         }
     }
 }
