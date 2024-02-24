@@ -56,7 +56,7 @@ class ImageTest extends \TestCase
     }
 
     function testToSource() {
-        $image = new Image($this->util->fileMake());
+        $image = new Image($this->util->imageMake());
 
         $this->assertInstanceOf(upload\ImageSource::class, $image->toSource());
         $this->assertInstanceOf(upload\ImageSource::class, $image->toImageSource());

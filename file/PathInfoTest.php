@@ -71,11 +71,11 @@ class PathInfoTest extends \TestCase
             'extension' => file_extension($path),
         ], $info->getInfo());
 
-        $dir = dirname($path);
-        $this->assertSame($dir, $info->getDirectory());
-        $this->assertSame(dirname($dir), $info->getRootDirectory());
-        $this->assertSame($dir, $info->getParentDirectory());
+        $this->assertSame(dirname($path), $info->getDirectory());
+        $this->assertSame(dirname($path, PHP_INT_MAX), $info->getRootDirectory());
+        $this->assertSame(dirname($path, 2), $info->getParentDirectory());
 
+        $dir = dirname($path);
         $this->assertEquals(new PathInfo($dir), $info->getDirectoryInfo());
         $this->assertEquals(new PathInfo($dir), $info->getDirInfo());
     }

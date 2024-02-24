@@ -91,8 +91,8 @@ class DirectoryTest extends \TestCase
     function testDirectoryGetters() {
         $path = __DIR__;
         $pathDir = dirname($path);
-        $rootPathDir = dirname($path, substr_count($path, DIRECTORY_SEPARATOR) - 1);
-        $parentPathDir = dirname($path, 1);
+        $rootPathDir = dirname($path, PHP_INT_MAX);
+        $parentPathDir = dirname($path, 2);
         $dir = new Directory($path);
 
         $this->assertEquals(new Directory($pathDir), $dir->getDirectory());

@@ -175,7 +175,7 @@ class ImageSourceTest extends \TestCase
         }
 
         try {
-            new ImageSource(__FILE__, ['allowedExtensions' => 'png']);
+            new ImageSource(__FILE__, ['allowedMimes' => '*', 'allowedExtensions' => 'png']);
         } catch (ImageSourceException $e) {
             $this->assertSame('Extension php not allowed by "allowedExtensions" option, allowed extensions: png',
                 $e->getMessage());
