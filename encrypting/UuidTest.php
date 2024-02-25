@@ -68,7 +68,7 @@ class UuidTest extends \TestCase
         $this->assertLength(36, Uuid::generateSerial());
         $this->assertLength(32, Uuid::generateSerial(dashed: false));
 
-        $now = udate('', 'UTC');
+        $now = datetime('', 'UTC');
         $date = $now->format('Ymd');
         $dateHex = Base::toBase(str_split($now->format('YmdHisu'), 10)[0], 16);
 
