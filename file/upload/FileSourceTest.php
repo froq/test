@@ -32,7 +32,7 @@ class FileSourceTest extends \TestCase
         try {
             new FileSource(['error' => UPLOAD_ERR_INI_SIZE]);
         } catch (FileSourceException $e) {
-            $this->assertSame('The uploaded file exceeds the upload_max_filesize directive in php.ini',
+            $this->assertSame('Uploaded file exceeds upload_max_filesize directive in php.ini',
                 $e->getMessage());
         }
     }
