@@ -215,7 +215,7 @@ class ImageSourceTest extends \TestCase
             3 => 'width="200" height="200"',
             'bits' => 8, 'mime' => 'image/png',
             'type' => 3, 'width' => 200, 'height' => 200,
-        ], $image->getInfo());
+        ], $image->info());
 
         // States.
         $this->assertTrue($image->resized());
