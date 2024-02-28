@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\reflection;
 use froq\reflection\{
-    Reflection, ReflectionCallable, ReflectionClass, ReflectionClassConstant,
+    Reflection, ReflectionAttribute, ReflectionCallable, ReflectionClass, ReflectionClassConstant,
     ReflectionFunction, ReflectionInterface, ReflectionMethod, ReflectionNamespace,
     ReflectionObject, ReflectionParameter, ReflectionProperty, ReflectionTrait, ReflectionType
 };
@@ -31,7 +31,14 @@ class ReflectionTest extends \TestCase
         $this->assertSame('protected', Reflection::getVisibility(new \ReflectionMethod(CTest::class, 'protectedMethod')));
     }
 
+    function testReflectMethod() {
+        $this->assertInstanceOf(\Reflector::class, Reflection::reflect(CTest::class));
+    }
+
     function testReflectMethods() {
+        $this->assertInstanceOf(ReflectionAttribute::class, Reflection::reflectAttribute(
+            (new \ReflectionClass(CTest::class))->getAttributes()[0]
+        ));
         $this->assertInstanceOf(ReflectionCallable::class, Reflection::reflectCallable('strlen'));
         $this->assertInstanceOf(ReflectionClass::class, Reflection::reflectClass(CTest::class));
         $this->assertInstanceOf(ReflectionClassConstant::class, Reflection::reflectClassConstant(CTest::class, 'NS'));
