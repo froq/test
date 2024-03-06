@@ -16,9 +16,10 @@ class ReflectionPropertyTest extends \TestCase
 
     function testCheckerMethods() {
         $ref = new ReflectionProperty(\Locale::class, 'language');
-        $this->assertTrue($ref->isReadOnly());
-        $this->assertFalse($ref->isNullable());
         $this->assertFalse($ref->isDynamic());
+        $this->assertFalse($ref->isInitialized());
+        $this->assertFalse($ref->isNullable());
+        $this->assertFalse($ref->allowsNull()); // Alias.
 
         $class = new class('tr') extends \Locale {};
 
@@ -29,9 +30,10 @@ class ReflectionPropertyTest extends \TestCase
         $class->x = null;
 
         $ref = new ReflectionProperty($class, 'x');
+        $this->assertTrue($ref->isDynamic());
         $this->assertTrue($ref->isInitialized());
         $this->assertTrue($ref->isNullable());
-        $this->assertTrue($ref->isDynamic());
+        $this->assertTrue($ref->allowsNull()); // Alias.
     }
 
     function testAttributeMethods() {

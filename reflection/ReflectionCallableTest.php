@@ -103,9 +103,13 @@ class ReflectionCallableTest extends \TestCase
         $this->assertNotNull($ref->getParameter('arg1'));
         $this->assertNull($ref->getParameter('arg3'));
         $this->assertCount(2, $ref->getParameters());
-        $this->assertSame(2, $ref->getParametersCount());
         $this->assertSame(['arg1', 'arg2'], $ref->getParameterNames());
         $this->assertSame([null, 0.0], $ref->getParameterValues());
+        $this->assertCount(1, $ref->getRequiredParameters());
+        $this->assertCount(1, $ref->getOptionalParameters());
+        $this->assertSame(2, $ref->getParametersCount());
+        $this->assertSame(1, $ref->getRequiredParametersCount());
+        $this->assertSame(1, $ref->getOptionalParametersCount());
     }
 
     function testDocumentMethods() {

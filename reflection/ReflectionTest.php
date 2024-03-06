@@ -2,7 +2,7 @@
 namespace test\froq\reflection;
 use froq\reflection\{
     Reflection, ReflectionAttribute, ReflectionCallable, ReflectionClass, ReflectionClassConstant,
-    ReflectionFunction, ReflectionInterface, ReflectionMethod, ReflectionNamespace,
+    ReflectionClosure, ReflectionFunction, ReflectionInterface, ReflectionMethod, ReflectionNamespace,
     ReflectionObject, ReflectionParameter, ReflectionProperty, ReflectionTrait, ReflectionType
 };
 
@@ -14,8 +14,9 @@ class ReflectionTest extends \TestCase
         $this->assertSame('callable', Reflection::getType(new \ReflectionCallable('strlen')));
         $this->assertSame('class', Reflection::getType(new \ReflectionClass($this)));
         $this->assertSame('class-constant', Reflection::getType(new \ReflectionClassConstant(CTest::class, 'NS')));
-        $this->assertSame('function', Reflection::getType(new \ReflectionFunction('strlen')));
+        $this->assertSame('closure', Reflection::getType(new ReflectionClosure(fn() => 1)));
         $this->assertSame('method', Reflection::getType(new \ReflectionMethod(CTest::class, 'method')));
+        $this->assertSame('function', Reflection::getType(new \ReflectionFunction('strlen')));
         $this->assertSame('interface', Reflection::getType(new ReflectionInterface(ITest::class)));
         $this->assertSame('trait', Reflection::getType(new ReflectionTrait(TTest::class)));
         $this->assertSame('object', Reflection::getType(new ReflectionObject($this)));
@@ -42,6 +43,7 @@ class ReflectionTest extends \TestCase
         $this->assertInstanceOf(ReflectionCallable::class, Reflection::reflectCallable('strlen'));
         $this->assertInstanceOf(ReflectionClass::class, Reflection::reflectClass(CTest::class));
         $this->assertInstanceOf(ReflectionClassConstant::class, Reflection::reflectClassConstant(CTest::class, 'NS'));
+        $this->assertInstanceOf(ReflectionClosure::class, Reflection::reflectClosure(fn() => 1));
         $this->assertInstanceOf(ReflectionFunction::class, Reflection::reflectFunction('strlen'));
         $this->assertInstanceOf(ReflectionInterface::class, Reflection::reflectInterface(ITest::class));
         $this->assertInstanceOf(ReflectionMethod::class, Reflection::reflectMethod(CTest::class, 'method'));

@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\reflection;
-use froq\reflection\{ReflectionParameter, ReflectionMethod, ReflectionFunction, ReflectionType};
+use froq\reflection\{ReflectionParameter, ReflectionMethod, ReflectionFunction, ReflectionClosure,
+    ReflectionType};
 
 class ReflectionParameterTest extends \TestCase
 {
@@ -57,5 +58,19 @@ class ReflectionParameterTest extends \TestCase
         $this->assertNotNull($ref->getType());
         $this->assertInstanceOf(ReflectionType::class, $ref->getType());
         $this->assertInstanceOf(ReflectionType::class, $ref->getTypes()[0]);
+    }
+
+    function testCheckerMethods() {
+        $fun = function (\Error $e) {};
+
+        $ref = new ReflectionParameter($fun, 'e');
+        $this->assertTrue($ref->isClass());
+        $this->assertTrue($ref->isRequired());
+
+        $fun = function (string $s = null) {};
+
+        $ref = new ReflectionParameter($fun, 's');
+        $this->assertFalse($ref->isClass());
+        $this->assertFalse($ref->isRequired());
     }
 }
