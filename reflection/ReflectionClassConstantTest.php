@@ -1,12 +1,15 @@
 <?php declare(strict_types=1);
 namespace test\froq\reflection;
-use froq\reflection\{ReflectionClassConstant, ReflectionClass, ReflectionType};
+use froq\reflection\{ReflectionClassConstant, ReflectionClass, ReflectionNamespace, ReflectionType};
 use froq\reflection\document\ClassConstantDocument;
 
 class ReflectionClassConstantTest extends \TestCase
 {
     function testGetterMethods() {
         $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
+        $this->assertSame('Locale@PATTERN', $ref->getLongName());
+        $this->assertSame('', $ref->getNamespace());
+        $this->assertInstanceOf(ReflectionNamespace::class, $ref->getDeclaringNamespace());
         $this->assertSame(\Locale::class, $ref->getClass());
         $this->assertInstanceOf(ReflectionClass::class, $ref->getDeclaringClass());
         $this->assertSame('string', $ref->getType()->name);

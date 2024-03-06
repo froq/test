@@ -35,6 +35,7 @@ class ReflectionCallableTest extends \TestCase
         $ref = new ReflectionCallable(__METHOD__);
         $this->assertTrue($ref->isMethod());
         $this->assertFalse($ref->isFunction());
+        $this->assertFalse($ref->isClosure());
     }
 
     function testGetters() {

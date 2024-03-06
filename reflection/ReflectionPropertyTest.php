@@ -1,12 +1,15 @@
 <?php declare(strict_types=1);
 namespace test\froq\reflection;
-use froq\reflection\{ReflectionProperty, ReflectionClass};
+use froq\reflection\{ReflectionProperty, ReflectionClass, ReflectionNamespace};
 use froq\reflection\document\PropertyDocument;
 
 class ReflectionPropertyTest extends \TestCase
 {
     function testGetterMethods() {
         $ref = new ReflectionProperty(\Locale::class, 'language');
+        $this->assertSame('Locale$language', $ref->getLongName());
+        $this->assertSame('', $ref->getNamespace());
+        $this->assertInstanceOf(ReflectionNamespace::class, $ref->getDeclaringNamespace());
         $this->assertSame(\Locale::class, $ref->getClass());
         $this->assertInstanceOf(ReflectionClass::class, $ref->getDeclaringClass());
         $this->assertSame('string', $ref->getType()->name);
