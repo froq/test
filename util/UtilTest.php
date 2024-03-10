@@ -23,10 +23,10 @@ class UtilTest extends \TestCase
         $this->assertSame($ip, Util::getClientIp());
     }
 
-    function testGetClientAgent() {
+    function testGetClientUa() {
         $_SERVER['HTTP_USER_AGENT'] = $ua = 'Test UA'; // Fake it.
 
-        $this->assertSame($ua, Util::getClientAgent());
+        $this->assertSame($ua, Util::getClientUa());
     }
 
     function testGetCurrentUrl() {
