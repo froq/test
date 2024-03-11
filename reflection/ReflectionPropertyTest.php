@@ -6,11 +6,11 @@ use froq\reflection\document\PropertyDocument;
 class ReflectionPropertyTest extends \TestCase
 {
     function testGetterMethods() {
-        $ref = new ReflectionProperty(\Locale::class, 'language');
-        $this->assertSame('Locale$language', $ref->getLongName());
+        $ref = new ReflectionProperty(\RegExp::class, 'source');
+        $this->assertSame('RegExp$source', $ref->getLongName());
         $this->assertSame('', $ref->getNamespace());
         $this->assertInstanceOf(ReflectionNamespace::class, $ref->getDeclaringNamespace());
-        $this->assertSame(\Locale::class, $ref->getClass());
+        $this->assertSame(\RegExp::class, $ref->getClass());
         $this->assertInstanceOf(ReflectionClass::class, $ref->getDeclaringClass());
         $this->assertSame('string', $ref->getType()->name);
         $this->assertSame('public', $ref->getVisibility());
@@ -18,15 +18,15 @@ class ReflectionPropertyTest extends \TestCase
     }
 
     function testCheckerMethods() {
-        $ref = new ReflectionProperty(\Locale::class, 'language');
+        $ref = new ReflectionProperty(\RegExp::class, 'source');
         $this->assertFalse($ref->isDynamic());
         $this->assertFalse($ref->isInitialized());
         $this->assertFalse($ref->isNullable());
         $this->assertFalse($ref->allowsNull()); // Alias.
 
-        $class = new class('tr') extends \Locale {};
+        $class = new class('tr') extends \RegExp {};
 
-        $ref = new ReflectionProperty($class, 'language');
+        $ref = new ReflectionProperty($class, 'source');
         $this->assertTrue($ref->isInitialized());
 
         $class = new \stdClass();
@@ -40,7 +40,7 @@ class ReflectionPropertyTest extends \TestCase
     }
 
     function testAttributeMethods() {
-        $ref = new ReflectionProperty(\Locale::class, 'language');
+        $ref = new ReflectionProperty(\RegExp::class, 'source');
         $this->assertInstanceOf(\Set::class, $ref->attributes());
         $this->assertCount(0, $ref->attributes());
         $this->assertFalse($ref->hasAttribute('Foo'));
@@ -49,7 +49,7 @@ class ReflectionPropertyTest extends \TestCase
     }
 
     function testTraitMethods() {
-        $ref = new ReflectionProperty(\Locale::class, 'language');
+        $ref = new ReflectionProperty(\RegExp::class, 'source');
         $this->assertInstanceOf(\Set::class, $ref->traits());
         $this->assertCount(0, $ref->traits());
         $this->assertNull($ref->getTrait('Foo'));
@@ -58,9 +58,9 @@ class ReflectionPropertyTest extends \TestCase
     }
 
     function testValueMethods() {
-        $class = new class('tr') extends \Locale {};
+        $class = new class('tr') extends \RegExp {};
 
-        $ref = new ReflectionProperty($class, 'language');
+        $ref = new ReflectionProperty($class, 'source');
         $this->assertSame('tr', $ref->getValue());
 
         $class = new \stdClass();
@@ -73,18 +73,18 @@ class ReflectionPropertyTest extends \TestCase
         $this->assertSame(456, $ref->getValue($class));
 
         try {
-            $ref = new ReflectionProperty(\Locale::class, 'language');
+            $ref = new ReflectionProperty(\RegExp::class, 'source');
             $ref->setValue('en');
         } catch (\ReflectionException $e) {
-            $this->assertSame('Cannot set property $language of non-instantiated class Locale',
+            $this->assertSame('Cannot set property $source of non-instantiated class RegExp',
                 $e->getMessage());
         }
 
         try {
-            $ref = new ReflectionProperty(\Locale::class, 'language');
+            $ref = new ReflectionProperty(\RegExp::class, 'source');
             $ref->getValue();
         } catch (\ReflectionException $e) {
-            $this->assertSame('Cannot get property $language of non-instantiated class Locale',
+            $this->assertSame('Cannot get property $source of non-instantiated class RegExp',
                 $e->getMessage());
         }
     }

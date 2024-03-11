@@ -6,19 +6,19 @@ use froq\reflection\document\ClassConstantDocument;
 class ReflectionClassConstantTest extends \TestCase
 {
     function testGetterMethods() {
-        $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
-        $this->assertSame('Locale@PATTERN', $ref->getLongName());
+        $ref = new ReflectionClassConstant(\RegExp::class, 'DELIMITER');
+        $this->assertSame('RegExp@DELIMITER', $ref->getLongName());
         $this->assertSame('', $ref->getNamespace());
         $this->assertInstanceOf(ReflectionNamespace::class, $ref->getDeclaringNamespace());
-        $this->assertSame(\Locale::class, $ref->getClass());
+        $this->assertSame(\RegExp::class, $ref->getClass());
         $this->assertInstanceOf(ReflectionClass::class, $ref->getDeclaringClass());
         $this->assertSame('string', $ref->getType()->name);
         $this->assertSame('public', $ref->getVisibility());
-        $this->assertSame(['public'], $ref->getModifierNames());
+        $this->assertSame(['final', 'public'], $ref->getModifierNames());
     }
 
     function testAttributeMethods() {
-        $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
+        $ref = new ReflectionClassConstant(\RegExp::class, 'DELIMITER');
         $this->assertInstanceOf(\Set::class, $ref->attributes());
         $this->assertCount(0, $ref->attributes());
         $this->assertFalse($ref->hasAttribute('Foo'));
@@ -27,7 +27,7 @@ class ReflectionClassConstantTest extends \TestCase
     }
 
     function testTraitMethods() {
-        $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
+        $ref = new ReflectionClassConstant(\RegExp::class, 'DELIMITER');
         $this->assertInstanceOf(\Set::class, $ref->traits());
         $this->assertCount(0, $ref->traits());
         $this->assertNull($ref->getTrait('Foo'));
@@ -36,7 +36,7 @@ class ReflectionClassConstantTest extends \TestCase
     }
 
     function testInterfaceMethods() {
-        $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
+        $ref = new ReflectionClassConstant(\RegExp::class, 'DELIMITER');
         $this->assertInstanceOf(\Set::class, $ref->interfaces());
         $this->assertCount(0, $ref->interfaces());
         $this->assertNull($ref->getInterface());
@@ -47,7 +47,7 @@ class ReflectionClassConstantTest extends \TestCase
     }
 
     function testTypeMethods() {
-        $ref = new ReflectionClassConstant(\Locale::class, 'PATTERN');
+        $ref = new ReflectionClassConstant(\RegExp::class, 'DELIMITER');
         $this->assertInstanceOf(ReflectionType::class, $ref->getType());
         $this->assertSame('string', $ref->getType()->getName());
         $this->assertEquals([new ReflectionType('string')], $ref->getTypes());
