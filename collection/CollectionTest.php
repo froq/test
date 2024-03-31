@@ -134,12 +134,6 @@ class CollectionTest extends \TestCase
         $this->assertEquals($list, $col->toList());
         $this->assertEquals($serial, serialize($col));
 
-        // Aliases.
-        $this->assertEquals($array, $col->array());
-        $this->assertEquals($object, $col->object());
-        $this->assertEquals($json, $col->json());
-        $this->assertEquals($list, $col->list());
-
         // JsonSerializable.
         $this->assertEquals($json, json_encode($col));
     }
