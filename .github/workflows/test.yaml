@@ -22,7 +22,7 @@ jobs:
           extensions: gd, gmp, mbstring, apcu, redis, memcached, xml, json
 
       - name: Update locales
-        run: locale-gen en_US ; locale-gen en_US.UTF-8 ; update-locale
+        run: sudo locale-gen en_US ; sudo locale-gen en_US.UTF-8 ; sudo update-locale
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
