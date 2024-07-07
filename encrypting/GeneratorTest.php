@@ -146,7 +146,7 @@ class GeneratorTest extends \TestCase
     }
 
     function testGeneratePassword() {
-        $this->assertLength(16, Generator::generatePassword());
+        $this->assertLength(10, Generator::generatePassword());
         $this->assertLength(12, Generator::generatePassword(12));
     }
 

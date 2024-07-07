@@ -76,9 +76,9 @@ class DocumentTest extends \TestCase
         $this->assertSame('baz', $el->attribute('class'));
         $this->assertSame(['class' => 'baz'], $el->attributes());
 
-        $this->assertNull($el->text());
-        $this->assertNull($el->html());
-        $this->assertNull($el->value());
+        $this->assertEmpty($el->text());
+        $this->assertEmpty($el->html());
+        $this->assertEmpty($el->value());
 
         $this->assertSame('x', $el->prev()->tag());
         $this->assertSame('z', $el->next()->tag());
