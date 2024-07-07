@@ -21,6 +21,9 @@ jobs:
           php-version: '8.2'
           extensions: gd, gmp, mbstring, apcu, redis, memcached, xml, json
 
+      - name: Update locales
+        run: locale-gen en_US ; locale-gen en_US.UTF-8 ; update-locale
+
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
