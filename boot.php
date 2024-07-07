@@ -11,12 +11,17 @@ if (PHP_SAPI !== 'cli') {
 // @important
 date_default_timezone_set('UTC');
 
+// For non-local environments.
+function is_file_loaded($file) {
+    return in_array($file, get_included_files());
+}
+
 // Path to "vendor/froq" folder.
 $froqDir = __DIR__ . '/vendor/froq';
 
 // Froq loader.
 $froqLoader = $froqDir . '/froq/src/Autoloader.php';
-if (is_file($froqLoader)) {
+if (is_file($froqLoader) && !is_file_loaded($froqLoader)) {
     require $froqLoader;
     $loader = froq\Autoloader::init($froqDir);
     $loader->register();
@@ -24,13 +29,13 @@ if (is_file($froqLoader)) {
 
 // Froq sugars.
 $froqSugars = $froqDir . '/froq-util/src/sugars.php';
-if (is_file($froqSugars)) {
+if (is_file($froqSugars) && !is_file_loaded($froqSugars)) {
     require $froqSugars;
 }
 
 // Composer loader.
 $composerLoader = __DIR__ . '/vendor/autoload.php';
-if (is_file($composerLoader)) {
+if (is_file($composerLoader) && !is_file_loaded($composerLoader)) {
     require $composerLoader;
 }
 
