@@ -21,13 +21,13 @@ jobs:
           php-version: '8.2'
           extensions: gd, gmp, mbstring, apcu, redis, memcached, xml, json
 
-      - name: Update locales
+      - name: Add / Update Locales # Locale en_US is supposed be there already?
         run: sudo locale-gen en_US ; sudo locale-gen en_US.UTF-8 ; sudo update-locale
 
-      - name: Validate composer.json and composer.lock
+      - name: Validate composer.json & composer.lock
         run: composer validate --strict
 
-      - name: Cache Composer packages
+      - name: Cache Composer Packages
         id: composer-cache
         uses: actions/cache@v3
         with:
@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: composer install --prefer-dist --no-progress
 
       - name: Run Tests
