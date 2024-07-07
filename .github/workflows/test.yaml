@@ -10,15 +10,16 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ['8.2']
+        php-version: '8.2'
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.2'
+          extensions: gd, gmp, mbstring, apcu, redis, memcached, xml
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
