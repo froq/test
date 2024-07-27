@@ -174,7 +174,7 @@ class DirectoryTest extends \TestCase
     function testFindAll() {
         $dir = new Directory(__DIR__);
 
-        $this->assertInstanceOf(\RegexIterator::class, $dir->find('~.*~'));
+        $this->assertInstanceOf(\RegexIterator::class, $dir->findAll('~.*~'));
     }
 
     function testCount() {
