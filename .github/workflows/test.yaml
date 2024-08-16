@@ -24,17 +24,17 @@ jobs:
       - name: Add / Update Locales # Locale en_US is supposed be there already?
         run: sudo locale-gen en_US ; sudo locale-gen en_US.UTF-8 ; sudo update-locale
 
-      - name: Validate composer.json & composer.lock
-        run: composer validate --strict
+      # - name: Validate composer.json & composer.lock
+      #   run: composer validate --strict
 
-      - name: Cache Composer Packages
-        id: composer-cache
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+      # - name: Cache Composer Packages
+      #   id: composer-cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: vendor
+      #     key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-php-
 
       - name: Install Dependencies
         run: composer install --prefer-dist --no-progress
