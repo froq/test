@@ -204,6 +204,7 @@ class DateTimeTest extends \TestCase
     function testToFromTimestamp() {
         $dt = new DateTime();
         $this->assertInstanceOf(Timestamp::class, $dt->toTimestamp());
+        $this->assertSame(+$dt->format('U'), $dt->toTimestamp()->getTime());
 
         $this->assertInstanceOf(DateTime::class, DateTime::fromTimestamp(time()));
         $this->assertInstanceOf(DateTime::class, DateTime::fromTimestamp(utime()));

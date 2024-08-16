@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 namespace test\froq\datetime;
-use froq\datetime\{UtcDateTime, DateTime, DateTimeZone};
+use froq\datetime\{UtcDateTime, UtcDateTimeZone, DateTime, DateTimeZone};
 
 class UtcDateTimeTest extends \TestCase
 {
@@ -13,8 +13,9 @@ class UtcDateTimeTest extends \TestCase
         $this->assertSame($when, $dt->toString('c'));
         $this->assertSame('UTC', $dt->getTimezone()->toString());
         $this->assertEquals('UTC', $dt->getTimezone()); // Stringable.
-        $this->assertEquals(new DateTimeZone('UTC'), $dt->getTimezone());
+        $this->assertEquals(new UtcDateTimeZone('UTC'), $dt->getTimezone());
         $this->assertInstanceOf(DateTime::class, $dt);
+        $this->assertInstanceOf(DateTimeZone::class, $dt->getTimezone());
 
         $dt = new UtcDateTime($when = time());
         $this->assertSame($when, (int) $dt->format('U'));
