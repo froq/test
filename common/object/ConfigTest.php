@@ -21,13 +21,13 @@ class ConfigTest extends \TestCase
         $this->assertSame(1, $con->get('x.y.z'));
     }
 
-    function testParseDotEnv() {
+    function testParseDotEnvMethods() {
         $file = sprintf('%s/test-%s.env', tmp(), uuid()); // @sugar
 
         @unlink($file);
 
         try {
-            Config::parseDotEnv($file);
+            Config::parseDotEnvFile($file);
         } catch (ConfigException $e) {
             $this->assertStringContains('No .env file', $e->getMessage());
         }
@@ -37,7 +37,7 @@ class ConfigTest extends \TestCase
         ENV);
 
         try {
-            Config::parseDotEnv($file);
+            Config::parseDotEnvFile($file);
         } catch (ConfigException $e) {
             $this->assertStringContains('Invalid .env entry', $e->getMessage());
         }
@@ -48,7 +48,7 @@ class ConfigTest extends \TestCase
         ENV);
 
         try {
-            Config::parseDotEnv($file);
+            Config::parseDotEnvFile($file);
         } catch (ConfigException $e) {
             $this->assertStringContains('Duplicated .env entry', $e->getMessage());
         }
@@ -59,10 +59,19 @@ class ConfigTest extends \TestCase
         TAR = ["x", "y", "z"]
         ENV);
 
-        $data = Config::parseDotEnv($file);
+        $data = Config::parseDotEnvFile($file);
+
         $this->assertSame('1', $data['FOO']);
         $this->assertSame('2', $data['BAR']);
         $this->assertSame(['x', 'y', 'z'], json_decode($data['TAR']));
+
+        $this->assertNull(env('FOO'));
+        $this->assertNull(@$_ENV['FOO']);
+
+        Config::applyDotEnvConfigs($data, global: true);
+
+        $this->assertNotNull(env('FOO'));
+        $this->assertNotNull($_ENV['FOO']);
 
         @unlink($file);
     }
