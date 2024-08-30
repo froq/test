@@ -14,17 +14,17 @@ class FileTest extends \TestCase
 
         $this->assertInstanceOf(PathObject::class, $file);
         $this->assertInstanceOf(Path::class, $file->path);
-        $this->assertSame($path, $file->path->name);
+        $this->assertSame($path, $file->getPathName());
 
         // Argument types (string|Path).
         $this->assertEquals(new File($path), new File(new Path($path)));
 
         // Temporary files.
-        $file = new File('', ['temp' => true, 'tempdrop' => true]);
+        $file = new File('', ['temp' => true, 'tempDrop' => true]);
 
-        $this->assertFileExists($file->path->name);
-        $file->close(); // Removes temp file.
-        $this->assertFileNotExists($file->path->name);
+        $this->assertFileExists($file->getPathName());
+        $this->assertTrue($file->close()); // Delete temp file.
+        $this->assertFileNotExists($file->getPathName());
 
         try {
             new File("");
@@ -260,30 +260,6 @@ class FileTest extends \TestCase
         $this->assertEquals(new Directory(dirname($path)), $file->getDirectory());
     }
 
-    function testFromTemp() {
-        $file = File::fromTemp();
-
-        $this->assertInstanceOf(File::class, $file);
-
-        $this->assertFileExists($file->path->name);
-        $file->close(); // Removes temp file.
-        $this->assertFileNotExists($file->path->name);
-
-        try {
-            $file->delete();
-        } catch (FileException $e) {
-            $this->assertSame('No such file or directory', $e->getMessage());
-            $this->assertSame(error\NoFileError::class, $e->getCause()->getClass());
-        }
-
-        $file = File::fromTemp(drop: false);
-        $file->close(); // No removal.
-
-        $this->assertFileExists($file->path->name);
-        $this->assertTrue($file->delete());
-        $this->assertFileNotExists($file->path->name);
-    }
-
     function testToSource() {
         $file = new File($this->util->fileMake());
 
@@ -313,7 +289,7 @@ class FileTest extends \TestCase
         $path = __FILE__;
         $file = new File($path);
 
-        $this->assertSame($path, $file->path->name);
+        $this->assertSame($path, $file->getPathName());
         $this->assertSame($path, $file->getPath()->getName());
         $this->assertEquals(new Path($path), $file->getPath());
     }
@@ -380,12 +356,12 @@ class FileTest extends \TestCase
     function testCheckMethods() {
         $file = new File($this->util->fileMake());
 
-        $this->assertTrue($file->isTemporary());
+        $this->assertTrue($file->isTemp());
         $this->assertFalse($file->isHidden());
 
         $file = new File('/.test');
 
-        $this->assertFalse($file->isTemporary());
+        $this->assertFalse($file->isTemp());
         $this->assertTrue($file->isHidden());
     }
 

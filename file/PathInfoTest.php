@@ -145,7 +145,7 @@ class PathInfoTest extends \TestCase
         $this->assertTrue($info->isWritable());
         $this->assertFalse($info->isExecutable());
 
-        $this->assertTrue($info->isTemporary());
+        $this->assertTrue($info->isTemp());
         $this->assertFalse($info->isHidden());
 
         $this->assertTrue($info->isAvailable());
