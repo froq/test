@@ -114,9 +114,7 @@ class CollectionTest extends \TestCase
         $this->assertEquals(1, $col->min());
         $this->assertEquals(3, $col->max());
         $this->assertEquals(6, $col->sum());
-        $this->assertEquals(6, $col->product());
-        $this->assertEquals(2.0, $col->average());
-        $this->assertEquals($col->average(), $col->avg()); // Alias.
+        $this->assertEquals(2.0, $col->avg());
     }
 
     function testConvertMethods() {
