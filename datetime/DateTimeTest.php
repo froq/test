@@ -164,6 +164,7 @@ class DateTimeTest extends \TestCase
     function testFormatMethods() {
         $dt = new DateTime($when = '1990-01-09 23:30:11');
         $this->assertSame($when, $dt->format('Y-m-d H:i:s'));
+        $this->assertSame($when, $dt->formatUtc('Y-m-d H:i:s'));
         $this->assertSame($when, $dt->formatLocale('%Y-%m-%d %T'));
 
         $intl = $this->util('intl');

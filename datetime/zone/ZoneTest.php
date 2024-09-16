@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\datetime\zone;
 use froq\datetime\zone\{Zone, ZoneException, ZoneList, ZoneIdList};
-use froq\datetime\DateTimeZone;
+use froq\datetime\{DateTime, DateTimeZone};
 
 class ZoneTest extends \TestCase
 {
@@ -39,7 +39,10 @@ class ZoneTest extends \TestCase
 
     function testConverters() {
         $zone = new Zone('UTC');
+        $this->assertEquals((new DateTime('UTC'))->format('c'), $zone->now()->format('c'));
         $this->assertEquals(new DateTimeZone('UTC'), $zone->toDateTimeZone());
+
+        $this->assertInstanceOf(DateTime::class, $zone->now());
         $this->assertInstanceOf(DateTimeZone::class, $zone->toDateTimeZone());
         $this->assertInstanceOf(\DateTimeZone::class, $zone->toDateTimeZone());
 
