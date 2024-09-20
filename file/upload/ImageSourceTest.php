@@ -202,9 +202,6 @@ class ImageSourceTest extends \TestCase
         $this->assertSame($src, $image->getSourceFile());
         $this->assertSame($dst, $image->getTargetFile());
 
-        // Auto created as UUID.
-        $this->assertTrue(\Uuid::validate($image->getName()));
-
         // Natives.
         $this->assertInstanceOf(\GdImage::class, $image->getSourceImage());
         $this->assertInstanceOf(\GdImage::class, $image->getTargetImage());

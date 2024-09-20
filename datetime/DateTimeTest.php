@@ -62,12 +62,13 @@ class DateTimeTest extends \TestCase
 
     function testTimezoneMethods() {
         $dt = new DateTime('', 'Z');
-        $this->assertSame('Z', (string) $dt->getTimezone());
+        $this->assertSame('UTC', (string) $dt->getTimezone());
         $this->assertSame('UTC', (string) $dt->setTimezone('UTC')->getTimezone());
         $this->assertSame('UTC', (string) $dt->setTimezone(new DateTimeZone('UTC'))->getTimezone());
 
         $this->assertSame('UTC', $dt->getTimezoneId());
         $this->assertSame('UTC', $dt->getTimezoneAbbr());
+        $this->assertSame('UTC', $dt->getTimezoneName());
         $this->assertEquals(new DateTimeZone('UTC'), $dt->getTimezone());
     }
 

@@ -24,7 +24,7 @@ return new class() {
      * Return a temp dir, optionally create it.
      */
     function dir(string $prefix = '', bool $make = false): string {
-        $dir = $this->base . '/' . $prefix . suid();
+        $dir = $this->base . '/' . $prefix . suid(20);
         // $this->dirs[] = $dir; // For clean up.
         $make && dirmake($dir, 0777);
         return $dir;
@@ -52,7 +52,7 @@ return new class() {
      * Return a temp file, optionally create it.
      */
     function file(string $prefix = '', bool $make = false): string {
-        $file = $this->base . '/' . $prefix . suid();
+        $file = $this->base . '/' . $prefix . suid(20);
         // $this->files[] = $file; // For clean up.
         $make && filemake($file, 0777);
         return $file;

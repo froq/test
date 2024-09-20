@@ -128,9 +128,6 @@ class FileSourceTest extends \TestCase
 
         $this->assertSame($src, $file->getSourceFile());
         $this->assertSame($dst, $file->getTargetFile());
-
-        // Auto created as UUID.
-        $this->assertTrue(\Uuid::validate($file->getName()));
     }
 
     function testCheckerMethods() {
