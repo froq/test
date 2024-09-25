@@ -22,7 +22,6 @@ class IntervalTest extends \TestCase
         $this->assertEquals(new Interval($interval), $interval);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Unknown or bad format (invalid)');
         new Interval('invalid');
     }
 

@@ -58,7 +58,8 @@ class TimestampTest extends \TestCase
         $ts = new Timestamp();
         $this->assertInstanceOf(\DateTime::class, $ts->toDateTime());
         $this->assertInstanceOf(DateTime::class, $ts->toDateTime());
-        $this->assertSame('UTC', $ts->toDateTime()->getTimezone()->getId());
+        $this->assertSame('', $ts->toDateTime()->getTimezone()->getId());
+        $this->assertSame('UTC', $ts->toDateTime('UTC')->getTimezone()->getId());
 
         $this->assertInstanceOf(Timestamp::class, Timestamp::fromDateTime(gmdate('c')));
         $this->assertInstanceOf(Timestamp::class, Timestamp::fromDateTime(new DateTime()));

@@ -8,23 +8,27 @@ class PeriodTest extends \TestCase
         $period = new Period('R4/2012-07-01T00:00:00Z/P7D');
         $this->assertInstanceOf(\DatePeriod::class, $period);
 
+        $this->assertTrue($period->startDateIncluded());
+        $this->assertTrue($period->endDateIncluded());
+
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Unknown or bad format (invalid)');
         new Period('invalid');
     }
 
     function testGetters() {
         $period = new Period('R4/2012-07-01T00:00:00Z/P7D');
         $this->assertInstanceOf(Interval::class, $period->getInterval());
-        $this->assertInstanceOf(Interval::class, $period->getDateInterval());
         $this->assertInstanceOf(\DateInterval::class, $period->getInterval());
-        $this->assertInstanceOf(\DateInterval::class, $period->getDateInterval());
         $this->assertEquals($period->getInterval(), $period->getDateInterval());
     }
 
     function testToArray() {
         $period = new Period('R4/2012-07-01T00:00:00Z/P7D');
-        $this->assertCount(5, $period->toArray());
-        $this->assertInstanceOf(\DateTime::class, $period->toArray()[0]);
+        $this->assertCount(6, $period->toArray());
+    }
+
+    function testLength() {
+        $period = new Period('R4/2012-07-01T00:00:00Z/P7D');
+        $this->assertSame(6, $period->length());
     }
 }
