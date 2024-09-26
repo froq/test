@@ -43,7 +43,7 @@ class UtilTest extends \TestCase
     function testFormatBytes() {
         $bytes = 1024 ** 2; // 1MB/1024KB
 
-        $this->assertSame('1024KB', Util::formatBytes($bytes));
+        $this->assertSame('1024KB', Util::formatBytes($bytes, 0));
     }
 
     function testConvertBytes() {
