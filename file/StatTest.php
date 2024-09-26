@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
 use froq\file\{Stat, StatException, error};
+use froq\util\Util;
 
 class StatTest extends \TestCase
 {
@@ -53,6 +54,11 @@ class StatTest extends \TestCase
         $this->assertSame(filegroup($path), $stat->getGroup());
         $this->assertSame(fileowner($path), $stat->getOwner());
         $this->assertSame(fileperms($path), $stat->getPerms());
+
+        $this->assertSame(
+            Util::formatBytes(filesize(__FILE__)),
+            $stat->getSizeInfo()
+        );
 
         $this->assertSame([
             'read' => true,

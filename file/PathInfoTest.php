@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 namespace test\froq\file;
 use froq\file\{PathInfo, PathInfoException, error};
+use froq\util\Util;
 
 class PathInfoTest extends \TestCase
 {
@@ -118,6 +119,11 @@ class PathInfoTest extends \TestCase
         $this->assertSame(filegroup($path), $info->getGroup());
         $this->assertSame(fileowner($path), $info->getOwner());
         $this->assertSame(fileperms($path), $info->getPerms());
+
+        $this->assertSame(
+            Util::formatBytes(filesize(__FILE__)),
+            $info->getSizeInfo()
+        );
 
         $this->assertSame([
             'read' => true,
