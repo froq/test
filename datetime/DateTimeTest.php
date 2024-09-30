@@ -180,6 +180,11 @@ class DateTimeTest extends \TestCase
         $this->assertSame('Yesterday, ' . $dt->format('H:i'), $dt->formatAgo());
         $this->assertSame('Dün, ' . $dt->format('H:i'), $dt->formatAgo('tr_TR', $intl));
         $this->assertSame('Gestern, ' . $dt->format('H:i'), $dt->formatAgo('de_DE', $intl));
+
+        // By (timezone).
+        $dt = new DateTime('00:00');
+        $this->assertSame('00:00', $dt->format('H:i'));
+        $this->assertSame('03:00', $dt->formatBy('H:i', 'Turkey'));
     }
 
     function testStringMethods() {
