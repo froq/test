@@ -184,7 +184,8 @@ class DateTimeTest extends \TestCase
         // By (timezone).
         $dt = new DateTime('00:00');
         $this->assertSame('00:00', $dt->format('H:i'));
-        $this->assertSame('03:00', $dt->formatBy('H:i', 'Turkey'));
+        $this->assertSame('03:00', $dt->formatBy('H:i', 'Europe/Istanbul'));
+        $this->assertSame('03:00', $dt->formatBy('H:i', new DateTimeZone('Europe/Istanbul')));
     }
 
     function testStringMethods() {
